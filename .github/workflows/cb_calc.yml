@@ -24,8 +24,9 @@ jobs:
       run: |
         git clone https://github.com/2dos/DK64-Randomizer
         cp -f cb_calc.py DK64-Randomizer
-        python -u DK64-Randomizer/cb_calc.py
-        cp -f DK64-Randomizer/requirement_data.js .
+        cd DK64-Randomizer # Some of the python scripts care about the cwd
+        python -u cb_calc.py
+        cp -f requirement_data.js ..
 
     - name: Push requirement data changes
       run: |

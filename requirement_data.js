@@ -10,7 +10,8 @@ const requirement_data = {
                 [Moves.ClimbingCheck],
                 [Moves.AllWarps],
             ]),
-            new Requirement(20, [[Moves.Coconut, Moves.JapesCoconut]]), // 1 balloon, 1 bunch, 1 bunch in JapesBeyondCoconutGate2
+            new Requirement(10, [[Moves.Coconut, Moves.JapesCoconut]]), // 1 balloon in JapesBeyondCoconutGate2
+            new Requirement(10, [[Moves.JapesCoconut, Moves.JapesRambi]]), // 1 bunch, 1 bunch in JapesBeyondCoconutGate2
             new Requirement(10, [[Moves.Vines, Moves.ClimbingCheck, Moves.Blast]]), // 2 bunches in JapesBaboonBlast
             new Requirement(10, [ // 1 balloon in JapesHillTop
                 [Moves.ClimbingCheck, Moves.Coconut],
@@ -21,13 +22,13 @@ const requirement_data = {
             new Requirement(5, [[Moves.Moveless]]), // 5 bananas in JungleJapesStart
             new Requirement(10, [[Moves.Diving]]), // 2 bunches in JungleJapesStart
             new Requirement(20, [[Moves.ClimbingCheck]]), // 2 bunches in JungleJapesMain; 2 bunches in JungleJapesStart
-            new Requirement(10, [[Moves.Peanut]]), // 1 balloon in JapesBeyondPeanutGate
             new Requirement(3, [[Moves.JapesCoconut]]), // 3 bananas in JapesBeyondCoconutGate2
             new Requirement(7, [ // 7 bananas in JapesHillTop
                 [Moves.ClimbingCheck],
                 [Moves.AllWarps],
             ]),
-            new Requirement(5, [[Moves.Coconut, Moves.JapesCoconut]]), // 1 bunch in JapesBeyondCoconutGate2
+            new Requirement(10, [[Moves.Peanut, Moves.JapesDiddyCave]]), // 1 balloon in JapesBeyondPeanutGate
+            new Requirement(5, [[Moves.JapesCoconut, Moves.JapesRambi]]), // 1 bunch in JapesBeyondCoconutGate2
             new Requirement(20, [ // 1 balloon in JapesTopOfMountain; 1 bunch, 5 bananas in Mine
                 [Moves.ClimbingCheck, Moves.Peanut],
                 [Moves.Peanut, Moves.AllWarps],
@@ -52,21 +53,21 @@ const requirement_data = {
                 [Moves.AllWarps],
             ]),
             new Requirement(5, [[Moves.ClimbingCheck, Moves.JapesCoconut]]), // 1 bunch in JapesBeyondCoconutGate2
-            new Requirement(10, [[Moves.Coconut, Moves.JapesCoconut]]), // 5 bananas in BeyondRambiGate; 1 bunch in JapesBeyondCoconutGate2
-            new Requirement(5, [[Moves.Peanut, Moves.Grape]]), // 1 bunch in JapesBeyondPeanutGate
-            new Requirement(20, [[Moves.Peanut, Moves.Orangstand]]), // 2 bunches, 2 bunches in JapesLankyCave
             new Requirement(20, [[Moves.Grape, Moves.JapesCoconut]]), // 1 balloon, 1 balloon in JapesBeyondCoconutGate2
+            new Requirement(5, [[Moves.Grape, Moves.JapesDiddyCave]]), // 1 bunch in JapesBeyondPeanutGate
             new Requirement(9, [[Moves.Orangstand, Moves.JapesCoconut]]), // 2 bananas in JapesBeyondCoconutGate2; 1 bunch, 2 bananas in JapesUselessSlope
-            new Requirement(10, [[Moves.Peanut, Moves.Grape, Moves.Orangstand]]), // 1 balloon in JapesLankyCave
+            new Requirement(20, [[Moves.Orangstand, Moves.JapesPainting]]), // 2 bunches, 2 bunches in JapesLankyCave
+            new Requirement(10, [[Moves.JapesCoconut, Moves.JapesRambi]]), // 5 bananas in BeyondRambiGate; 1 bunch in JapesBeyondCoconutGate2
+            new Requirement(10, [[Moves.Grape, Moves.Orangstand, Moves.JapesPainting]]), // 1 balloon in JapesLankyCave
         ],
         "Tiny": [
             new Requirement(5, [[Moves.Moveless]]), // 5 bananas in JungleJapesStart
             new Requirement(2, [[Moves.JapesCoconut]]), // 2 bananas in JapesBeyondCoconutGate2
             new Requirement(5, [[Moves.ClimbingCheck, Moves.JapesCoconut]]), // 1 bunch in JapesBeyondCoconutGate2
-            new Requirement(10, [[Moves.Coconut, Moves.JapesCoconut]]), // 5 bananas in BeyondRambiGate; 1 bunch in JapesBeyondCoconutGate2
-            new Requirement(5, [[Moves.Peanut, Moves.Feather]]), // 1 bunch in JapesBeyondPeanutGate
             new Requirement(10, [[Moves.Feather, Moves.JapesCoconut]]), // 1 balloon in JapesBeyondCoconutGate2
-            new Requirement(10, [[Moves.Coconut, Moves.Feather, Moves.JapesCoconut]]), // 1 balloon in BeyondRambiGate
+            new Requirement(5, [[Moves.Feather, Moves.JapesDiddyCave]]), // 1 bunch in JapesBeyondPeanutGate
+            new Requirement(10, [[Moves.JapesCoconut, Moves.JapesRambi]]), // 5 bananas in BeyondRambiGate; 1 bunch in JapesBeyondCoconutGate2
+            new Requirement(10, [[Moves.Feather, Moves.JapesCoconut, Moves.JapesRambi]]), // 1 balloon in BeyondRambiGate
             new Requirement(5, [ // 1 bunch in JapesBeyondFeatherGate
                 [Moves.Peanut, Moves.AllWarps],
                 [Moves.JapesCoconut, Moves.JapesShellhive],
@@ -94,8 +95,8 @@ const requirement_data = {
                 [Moves.AllWarps],
             ]),
             new Requirement(5, [[Moves.ClimbingCheck, Moves.JapesCoconut]]), // 1 bunch in JapesBeyondCoconutGate2
-            new Requirement(5, [[Moves.Barrels, Moves.Coconut, Moves.JapesCoconut]]), // 1 bunch in BeyondRambiGate
-            new Requirement(30, [[Moves.Coconut, Moves.Pineapple, Moves.JapesCoconut]]), // 3 balloons in BeyondRambiGate
+            new Requirement(5, [[Moves.Barrels, Moves.JapesCoconut, Moves.JapesRambi]]), // 1 bunch in BeyondRambiGate
+            new Requirement(30, [[Moves.Pineapple, Moves.JapesCoconut, Moves.JapesRambi]]), // 3 balloons in BeyondRambiGate
             new Requirement(10, [ // 10 bananas in JapesBeyondCoconutGate1
                 [Moves.JapesCoconut],
                 [Moves.Peanut, Moves.AllWarps],
@@ -110,7 +111,7 @@ const requirement_data = {
         "DK": [
             new Requirement(3, [[Moves.Moveless]]), // 3 bananas in AngryAztecOasis
             new Requirement(15, [[Moves.ClimbingCheck]]), // 3 bunches in AngryAztecOasis
-            new Requirement(10, [[Moves.Coconut, Moves.Strong]]), // 2 bunches in AngryAztecOasis
+            new Requirement(10, [[Moves.Strong, Moves.AztecBlueprintDoor]]), // 2 bunches in AngryAztecOasis
             new Requirement(7, [ // 3 bananas, 4 bananas in AngryAztecMain
                 [Moves.AllWarps],
                 [Moves.AztecTunnelDoor],
@@ -121,17 +122,17 @@ const requirement_data = {
             ]),
             new Requirement(20, [ // 4 bunches in AztecDonkeyQuicksandCave
                 [Moves.Strong, Moves.AllWarps],
-                [Moves.LevelSlam, Moves.Coconut, Moves.Strong, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.LevelSlam, Moves.Strong, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.LevelSlam, Moves.Strong, Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama],
+                [Moves.Strong, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut, Moves.AztecQuicksandSwitch],
+                [Moves.Strong, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape, Moves.AztecQuicksandSwitch],
+                [Moves.Strong, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather, Moves.AztecQuicksandSwitch],
             ]),
             new Requirement(15, [ // 15 bananas in LlamaTemple
-                [Moves.Coconut, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Coconut, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.Grape, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.Feather, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
             ]),
         ],
         "Diddy": [
@@ -159,9 +160,9 @@ const requirement_data = {
             ]),
             new Requirement(10, [ // 1 balloon in AztecDonkeyQuicksandCave
                 [Moves.Peanut, Moves.AllWarps],
-                [Moves.LevelSlam, Moves.Coconut, Moves.Strong, Moves.Peanut, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecW5Bonus],
-                [Moves.LevelSlam, Moves.Strong, Moves.Peanut, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecW5Bonus],
-                [Moves.LevelSlam, Moves.Strong, Moves.Peanut, Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecW5Bonus],
+                [Moves.Strong, Moves.Peanut, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut, Moves.AztecQuicksandSwitch, Moves.AztecW5Bonus],
+                [Moves.Strong, Moves.Peanut, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape, Moves.AztecQuicksandSwitch, Moves.AztecW5Bonus],
+                [Moves.Strong, Moves.Peanut, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather, Moves.AztecQuicksandSwitch, Moves.AztecW5Bonus],
             ]),
         ],
         "Lanky": [
@@ -179,21 +180,29 @@ const requirement_data = {
                 [Moves.Grape, Moves.AllWarps, Moves.Aztec5DT],
                 [Moves.Grape, Moves.AztecTunnelDoor, Moves.Aztec5DT],
             ]),
+            new Requirement(11, [ // 1 bunch, 6 bananas in LlamaTemple
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
+            ]),
             new Requirement(5, [ // 1 bunch in LlamaTempleMatching
-                [Moves.Vines, Moves.Grape, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Vines, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama],
+                [Moves.Vines, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Vines, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Vines, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.Vines, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Vines, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Vines, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
             ]),
             new Requirement(20, [ // 2 balloons in LlamaTemple
-                [Moves.Diving, Moves.Grape, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Diving, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama],
-            ]),
-            new Requirement(11, [ // 1 bunch, 6 bananas in LlamaTemple
-                [Moves.Coconut, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Coconut, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.Grape, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.Feather, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama],
+                [Moves.Diving, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Diving, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Diving, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.Diving, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Diving, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Diving, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
             ]),
         ],
         "Tiny": [
@@ -203,10 +212,6 @@ const requirement_data = {
             ]),
             new Requirement(20, [[Moves.Diving, Moves.Feather, Moves.TinyTempleIce]]), // 2 balloons in TempleKONGRoom
             new Requirement(5, [[Moves.Diving, Moves.Feather, Moves.Mini, Moves.TinyTempleIce]]), // 5 bananas in TempleUnderwater
-            new Requirement(10, [ // 1 balloon in LlamaTemple
-                [Moves.Feather, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama],
-            ]),
             new Requirement(25, [ // 5 bunches in AngryAztecMain
                 [Moves.ClimbingCheck, Moves.AllWarps],
                 [Moves.ClimbingCheck, Moves.AztecTunnelDoor],
@@ -214,28 +219,36 @@ const requirement_data = {
                 [Moves.Twirl, Moves.AztecTunnelDoor],
             ]),
             new Requirement(3, [ // 3 bananas in LlamaTemple
-                [Moves.Coconut, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Coconut, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.Grape, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.Feather, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
             ]),
             new Requirement(2, [ // 2 bananas in LlamaTempleBack
-                [Moves.Coconut, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Grape, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Feather, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.Coconut, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.Grape, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.Feather, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
+            ]),
+            new Requirement(10, [ // 1 balloon in LlamaTemple
+                [Moves.Feather, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Feather, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Feather, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Feather, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
             ]),
             new Requirement(10, [ // 2 bunches in LlamaTempleBack
-                [Moves.LevelSlam, Moves.Coconut, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.LevelSlam, Moves.Grape, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.LevelSlam, Moves.Feather, Moves.AllWarps, Moves.AztecLlama],
-                [Moves.LevelSlam, Moves.Coconut, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.LevelSlam, Moves.Grape, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama],
-                [Moves.LevelSlam, Moves.Feather, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama],
+                [Moves.LevelSlam, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.LevelSlam, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.LevelSlam, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.LevelSlam, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.LevelSlam, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.LevelSlam, Moves.Mini, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
             ]),
         ],
         "Chunky": [
@@ -498,7 +511,7 @@ const requirement_data = {
         ],
         "Tiny": [
             new Requirement(9, [[Moves.Moveless]]), // 4 bananas, 5 bananas in GloomyGalleonStart
-            new Requirement(15, [[Moves.Pineapple, Moves.RaisedWater]]), // 3 bunches in GalleonBeyondPineappleGate
+            new Requirement(15, [[Moves.RaisedWater, Moves.GalleonCannonGame]]), // 3 bunches in GalleonBeyondPineappleGate
             new Requirement(8, [ // 1 bunch, 3 bananas in GalleonPastVines
                 [Moves.Vines],
                 [Moves.AllWarps, Moves.RaisedWater],
@@ -536,11 +549,11 @@ const requirement_data = {
         ],
         "Chunky": [
             new Requirement(12, [[Moves.Moveless]]), // 1 bunch, 2 bananas, 5 bananas in GloomyGalleonStart
-            new Requirement(10, [[Moves.Pineapple, Moves.RaisedWater]]), // 1 balloon in GalleonBeyondPineappleGate
             new Requirement(3, [ // 3 bananas in GalleonPastVines
                 [Moves.Vines],
                 [Moves.AllWarps, Moves.RaisedWater],
             ]),
+            new Requirement(10, [[Moves.Pineapple, Moves.RaisedWater, Moves.GalleonCannonGame]]), // 1 balloon in GalleonBeyondPineappleGate
             new Requirement(10, [ // 10 bananas in LighthouseUnderwater
                 [Moves.Diving, Moves.AllWarps],
                 [Moves.Diving, Moves.GalleonLighthouse],
@@ -764,9 +777,12 @@ const requirement_data = {
             new Requirement(15, [[Moves.Moveless]]), // 10 bananas in CrystalCavesMain; 1 bunch in IglooArea
             new Requirement(10, [[Moves.Feather]]), // 1 balloon in CabinArea
             new Requirement(10, [[Moves.Sax]]), // 2 bunches in TinyCabin
-            new Requirement(5, [[Moves.Mini]]), // 1 bunch in CrystalCavesMain
             new Requirement(10, [[Moves.Feather, Moves.Sax]]), // 1 balloon in TinyCabin
             new Requirement(5, [[Moves.Sax, Moves.CavesIglooPads]]), // 1 bunch in TinyIgloo
+            new Requirement(5, [ // 1 bunch in CavesBonusCave
+                [Moves.Mini],
+                [Moves.AllWarps],
+            ]),
             new Requirement(10, [[Moves.Feather, Moves.Sax, Moves.CavesIglooPads]]), // 1 balloon in TinyIgloo
             new Requirement(20, [[Moves.Barrels, Moves.Monkeyport, Moves.Hunky, Moves.CavesIceWalls]]), // 4 bunches in GiantKosha
             new Requirement(10, [ // 1 balloon in CavesBlueprintCave

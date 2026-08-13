@@ -400,6 +400,16 @@
                 static CryptLankyEntry = new Moves("Castle Crypt Doors", true, [Moves.Grape], true);
                 static CryptTinyEntry = new Moves("Castle Crypt Doors", true, [Moves.Feather], true);
                 static CryptChunkyEntry = new Moves("Castle Crypt Doors", true, [Moves.Pineapple], true);
+                // Switchsanity (default values)
+                static JapesRambi = new Moves("Japes Switch to Rambi", true, [Moves.Coconut], true);
+                static JapesPainting = new Moves("Japes Switch to Painting", true, [Moves.Peanut], true);
+                static JapesDiddyCave = new Moves("Japes Diddy Cave Switches", true, [Moves.Peanut], true);
+                static GalleonCannonGame = new Moves("Galleon Cannon Game Switches", true, [Moves.Pineapple], true);
+                static AztecBlueprintDoor = new Moves("Aztec Blueprint Door Switches", true, [Moves.Coconut], true);
+                static AztecLlamaCoconut = new Moves("Aztec Llama Switch (1)", true, [Moves.Coconut], true);
+                static AztecLlamaGrape = new Moves("Aztec Llama Switch (2)", true, [Moves.Grape], true);
+                static AztecLlamaFeather = new Moves("Aztec Llama Switch (3)", true, [Moves.Feather], true);
+                static AztecQuicksandSwitch = new Moves("Aztec Quicksand Tunnel Switch", true, [Moves.LevelSlam], true);
                 // Enable all warps
                 static AllWarps = new Moves("Preactivate All Warps");
                 static IsDiddy = new Moves("Diddy");
@@ -445,11 +455,16 @@
             }
 
             let opened_barriers = [];
+            // Custom switchsanity barriers for this preset
+            let switchsanity = new Map();
 
             function getBarrierRequirement(barrier) {
                 if (barrier.is_barrier) {
                     if (opened_barriers.includes(barrier)) {
                         return []
+                    }
+                    if (switchsanity.has(barrier)) {
+                        return [switchsanity.get(barrier)];
                     }
                     return barrier.barrier_moves;
                 }
@@ -620,7 +635,7 @@
                     "switchCavesWalls",
                     "switchAllWarps",
                 ], 35, "High", "Day");
-              static Season5 = new Preset("Season 5", "s4", [
+                static Season5 = new Preset("Season 5", "s5", [
                     "switchAztecIce",
                     "switchAztecTunnel",
                     "switchAztec5DT",
@@ -630,15 +645,25 @@
                     "switchGalleonTreasure",
                     "switchForestYellow",
                     "switchAllWarps",
-                ], 35, "High", "Day");
+                ], 35, "High", "Day", new Map([
+                    // Switchsanity overrides (all others default)
+                    [Moves.JapesRambi, Moves.Peanut],
+                    [Moves.JapesPainting, Moves.Coconut],
+                    [Moves.JapesDiddyCave, Moves.Coconut],
+                    [Moves.GalleonCannonGame, Moves.Feather],
+                    [Moves.AztecLlamaCoconut, Moves.AnyGun],
+                    [Moves.AztecLlamaGrape, Moves.AnyGun],
+                    [Moves.AztecLlamaFeather, Moves.AnyGun],
+                ]));
 
-                constructor (name, key, barriers, cb_requirement, galleon_water, fungi_time) {
+                constructor (name, key, barriers, cb_requirement, galleon_water, fungi_time, switchsanity = new Map()) {
                     this.name = name;
                     this.key = key;
                     this.barriers = barriers.slice();
                     this.cb_requirement = cb_requirement;
                     this.galleon_water = galleon_water;
                     this.fungi_time = fungi_time;
+                    this.switchsanity = switchsanity;
                 }
             }
 
@@ -876,6 +901,7 @@
                 p.barriers.forEach(barrier => {
                     document.getElementById(barrier).checked = true;
                 })
+                switchsanity = p.switchsanity;
                 document.getElementById("cb-req-medal").value = p.cb_requirement;
                 document.getElementById("selectGalleonWater").value = p.galleon_water;
                 document.getElementById("selectForestTime").value = p.fungi_time;
@@ -886,22 +912,12 @@
             function applyPreset() {
                 presets.forEach(p => {
                     if (p.key == document.getElementById("preset_selector").value) {
-                        const switches = document.getElementsByClassName("barrier-switch");
-                        for (let s = 0; s < switches.length; s++) {
-                            switches[s].checked = false;
-                        }
-                        p.barriers.forEach(barrier => {
-                            document.getElementById(barrier).checked = true;
-                        })
-                        document.getElementById("cb-req-medal").value = p.cb_requirement;
-                        document.getElementById("selectGalleonWater").value = p.galleon_water;
-                        document.getElementById("selectForestTime").value = p.fungi_time;
-                        updateDisplay(p.name);
-                        return;
+                        applySpecificPreset(p);
                     }
                 })
                 custom_presets.forEach(json => {
                     if (json.key == document.getElementById("preset_selector").value) {
+                        switchsanity = new Map();
                         applySettingsString(json.setstr);
                         updateDisplay(json.name);
                     }

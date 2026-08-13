@@ -41,23 +41,6 @@ class MockSettings:
     shuffle_shops = False
 
 
-SWITCHSANITY_MOVES = {
-    # These first two switches are removed because they are special_requirements
-    Switches.FungiGreenFeather: None,
-    Switches.FungiGreenPineapple: None,
-    # These switches are all just mapped to their default (non-switchsanity) behavior
-    Switches.FungiYellow: "grape",
-    Switches.GalleonCannonGame: "pineapple",
-    Switches.GalleonLighthouse: "coconut",
-    Switches.GalleonShipwreck: "peanut",
-    Switches.JapesDiddyCave: "peanut",
-    Switches.JapesFeather: "japes_shellhive_gate",
-    Switches.JapesPainting: "peanut",
-    Switches.JapesRambi: "coconut",
-    Switches.AztecQuicksandSwitch: "levelSlam",
-    Switches.AztecGuitar: "guitar",
-    Switches.AztecBlueprintDoor: "coconut",
-}
 BASE_REQUIREMENTS = [
     # Moves for all kongs
     *["can_use_vines", "swim", "oranges", "barrels", "climbing"],
@@ -104,10 +87,7 @@ class Logic:
 
     def hasMoveSwitchsanity(self, switchsanity_setting, kong_needs_current=True, level=None, default_slam_level=0):
         """Check if a given switch is in the requirements."""
-        if switchsanity_setting in self.reqs:
-            return True
-        actual_move = SWITCHSANITY_MOVES[switchsanity_setting]
-        return actual_move in self.reqs
+        return switchsanity_setting in self.reqs
 
     def checkBarrier(self, barrier):
         """Check if a given barrier is in the requirements."""
@@ -119,7 +99,11 @@ class Logic:
 
     def canOpenLlamaTemple(self):
         """Check if a access to the llama temple is in the requirements."""
-        return Events.LlamaFreed in self.Events and (self.coconut or self.grape or self.feather)
+        return Events.LlamaFreed in self.Events and (
+            self.hasMoveSwitchsanity(Switches.AztecLlamaCoconut)
+            or self.hasMoveSwitchsanity(Switches.AztecLlamaGrape)
+            or self.hasMoveSwitchsanity(Switches.AztecLlamaFeather)
+        )
 
     def canTravelToMechFish(self):
         """Check if diving is in the requirements."""
@@ -812,7 +796,10 @@ LEVELS = [
         "entry_region": Regions.JungleJapesEntryHandler,
         "special_requirements": {
             Events.JapesFreeKongOpenGates: "JapesCoconut",
-            "japes_shellhive_gate": "JapesShellhive",
+            Switches.JapesFeather: "JapesShellhive",
+            Switches.JapesRambi: "JapesRambi",
+            Switches.JapesPainting: "JapesPainting",
+            Switches.JapesDiddyCave: "JapesDiddyCave",
             Locations.JapesDiddyMountain: "JapesW5Bonus",  # Not actually required for any CBs, but used by interim logic
         },
     },
@@ -825,6 +812,11 @@ LEVELS = [
         "special_requirements": {
             Events.AztecGuitarPad: "AztecTunnelDoor",
             Events.LlamaFreed: "AztecLlama",
+            Switches.AztecBlueprintDoor: "AztecBlueprintDoor",
+            Switches.AztecLlamaCoconut: "AztecLlamaCoconut",
+            Switches.AztecLlamaGrape: "AztecLlamaGrape",
+            Switches.AztecLlamaFeather: "AztecLlamaFeather",
+            Switches.AztecQuicksandSwitch: "AztecQuicksandSwitch",
             Events.AztecIceMelted: "TinyTempleIce",
             Events.FedTotem: "Aztec5DT",
             Locations.AztecDonkeyQuicksandCave: "AztecW5Bonus",
@@ -854,6 +846,7 @@ LEVELS = [
             Events.ShipyardTreasureRoomOpened: "GalleonTreasure",
             Events.ShipyardEnguarde: "Enguarde",
             Events.LighthouseEnguarde: "Enguarde",
+            Switches.GalleonCannonGame: "GalleonCannonGame",
             Locations.GalleonDiddyGoldTower: "DiddyGoldTower",
         },
     },

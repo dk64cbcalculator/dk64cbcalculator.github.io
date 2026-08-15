@@ -45,7 +45,7 @@ jobs:
 
         git config --global user.email "dk64cbcalculator@github.com"
         git config --global user.name "DK64 CBCalc Nightly"
-        git commit -m "Added preset $NAME"
+        git commit -m "Add preset '$NAME'"
         git push -u origin "$BRANCH"
 
-        gh pr create --base master --head "$BRANCH" --title "Add preset $NAME"
+        gh pr create --base main --head "$BRANCH" --title "Add preset '$NAME'" --body "Created via import_settings.yml"

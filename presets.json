@@ -292,5 +292,32 @@
             "AztecLlamaGrape": "AnyGun",
             "AztecLlamaFeather": "AnyGun"
         }
+    },
+    "klungo": {
+        "name": "Klungo's Brew",
+        "barriers": [
+            "switchAztecIce",
+            "switchAztec5DT",
+            "switchAztecLlama",
+            "switchFactoryTesting",
+            "switchGalleonLighthouse",
+            "switchCavesWalls",
+            "switchHelmStars",
+            "switchHelmGates"
+        ],
+        "full_medal": 70,
+        "half_medal": 35,
+        "galleon_water": "High",
+        "fungi_time": "Day",
+        "switchsanity": {
+            "JapesRambi": "Peanut",
+            "JapesPainting": "Coconut",
+            "JapesDiddyCave": "Coconut",
+            "AztecLlamaCoconut": "Pineapple",
+            "AztecLlamaGrape": "Pineapple",
+            "AztecLlamaFeather": "Pineapple",
+            "GalleonCannonGame": "Feather",
+            "AztecGuitar": "Sax"
+        }
     }
 }

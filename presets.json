@@ -277,6 +277,7 @@
             "switchGalleonShipyard",
             "switchGalleonTreasure",
             "switchForestYellow",
+            "switchHelmGates",
             "switchAllWarps"
         ],
         "full_medal": 60,
@@ -287,10 +288,11 @@
             "JapesRambi": "Peanut",
             "JapesPainting": "Coconut",
             "JapesDiddyCave": "Coconut",
-            "GalleonCannonGame": "Feather",
             "AztecLlamaCoconut": "AnyGun",
             "AztecLlamaGrape": "AnyGun",
-            "AztecLlamaFeather": "AnyGun"
+            "AztecLlamaFeather": "AnyGun",
+            "GalleonCannonGame": "Feather",
+            "AztecGuitar": "Sax"
         }
     }
 }

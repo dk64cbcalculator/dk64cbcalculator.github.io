@@ -485,6 +485,7 @@
                 "thurry",
                 "hell",
                 "kevin",
+                // Imported presets are added above this line
             ]
 
             let presets = [];
@@ -724,7 +725,7 @@
                     document.getElementById(barrier).checked = true;
                 })
                 switchsanity = p.switchsanity;
-                document.getElementById("cb-req-medal").value = p.cb_requirement;
+                document.getElementById("cb-req-medal").value = p.full_medal;
                 document.getElementById("selectGalleonWater").value = p.galleon_water;
                 document.getElementById("selectForestTime").value = p.fungi_time;
                 updateDisplay(p.name);

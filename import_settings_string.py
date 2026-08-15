@@ -31,6 +31,7 @@ BARRIERS = {
     "forest_yellow_tunnel": "switchForestYellow",
     "caves_igloo_pads": "switchCavesIgloo",
     "caves_ice_walls": "switchCavesWalls",
+    "helm_punch_gates": "switchHelmGates",
 }
 
 

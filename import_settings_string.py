@@ -31,7 +31,10 @@ BARRIERS = {
     "forest_yellow_tunnel": "switchForestYellow",
     "caves_igloo_pads": "switchCavesIgloo",
     "caves_ice_walls": "switchCavesWalls",
+
+    # Unused, but included so we can import accurately
     "helm_punch_gates": "switchHelmGates",
+    "helm_star_gates": "switchHelmStars",
 }
 
 

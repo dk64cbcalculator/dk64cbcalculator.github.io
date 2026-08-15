@@ -1,0 +1,51 @@
+name: Import settings string
+
+on:
+  workflow_dispatch:
+    inputs:
+      settings_string:
+        required: true
+      key:
+        required: true
+      name:
+        required: true
+
+jobs:
+  import:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@main
+
+    - uses: actions/setup-python@main
+
+    - name: Import the settings string
+      # Inputs go through env (instead of inline) to avoid shell injection
+      env:
+        SETTINGS: ${{ inputs.settings_string }}
+        KEY: ${{ inputs.key }}
+        NAME: ${{ inputs.name }}
+      run: |
+        git clone https://github.com/2dos/DK64-Randomizer
+        cp -f import_settings_string.py DK64-Randomizer
+        cd DK64-Randomizer # The randomizer loads its schema files relative to cwd
+        python -u import_settings_string.py "$SETTINGS" "$KEY" "$NAME"
+
+    - name: Open a pull request
+      env:
+        GH_TOKEN: ${{ github.token }}
+        NAME: ${{ inputs.name }}
+      run: |
+        BRANCH="settings-import-${{ github.run_number }}"
+        git checkout -b "$BRANCH"
+        git add presets.json index.html
+
+        git config --global user.email "dk64cbcalculator@github.com"
+        git config --global user.name "DK64 CBCalc Nightly"
+        git commit -m "Added preset $NAME"
+        git push -u origin "$BRANCH"
+
+        gh pr create --base master --head "$BRANCH" --title "Add preset $NAME"

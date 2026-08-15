@@ -301,9 +301,7 @@
             "switchAztecLlama",
             "switchFactoryTesting",
             "switchGalleonLighthouse",
-            "switchCavesWalls",
-            "switchHelmStars",
-            "switchHelmGates"
+            "switchCavesWalls"
         ],
         "full_medal": 70,
         "half_medal": 35,

@@ -233,8 +233,8 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Medal Requirement</span>
-                            <input type="number" id="cb-req-medal" class="form-control recalculate" placeholder="Medal Requirement" aria-label="Medal Requirement" value="40" aria-describedby="basic-addon1"/>
+                            <span class="input-group-text" id="cb-req-desc">Medal Requirement</span>
+                            <input type="number" id="cb-req-count" class="form-control recalculate" placeholder="Medal Requirement" aria-label="Medal Requirement" value="40" aria-describedby="cb-req-desc"/>
                         </div>
                         <div class="ps-3 mb-3">
                             <button type="button" class="btn btn-primary config-button" data-bs-toggle="modal" data-bs-target="#barrierModal" style="height:100%">
@@ -288,11 +288,11 @@
 
         <script>
             getMedalRequirement = () => {
-                let interpretted_value = document.getElementById("cb-req-medal").value;
-                if (interpretted_value == "") {
-                    interpretted_value = "0";
+                let interpreted_value = document.getElementById("cb-req-count").value;
+                if (interpreted_value == "") {
+                    interpreted_value = "0";
                 }
-                return parseInt(interpretted_value);
+                return parseInt(interpreted_value);
             }
 
             class Level {
@@ -564,6 +564,19 @@
                 updateCookie();
             }
 
+            function toggleHalfMedal() {
+                var medalDesc = document.getElementById("cb-req-desc");
+                var medalReq = document.getElementById("cb-req-count");
+                if (medalDesc.innerText == "Medal Requirement" && medalReq.hasAttribute("halfMedal")) {
+                    medalDesc.innerText = "Half-Medal Requirement";
+                    medalReq.value = medalReq.getAttribute("halfMedal");
+                } else {
+                    medalDesc.innerText = "Medal Requirement";
+                    medalReq.value = medalReq.getAttribute("fullMedal");
+                }
+                getRequiredMoves();
+            }
+
             function updatePresetName(i) {
                 custom_presets[i].name = document.getElementById(`customPresetHandler${i}`).value;
                 populatePresets();
@@ -601,7 +614,8 @@
                 let switch_str = 0;
                 const switches = document.getElementsByClassName("barrier-switch");
                 const selects = document.getElementsByClassName("barrier-select");
-                const cb_count = document.getElementById("cb-req-medal").value;
+                const fullMedal = document.getElementById("cb-req-count").getAttribute("fullMedal");
+                const halfMedal = document.getElementById("cb-req-count").getAttribute("halfMedal");
                 for (let s = 0; s < switches.length; s++) {
                     let boolean_val = switches[s].checked;
                     switch_booleans.push(boolean_val);
@@ -618,13 +632,18 @@
                         }
                     }
                 }
-                return `${switch_str.toString(16)}|${select_indexes.join("")}|${cb_count}`
+                return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal}`
             }
 
             function applySettingsString(set_str) {
                 const segs = set_str.split("|");
                 // CB Count
-                cb_count = document.getElementById("cb-req-medal").value = parseInt(segs[2]);
+                cb_count = document.getElementById("cb-req-count").value = parseInt(segs[2]);
+                document.getElementById("cb-req-count").setAttribute("fullMedal", cb_count);
+                if (segs.length > 2) {
+                    document.getElementById("cb-req-count").setAttribute("halfMedal", parseInt(segs[3]));
+                }
+                document.getElementById("cb-req-desc").innerText = "Medal Requirement";
                 // Selects
                 const selects = document.getElementsByClassName("barrier-select");
                 segs[1].split("").forEach((val, index) => {
@@ -725,8 +744,20 @@
                 p.barriers.forEach(barrier => {
                     document.getElementById(barrier).checked = true;
                 })
+                document.getElementById("cb-req-count").value = p.full_medal;
+                document.getElementById("cb-req-count").setAttribute("fullMedal", p.full_medal);
+                document.getElementById("cb-req-desc").innerText = "Medal Requirement";
+                if (p.half_medal) {
+                    document.getElementById("cb-req-count").setAttribute("halfMedal", p.half_medal);
+                    document.getElementById("cb-req-desc").style.cursor = "pointer";
+                    document.getElementById("cb-req-desc").addEventListener("click", toggleHalfMedal);
+                } else {
+                    document.getElementById("cb-req-count").removeAttribute("halfMedal");
+                    document.getElementById("cb-req-desc").style.cursor = null;
+                    document.getElementById("cb-req-desc").removeEventListener("click", toggleHalfMedal);
+                }
+
                 switchsanity = p.switchsanity;
-                document.getElementById("cb-req-medal").value = p.full_medal;
                 document.getElementById("selectGalleonWater").value = p.galleon_water;
                 document.getElementById("selectForestTime").value = p.fungi_time;
                 updateDisplay(p.name);
@@ -995,7 +1026,6 @@
                     const perms = Math.pow(2, all_moves.length);
                     for (let i = 0; i < perms; i++) {
                         const local_moves = all_moves.filter((move, index) => (i & Math.pow(2, index)) != 0);
-                        // console.log(local_moves)
                         local_total = updated_threshold;
                         list.forEach(item => {
                             if (item.can_acquire(local_moves)) {
@@ -1007,7 +1037,6 @@
                         }
                     }
                     beat_permutations.sort((a, b) => (a.length > b.length) ? 1 : ((b.length > a.length) ? -1 : 0));
-                    // console.log(beat_permutations)
                     let filtered_permutations = []
                     let checker = (arr, target) => target.every(v => arr.includes(v));
                     beat_permutations.forEach((perm, index_a) => {
@@ -1024,10 +1053,6 @@
                         if (include) {
                             filtered_permutations.push(added);
                         }
-                    })
-                    //console.log(filtered_permutations)
-                    filtered_permutations.forEach(perm => {
-                        console.log(perm.map(item => item.name))
                     })
 
                     // Sort permutations before rendering for improved readability.
@@ -1049,19 +1074,21 @@
             }
 
             const recalculators = document.getElementsByClassName("recalculate");
-            for (let r = 0; r < recalculators.length; r++) {
-                let event_type = "change";
-                if (recalculators[r].tagName == "input") {
-                    if (recalculators[r].getAttribute("type") == "number") {
-                        event_type = "keyup";
-                        recalculators[r].addEventListener("mouseup", (e) => {
-                            getRequiredMoves();
-                        });
-                    }
+            for (let recalculator of recalculators) {
+                if (recalculator.id == "cb-req-count") { // Special handling for the CB counter, specifically
+                    var saveCbReqAndGetRequiredMoves = function() {
+                        if (document.getElementById("cb-req-desc").innerText == "Medal Requirement") {
+                            recalculator.setAttribute("fullMedal", recalculator.value);
+                        } else {
+                            recalculator.setAttribute("halfMedal", recalculator.value);
+                        }
+                        getRequiredMoves();
+                    };
+                    recalculator.addEventListener("keyup", saveCbReqAndGetRequiredMoves);
+                    recalculator.addEventListener("mouseup", saveCbReqAndGetRequiredMoves);
+                } else {
+                    recalculator.addEventListener("change", getRequiredMoves);
                 }
-                recalculators[r].addEventListener(event_type, (e) => {
-                    getRequiredMoves();
-                });
             }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

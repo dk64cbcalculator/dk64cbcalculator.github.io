@@ -197,12 +197,12 @@ const requirement_data = {
                 [Moves.Vines, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
             ]),
             new Requirement(20, [ // 2 balloons in LlamaTemple
-                [Moves.Diving, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
-                [Moves.Diving, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
-                [Moves.Diving, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
-                [Moves.Diving, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
-                [Moves.Diving, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
-                [Moves.Diving, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.Diving, Moves.Bongos, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Diving, Moves.Bongos, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Diving, Moves.Bongos, Moves.Grape, Moves.AllWarps, Moves.AztecLlama, Moves.AztecLlamaFeather],
+                [Moves.Diving, Moves.Bongos, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaCoconut],
+                [Moves.Diving, Moves.Bongos, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaGrape],
+                [Moves.Diving, Moves.Bongos, Moves.Grape, Moves.AztecTunnelDoor, Moves.AztecLlama, Moves.AztecLlamaFeather],
             ]),
         ],
         "Tiny": [

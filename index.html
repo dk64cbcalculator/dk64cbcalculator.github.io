@@ -233,8 +233,8 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Medal Requirement</span>
-                            <input type="number" id="cb-req-medal" class="form-control recalculate" placeholder="Medal Requirement" aria-label="Medal Requirement" value="40" aria-describedby="basic-addon1"/>
+                            <span class="input-group-text" id="cb-req-desc">Medal Requirement</span>
+                            <input type="number" id="cb-req-count" class="form-control recalculate" placeholder="Medal Requirement" aria-label="Medal Requirement" value="40" aria-describedby="cb-req-desc"/>
                         </div>
                         <div class="ps-3 mb-3">
                             <button type="button" class="btn btn-primary config-button" data-bs-toggle="modal" data-bs-target="#barrierModal" style="height:100%">
@@ -288,11 +288,11 @@
 
         <script>
             getMedalRequirement = () => {
-                let interpretted_value = document.getElementById("cb-req-medal").value;
-                if (interpretted_value == "") {
-                    interpretted_value = "0";
+                let interpreted_value = document.getElementById("cb-req-count").value;
+                if (interpreted_value == "") {
+                    interpreted_value = "0";
                 }
-                return parseInt(interpretted_value);
+                return parseInt(interpreted_value);
             }
 
             class Level {
@@ -471,217 +471,42 @@
                 return null
             }
 
-            class Preset {
-                static Season2 = new Preset("Season 2", "s2", [
-                    "switchAztec5DT",
-                    "switchAztecLlama",
-                    "switchFactoryProd",
-                    "switchGalleonShipyard",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                    "switchAztecIce",
-                    "switchClimbing",
-                ], 40, "Low", "Day");
-                static Beginner = new Preset("Beginner (Master Branch)", "beginner", [
-                    "switchAztec5DT",
-                    "switchAztecLlama",
-                    "switchFactoryProd",
-                    "switchGalleonShipyard",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                    "switchAztecIce",
-                    "switchClimbing",
-                ], 30, "Low", "Day");
-                static BLZR = new Preset("Balanced LZR", "blzr", [
-                    "switchAztec5DT",
-                    "switchFactoryProd",
-                    "switchGalleonShipyard",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                    "switchAztecIce",
-                ], 40, "Low", "Dusk");
-                static TreasureHurry = new Preset("Treasure Hurry", "thurry", [
-                    "switchAztecLlama",
-                    "switchGalleonShipyard",
-                    "switchGalleonSeasick",
-                    "switchAztecIce",
-                ], 50, "Low", "Day");
-                static Season3Candidates = new Preset("Season 3 Candidates (Excl. CLO)", "s3can", [
-                    "switchJapesCoconut",
-                    "switchAztec5DT",
-                    "switchAztecTunnel",
-                    "switchFactoryProd",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                    "switchAztecIce",
-                    "switchClimbing",
-                ], 40, "High", "Dusk");
-                static Season3CLO = new Preset("Season 3 CLO Candidate", "s3clo", [
-                    "switchJapesCoconut",
-                    "switchAztec5DT",
-                    "switchAztecTunnel",
-                    "switchFactoryProd",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonShipyard",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                    "switchAztecIce",
-                    "switchClimbing",
-                ], 40, "Low", "Dusk");
-                static Vanilla = new Preset("Vanilla", "vanilla", ["switchClimbing"], 75, "Low", "Day");
-                static Hell = new Preset("Hell Mode", "hell", [], 80, "Low", "Progressive");
-                static Season3 = new Preset("Season 3", "s3", [
-                    "switchJapesCoconut",
-                    "switchAztec5DT",
-                    "switchAztecTunnel",
-                    "switchFactoryProd",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                    "switchAztecIce",
-                    "switchClimbing",
-                ], 45, "High", "Day");
-                static KEVIN = new Preset("KEVIN", "kevin", [
-                    "switchJapesCoconut",
-                    "switchAztecIce",
-                    "switchAztecTunnel",
-                    "switchAztec5DT",
-                    "switchFactoryProd",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonShipyard",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                ], 40, "High", "Dusk");
-                static Season4 = new Preset("Season 4", "s4", [
-                    "switchJapesCoconut",
-                    "switchAztec5DT",
-                    "switchAztecTunnel",
-                    "switchFactoryTesting",
-                    "switchGalleonShipyard",
-                    "switchGalleonSeasick",
-                    "switchForestGreen",
-                    "switchCavesWalls",
-                    "switchAztecIce",
-                    "switchClimbing",
-                ], 50, "High", "Night");
-                static BeginnerDev = new Preset("Beginner Settings (Dev Branch)", "beginner_dev", [
-                    "switchJapesCoconut",
-                    "switchAztecIce",
-                    "switchAztecTunnel",
-                    "switchAztec5DT",
-                    "switchFactoryTesting",
-                    "switchFactoryProd",
-                    "switchGalleonShipyard",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                    "switchCavesWalls",
-                    "switchClimbing",
-                ], 35, "High", "Dusk");
-                static S5GetVial = new Preset("Get Vial Manipulation", "s5getvial", [
-                    "switchJapesCoconut",
-                    "switchAztecIce",
-                    "switchAztec5DT",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                ], 40, "High", "Day");
-                static S5GetVial2 = new Preset("Get Vial Manipulation v2", "s5getvial2", [
-                    "switchJapesCoconut",
-                    "switchAztecIce",
-                    "switchAztecTunnel",
-                    "switchAztec5DT",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonSeasick",
-                    "switchCavesIgloo",
-                ], 25, "High", "Day");
-                static S5BarrierSkip = new Preset("Barrier Skip", "s5barrierskip", [
-                    "switchAztecTunnel",
-                    "switchAztec5DT",
-                    "switchAztecLlama",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonShipyard",
-                    "switchForestYellow",
-                    "switchAllWarps",
-                ], 50, "High", "Day");
-                static S5RainbowSlide = new Preset("Rainbow Slide", "s5rainbowslide", [
-                    "switchJapesCoconut",
-                    "switchAztecIce",
-                    "switchAztec5DT",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonSeasick",
-                    "switchGalleonTreasure",
-                    "switchForestGreen",
-                    "switchCavesIgloo",
-                ], 27, "High", "Day");
-                static S5RainbowBarrier = new Preset("Rainbow Barrier", "s5RainbowBarrier", [
-                    "switchAztecIce",
-                    "switchAztecTunnel",
-                    "switchAztec5DT",
-                    "switchAztecLlama",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonShipyard",
-                    "switchGalleonTreasure",
-                    "switchForestYellow",
-                    "switchCavesWalls",
-                    "switchAllWarps",
-                ], 35, "High", "Day");
-                static Season5 = new Preset("Season 5", "s5", [
-                    "switchAztecIce",
-                    "switchAztecTunnel",
-                    "switchAztec5DT",
-                    "switchFactoryTesting",
-                    "switchGalleonLighthouse",
-                    "switchGalleonShipyard",
-                    "switchGalleonTreasure",
-                    "switchForestYellow",
-                    "switchAllWarps",
-                ], 35, "High", "Day", new Map([
-                    // Switchsanity overrides (all others default)
-                    [Moves.JapesRambi, Moves.Peanut],
-                    [Moves.JapesPainting, Moves.Coconut],
-                    [Moves.JapesDiddyCave, Moves.Coconut],
-                    [Moves.GalleonCannonGame, Moves.Feather],
-                    [Moves.AztecLlamaCoconut, Moves.AnyGun],
-                    [Moves.AztecLlamaGrape, Moves.AnyGun],
-                    [Moves.AztecLlamaFeather, Moves.AnyGun],
-                ]));
-
-                constructor (name, key, barriers, cb_requirement, galleon_water, fungi_time, switchsanity = new Map()) {
-                    this.name = name;
-                    this.key = key;
-                    this.barriers = barriers.slice();
-                    this.cb_requirement = cb_requirement;
-                    this.galleon_water = galleon_water;
-                    this.fungi_time = fungi_time;
-                    this.switchsanity = switchsanity;
-                }
-            }
-
-            const presets = [
-                //Preset.Season2,
-                //Preset.Season3,
-                //Preset.Season3Candidates,
-                //Preset.Season3CLO,
-                //Preset.Season4,
-                Preset.Season5,
-                Preset.Beginner,
-                Preset.BeginnerDev,
-                Preset.BLZR,
-                Preset.Vanilla,
-                Preset.TreasureHurry,
-                Preset.Hell,
-                Preset.KEVIN,
+            const presetOrder = [
+                // "s2",
+                // "s3",
+                // "s3can",
+                // "s3clo",
+                // "s4",
+                "s5",
+                "beginner",
+                "beginner_dev",
+                "blzr",
+                "vanilla",
+                "thurry",
+                "hell",
+                "kevin",
+                "klungo",
+                // Imported presets are added above this line
             ]
+
+            let presets = [];
+            window.addEventListener('load', async () => {
+                await fetch("presets.json")
+                .then(response => response.json())
+                .then(defs => {
+                    for (const key of presetOrder) {
+                        if (!defs[key]) continue;
+                        const switchsanity = new Map();
+                        for (const [barrier, move] of Object.entries(defs[key].switchsanity ?? {})) {
+                            switchsanity.set(Moves[barrier], Moves[move]);
+                        }
+                        presets.push({ key, ...defs[key], switchsanity });
+                    }
+
+                    populatePresets();
+                    applySpecificPreset(presets[0]);
+                });
+            });
 
             // Function to set a cookie
             function setCookie(name, value, days) {
@@ -739,6 +564,19 @@
                 updateCookie();
             }
 
+            function toggleHalfMedal() {
+                var medalDesc = document.getElementById("cb-req-desc");
+                var medalReq = document.getElementById("cb-req-count");
+                if (medalDesc.innerText == "Medal Requirement" && medalReq.hasAttribute("halfMedal")) {
+                    medalDesc.innerText = "Half-Medal Requirement";
+                    medalReq.value = medalReq.getAttribute("halfMedal");
+                } else {
+                    medalDesc.innerText = "Medal Requirement";
+                    medalReq.value = medalReq.getAttribute("fullMedal");
+                }
+                getRequiredMoves();
+            }
+
             function updatePresetName(i) {
                 custom_presets[i].name = document.getElementById(`customPresetHandler${i}`).value;
                 populatePresets();
@@ -776,7 +614,8 @@
                 let switch_str = 0;
                 const switches = document.getElementsByClassName("barrier-switch");
                 const selects = document.getElementsByClassName("barrier-select");
-                const cb_count = document.getElementById("cb-req-medal").value;
+                const fullMedal = document.getElementById("cb-req-count").getAttribute("fullMedal");
+                const halfMedal = document.getElementById("cb-req-count").getAttribute("halfMedal");
                 for (let s = 0; s < switches.length; s++) {
                     let boolean_val = switches[s].checked;
                     switch_booleans.push(boolean_val);
@@ -793,13 +632,18 @@
                         }
                     }
                 }
-                return `${switch_str.toString(16)}|${select_indexes.join("")}|${cb_count}`
+                return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal}`
             }
 
             function applySettingsString(set_str) {
                 const segs = set_str.split("|");
                 // CB Count
-                cb_count = document.getElementById("cb-req-medal").value = parseInt(segs[2]);
+                cb_count = document.getElementById("cb-req-count").value = parseInt(segs[2]);
+                document.getElementById("cb-req-count").setAttribute("fullMedal", cb_count);
+                if (segs.length > 2) {
+                    document.getElementById("cb-req-count").setAttribute("halfMedal", parseInt(segs[3]));
+                }
+                document.getElementById("cb-req-desc").innerText = "Medal Requirement";
                 // Selects
                 const selects = document.getElementsByClassName("barrier-select");
                 segs[1].split("").forEach((val, index) => {
@@ -835,7 +679,6 @@
             if (custom_preset_cookie != null) {
                 custom_presets = JSON.parse(custom_preset_cookie)
             }
-            populatePresets();
 
             function updateSelects() {
                 // Galleon Water
@@ -901,8 +744,20 @@
                 p.barriers.forEach(barrier => {
                     document.getElementById(barrier).checked = true;
                 })
+                document.getElementById("cb-req-count").value = p.full_medal;
+                document.getElementById("cb-req-count").setAttribute("fullMedal", p.full_medal);
+                document.getElementById("cb-req-desc").innerText = "Medal Requirement";
+                if (p.half_medal) {
+                    document.getElementById("cb-req-count").setAttribute("halfMedal", p.half_medal);
+                    document.getElementById("cb-req-desc").style.cursor = "pointer";
+                    document.getElementById("cb-req-desc").addEventListener("click", toggleHalfMedal);
+                } else {
+                    document.getElementById("cb-req-count").removeAttribute("halfMedal");
+                    document.getElementById("cb-req-desc").style.cursor = null;
+                    document.getElementById("cb-req-desc").removeEventListener("click", toggleHalfMedal);
+                }
+
                 switchsanity = p.switchsanity;
-                document.getElementById("cb-req-medal").value = p.cb_requirement;
                 document.getElementById("selectGalleonWater").value = p.galleon_water;
                 document.getElementById("selectForestTime").value = p.fungi_time;
                 updateDisplay(p.name);
@@ -1171,7 +1026,6 @@
                     const perms = Math.pow(2, all_moves.length);
                     for (let i = 0; i < perms; i++) {
                         const local_moves = all_moves.filter((move, index) => (i & Math.pow(2, index)) != 0);
-                        // console.log(local_moves)
                         local_total = updated_threshold;
                         list.forEach(item => {
                             if (item.can_acquire(local_moves)) {
@@ -1183,7 +1037,6 @@
                         }
                     }
                     beat_permutations.sort((a, b) => (a.length > b.length) ? 1 : ((b.length > a.length) ? -1 : 0));
-                    // console.log(beat_permutations)
                     let filtered_permutations = []
                     let checker = (arr, target) => target.every(v => arr.includes(v));
                     beat_permutations.forEach((perm, index_a) => {
@@ -1200,10 +1053,6 @@
                         if (include) {
                             filtered_permutations.push(added);
                         }
-                    })
-                    //console.log(filtered_permutations)
-                    filtered_permutations.forEach(perm => {
-                        console.log(perm.map(item => item.name))
                     })
 
                     // Sort permutations before rendering for improved readability.
@@ -1225,24 +1074,22 @@
             }
 
             const recalculators = document.getElementsByClassName("recalculate");
-            for (let r = 0; r < recalculators.length; r++) {
-                let event_type = "change";
-                if (recalculators[r].tagName == "input") {
-                    if (recalculators[r].getAttribute("type") == "number") {
-                        event_type = "keyup";
-                        recalculators[r].addEventListener("mouseup", (e) => {
-                            getRequiredMoves();
-                        });
-                    }
+            for (let recalculator of recalculators) {
+                if (recalculator.id == "cb-req-count") { // Special handling for the CB counter, specifically
+                    var saveCbReqAndGetRequiredMoves = function() {
+                        if (document.getElementById("cb-req-desc").innerText == "Medal Requirement") {
+                            recalculator.setAttribute("fullMedal", recalculator.value);
+                        } else {
+                            recalculator.setAttribute("halfMedal", recalculator.value);
+                        }
+                        getRequiredMoves();
+                    };
+                    recalculator.addEventListener("keyup", saveCbReqAndGetRequiredMoves);
+                    recalculator.addEventListener("mouseup", saveCbReqAndGetRequiredMoves);
+                } else {
+                    recalculator.addEventListener("change", getRequiredMoves);
                 }
-                recalculators[r].addEventListener(event_type, (e) => {
-                    getRequiredMoves();
-                });
             }
-
-            window.addEventListener('load', () => {
-                applySpecificPreset(Preset.Season5);
-            });
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script type="text/javascript" src="requirement_data.js"></script>

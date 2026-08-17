@@ -20,6 +20,9 @@ from randomizer.LogicFiles.FungiForest import LogicRegions as ForestLogic
 from randomizer.LogicFiles.GloomyGalleon import LogicRegions as GalleonLogic
 from randomizer.LogicFiles.JungleJapes import LogicRegions as JapesLogic
 
+# The real logic class, inherited so shared checks stay in sync instead of being copied here.
+from randomizer.Logic import LogicVarHolder
+
 # Enums galore
 from randomizer.Enums.Collectibles import Collectibles
 from randomizer.Enums.Events import Events
@@ -39,6 +42,7 @@ class MockSettings:
     galleon_water_internal = None
     fungi_time_internal = None
     shuffle_shops = False
+    lanky_freeing_kong = Kongs.donkey  # Vanilla: Donkey frees Lanky, so CanLlamaSpit needs his bongos
 
 
 BASE_REQUIREMENTS = [
@@ -58,8 +62,14 @@ BASE_REQUIREMENTS = [
 ]
 
 
-class Logic:
-    """Mock of the randomizer/Logic.py file."""
+class Logic(LogicVarHolder):
+    """Mock of the randomizer/Logic.py file.
+
+    Inherits LogicVarHolder so shared checks (HasGun, HasInstrument, CanLlamaSpit, ...) use the
+    real implementation instead of copies. __init__ is deliberately not called, so unset attributes
+    fall through __getattr__ to "is this token required?"; we override only the data plumbing and
+    the checks the calculator intentionally does not model.
+    """
 
     def __init__(self, requirements):
         """Initialize the logic class with custom requirements."""
@@ -97,14 +107,6 @@ class Logic:
         """Check if a level slam is in the requirements."""
         return self.levelSlam
 
-    def canOpenLlamaTemple(self):
-        """Check if a access to the llama temple is in the requirements."""
-        return Events.LlamaFreed in self.Events and (
-            self.hasMoveSwitchsanity(Switches.AztecLlamaCoconut)
-            or self.hasMoveSwitchsanity(Switches.AztecLlamaGrape)
-            or self.hasMoveSwitchsanity(Switches.AztecLlamaFeather)
-        )
-
     def canTravelToMechFish(self):
         """Check if diving is in the requirements."""
         return self.swim
@@ -113,21 +115,9 @@ class Logic:
         """Quality of life improvement from rando."""
         return True
 
-    def CanLlamaSpit(self):
-        """I don't think this matters but I think tiny canonically frees lanky."""
-        return lambda: self.saxophone
-
     def IsBossReachable(self, level):
         """Not strictly necessary (there aren't CBs inside boss rooms) but allows for assumed tagging inside boss rooms."""
         return True
-
-    def HasGun(self, kong):
-        """Not needed, this is handled separately by Moves.Night / Moves.Day."""
-        return False
-
-    def HasInstrument(self, kong):
-        """Not needed, this is only used for free trade guns."""
-        return False
 
     def CanFreeChunky(self):
         """Small wrapper for an even which is used in a few places."""
@@ -497,6 +487,21 @@ def traverse_graph(regions, entry_region):
 
     event_requirements = collections.defaultdict(SetOfSets)
 
+    print("Exploring region graph to mark 'tag-ability' for regions connected to a tag barrel")
+    while True:
+        found_new_taggable = False
+        for region in regions:
+            for next_region in regions[region].exits:
+                if regions[region].taggable and not regions[next_region].taggable:
+                    for exit_requirement in regions[region].exits[next_region]:
+                        if all_kongs_can_use(exit_requirement):
+                            # print(f"Marking region {next_region.name} as taggable because it can be accessed from taggable region {region.name} with all 5 kongs using {exit_requirement}")
+                            regions[next_region].taggable = True
+                            found_new_taggable = True
+                            break
+        if not found_new_taggable:
+            break
+
     print("Exploring region graph to find all possible requirements")
     while True:
         found_new_requirement = False
@@ -530,25 +535,17 @@ def traverse_graph(regions, entry_region):
                                 # print(f"Found new transition from {region.name} to {next_region.name} using exit requirement {exit_requirement} and region requirement {region_requirement}")
                                 found_new_requirement = True
 
-                    # Flood fill 'tag-ability' from regions with tag barrels
-                    if regions[region].taggable and not regions[next_region].taggable:
-                        for exit_requirement in regions[region].exits[next_region]:
-                            if all_kongs_can_use(exit_requirement):
-                                # print(f"Marking region {next_region.name} as taggable because it can be accessed from taggable region {region.name} with all 5 kongs using {exit_requirement}")
-                                regions[next_region].taggable = True
-                                found_new_requirement = True
-                                break
-
                 # Region transitions using warp pads
                 if next_region in regions[region].warps:
                     warp1, warp2 = regions[region].warps[next_region]
-                    for warp1_requirement in event_requirements[warp1]:
+                    for warp1_requirement in region_requirements[region]:
                         for warp2_requirement in event_requirements[warp2]:
                             # This logic exists to handle unusual requirements, where you can access a region with one kong,
                             # but must warp back to the region later with another kong.
-                            # As such, we can downgrade any explicit 'is' kong requirements to the less restrictive 'has' kong versions.
+                            # Provided that one of the two warp pads is in a taggable region, we can downgrade any explicit 'is' kong requirements to the less restrictive 'has' kong versions.
                             requirement = warp1_requirement | warp2_requirement
-                            relax_kong_requirement(requirement)
+                            if regions[region].taggable or regions[next_region].taggable:
+                                relax_kong_requirement(requirement)
                             if region_requirements[next_region].add(requirement):
                                 # print(f"Found new transition from {region.name} to {next_region.name} using combined requirement {combined_requirement}")
                                 found_new_requirement = True
@@ -557,7 +554,8 @@ def traverse_graph(regions, entry_region):
                     # That means we only need to physically reach the source pad's region (but not satisfy its event requirements).
                     for region_requirement in region_requirements[region]:
                         requirement = region_requirement | {"AllWarps"}
-                        relax_kong_requirement(requirement)
+                        if regions[region].taggable or regions[next_region].taggable:
+                            relax_kong_requirement(requirement)
                         if region_requirements[next_region].add(requirement):
                             # print(f"Found new transition from {region.name} to {next_region.name} using 'all warps' from {warp1.name} to {warp2.name}")
                             found_new_requirement = True

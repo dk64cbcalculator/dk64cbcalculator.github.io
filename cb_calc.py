@@ -487,6 +487,21 @@ def traverse_graph(regions, entry_region):
 
     event_requirements = collections.defaultdict(SetOfSets)
 
+    print("Exploring region graph to mark 'tag-ability' for regions connected to a tag barrel")
+    while True:
+        found_new_taggable = False
+        for region in regions:
+            for next_region in regions[region].exits:
+                if regions[region].taggable and not regions[next_region].taggable:
+                    for exit_requirement in regions[region].exits[next_region]:
+                        if all_kongs_can_use(exit_requirement):
+                            # print(f"Marking region {next_region.name} as taggable because it can be accessed from taggable region {region.name} with all 5 kongs using {exit_requirement}")
+                            regions[next_region].taggable = True
+                            found_new_taggable = True
+                            break
+        if not found_new_taggable:
+            break
+
     print("Exploring region graph to find all possible requirements")
     while True:
         found_new_requirement = False
@@ -520,25 +535,17 @@ def traverse_graph(regions, entry_region):
                                 # print(f"Found new transition from {region.name} to {next_region.name} using exit requirement {exit_requirement} and region requirement {region_requirement}")
                                 found_new_requirement = True
 
-                    # Flood fill 'tag-ability' from regions with tag barrels
-                    if regions[region].taggable and not regions[next_region].taggable:
-                        for exit_requirement in regions[region].exits[next_region]:
-                            if all_kongs_can_use(exit_requirement):
-                                # print(f"Marking region {next_region.name} as taggable because it can be accessed from taggable region {region.name} with all 5 kongs using {exit_requirement}")
-                                regions[next_region].taggable = True
-                                found_new_requirement = True
-                                break
-
                 # Region transitions using warp pads
                 if next_region in regions[region].warps:
                     warp1, warp2 = regions[region].warps[next_region]
-                    for warp1_requirement in event_requirements[warp1]:
+                    for warp1_requirement in region_requirements[region]:
                         for warp2_requirement in event_requirements[warp2]:
                             # This logic exists to handle unusual requirements, where you can access a region with one kong,
                             # but must warp back to the region later with another kong.
-                            # As such, we can downgrade any explicit 'is' kong requirements to the less restrictive 'has' kong versions.
+                            # Provided that one of the two warp pads is in a taggable region, we can downgrade any explicit 'is' kong requirements to the less restrictive 'has' kong versions.
                             requirement = warp1_requirement | warp2_requirement
-                            relax_kong_requirement(requirement)
+                            if regions[region].taggable or regions[next_region].taggable:
+                                relax_kong_requirement(requirement)
                             if region_requirements[next_region].add(requirement):
                                 # print(f"Found new transition from {region.name} to {next_region.name} using combined requirement {combined_requirement}")
                                 found_new_requirement = True
@@ -547,7 +554,8 @@ def traverse_graph(regions, entry_region):
                     # That means we only need to physically reach the source pad's region (but not satisfy its event requirements).
                     for region_requirement in region_requirements[region]:
                         requirement = region_requirement | {"AllWarps"}
-                        relax_kong_requirement(requirement)
+                        if regions[region].taggable or regions[next_region].taggable:
+                            relax_kong_requirement(requirement)
                         if region_requirements[next_region].add(requirement):
                             # print(f"Found new transition from {region.name} to {next_region.name} using 'all warps' from {warp1.name} to {warp2.name}")
                             found_new_requirement = True

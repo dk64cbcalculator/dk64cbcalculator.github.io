@@ -749,7 +749,6 @@ const requirement_data = {
             new Requirement(10, [ // 1 bunch, 5 bananas in CavesBlueprintCave
                 [Moves.Rocket, Moves.AllWarps],
                 [Moves.Rocket, Moves.Twirl, Moves.Mini],
-                [Moves.Twirl, Moves.Mini, Moves.AllWarps],
             ]),
         ],
         "Lanky": [
@@ -778,11 +777,8 @@ const requirement_data = {
                 [Moves.AllWarps],
             ]),
             new Requirement(10, [[Moves.Feather, Moves.Sax, Moves.CavesIglooPads]]), // 1 balloon in TinyIgloo
+            new Requirement(10, [[Moves.Feather, Moves.Twirl, Moves.Mini]]), // 1 balloon in CavesBlueprintCave
             new Requirement(20, [[Moves.Barrels, Moves.Monkeyport, Moves.Hunky, Moves.CavesIceWalls]]), // 4 bunches in GiantKosha
-            new Requirement(10, [ // 1 balloon in CavesBlueprintCave
-                [Moves.Rocket, Moves.Feather, Moves.AllWarps],
-                [Moves.Feather, Moves.Twirl, Moves.Mini],
-            ]),
             new Requirement(5, [ // 1 bunch in IglooArea
                 [Moves.Rocket, Moves.Monkeyport, Moves.AllWarps],
                 [Moves.Twirl, Moves.Mini, Moves.Monkeyport],

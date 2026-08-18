@@ -33,26 +33,52 @@ BARRIERS = {
     "caves_ice_walls": "switchCavesWalls",
 
     # Unused, but included so we can import accurately
-    "helm_punch_gates": "switchHelmGates",
-    "helm_star_gates": "switchHelmStars",
+    "helm_punch_gates": None,
+    "helm_star_gates": None,
 }
 
 
 def handle_switchsanity(settings):
     assignments = {
+        Switches.JapesFeather: settings.get("switchsanity_switch_japes_to_hive"),
         Switches.JapesRambi: settings.get("switchsanity_switch_japes_to_rambi"),
         Switches.JapesPainting: settings.get("switchsanity_switch_japes_to_painting_room"),
         Switches.JapesDiddyCave: settings.get("switchsanity_switch_japes_to_cavern"),
+        Switches.JapesFreeKong: settings.get("switchsanity_switch_japes_free_kong"),
         Switches.AztecBlueprintDoor: settings.get("switchsanity_switch_aztec_to_kasplat_room"),
         Switches.AztecLlamaCoconut: settings.get("switchsanity_switch_aztec_llama_front"),
         Switches.AztecLlamaGrape: settings.get("switchsanity_switch_aztec_llama_side"),
         Switches.AztecLlamaFeather: settings.get("switchsanity_switch_aztec_llama_back"),
+        Switches.GalleonLighthouse: settings.get("switchsanity_switch_galleon_to_lighthouse_side"),
+        Switches.GalleonShipwreck: settings.get("switchsanity_switch_galleon_to_shipwreck_side"),
         Switches.GalleonCannonGame: settings.get("switchsanity_switch_galleon_to_cannon_game"),
+        Switches.FungiYellow: settings.get("switchsanity_switch_fungi_yellow_tunnel"),
+        Switches.FungiGreenFeather: settings.get("switchsanity_switch_fungi_green_tunnel_near"),
+        Switches.FungiGreenPineapple: settings.get("switchsanity_switch_fungi_green_tunnel_far"),
 
-        Switches.IslesSpawnRocketbarrel: settings.get("switchsanity_switch_isles_spawn_rocketbarrel"),
         Switches.AztecGuitar: settings.get("switchsanity_switch_aztec_to_connector_tunnel"),
 
         Switches.AztecQuicksandSwitch: settings.get("switchsanity_switch_aztec_sand_tunnel"),
+
+        # Isles has no CBs.
+        Switches.IslesMonkeyport: None,
+        Switches.IslesHelmLobbyGone: None,
+        Switches.IslesAztecLobbyFeather: None,
+        Switches.IslesFungiLobbyFeather: None,
+        Switches.IslesSpawnRocketbarrel: None,
+
+        # Unlike Japes, the other kong unlocks don't impact the world, so they don't matter for CBs.
+        Switches.AztecOKONGPuzzle: None,
+        Switches.AztecLlamaPuzzle: None,
+        Switches.FactoryFreeKong: None,
+    }
+    # Some legacy names (to be removed at some point)
+    name_overrides = {
+        Switches.JapesFeather: "JapesShellhive",
+        Switches.GalleonShipwreck: "GalleonPeanut",
+        Switches.FungiYellow: "ForestYellowTunnel",
+        Switches.FungiGreenFeather: "ForestGreenTunnelFeather",
+        Switches.FungiGreenPineapple: "ForestGreenTunnelPineapple",
     }
     guns = {
         Kongs.donkey: "Coconut",
@@ -70,20 +96,27 @@ def handle_switchsanity(settings):
     }
 
     overrides = {}
-    for switch, assigned in assignments.items():
-        # We are not handling "random per seed" yet.
-        if assigned is None or assigned.name == "random":
+    for switch in SwitchData:
+        assigned = assignments[switch]
+        if assigned is None:
             continue
+        switch_name = name_overrides.get(switch, switch.name)
         if SwitchData[switch].switch_type == SwitchType.GunSwitch:
-            if assigned.name == "any":
-                overrides[switch.name] = "AnyGun"
+            if assigned.name == "random":
+                # Random-per-seed switchsanity just uses a placeholder, since it can never collapse with another requirement.
+                overrides[switch_name] = f"{switch_name}Random"
+            elif assigned.name == "any":
+                overrides[switch_name] = "AnyGun"
             elif guns[Kongs(assigned.value)] != guns[SwitchData[switch].kong]:
-                overrides[switch.name] = guns[Kongs(assigned.value)]
+                overrides[switch_name] = guns[Kongs(assigned.value)]
         elif SwitchData[switch].switch_type == SwitchType.InstrumentPad:
-            if assigned.name == "any":
-                overrides[switch.name] = "AnyInstrument"
+            if assigned.name == "random":
+                # Random-per-seed switchsanity just uses a placeholder, since it can never collapse with another requirement.
+                overrides[switch_name] = f"{switch_name}Random"
+            elif assigned.name == "any":
+                overrides[switch_name] = "AnyInstrument"
             elif instruments[Kongs(assigned.value)] != instruments[SwitchData[switch].kong]:
-                overrides[switch.name] = instruments[Kongs(assigned.value)]
+                overrides[switch_name] = instruments[Kongs(assigned.value)]
         elif SwitchData[switch].switch_type == SwitchType.SlamSwitch:
             pass # The calculator doesn't support this yet
     return overrides
@@ -91,7 +124,7 @@ def handle_switchsanity(settings):
 
 def settings_to_config(settings):
     # These three are just a straight name translation
-    barriers = [BARRIERS[barrier.name] for barrier in settings.get("remove_barriers_selected", [])]
+    barriers = [BARRIERS[barrier.name] for barrier in settings.get("remove_barriers_selected", []) if BARRIERS[barrier.name]]
     galleon_water = {"lowered": "Low", "raised": "High"}[settings["galleon_water"].name]
     fungi_time = {"day": "Day", "night": "Night", "dusk": "Dusk", "progressive": "Progressive"}[settings["fungi_time"].name]
 

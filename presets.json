@@ -287,10 +287,12 @@
             "JapesRambi": "Peanut",
             "JapesPainting": "Coconut",
             "JapesDiddyCave": "Coconut",
+            "JapesFreeKong": "Grape",
             "GalleonCannonGame": "Feather",
             "AztecLlamaCoconut": "AnyGun",
             "AztecLlamaGrape": "AnyGun",
-            "AztecLlamaFeather": "AnyGun"
+            "AztecLlamaFeather": "AnyGun",
+            "AztecGuitar": "Sax"
         }
     },
     "klungo": {
@@ -311,11 +313,16 @@
             "JapesRambi": "Peanut",
             "JapesPainting": "Coconut",
             "JapesDiddyCave": "Coconut",
+            "JapesFreeKong": "Grape",
             "AztecLlamaCoconut": "Pineapple",
             "AztecLlamaGrape": "Pineapple",
             "AztecLlamaFeather": "Pineapple",
+            "GalleonPeanut": "Pineapple",
             "GalleonCannonGame": "Feather",
-            "AztecGuitar": "Sax"
+            "AztecGuitar": "Sax",
+            "ForestYellowTunnel": "Coconut",
+            "ForestGreenTunnelFeather": "Peanut",
+            "ForestGreenTunnelPineapple": "Peanut"
         }
     }
 }

@@ -366,16 +366,48 @@
                 static AztecW5Bonus = new Moves("Aztec Warp 5 Bonus Barrel");
                 static CavesW3Bonus = new Moves("Caves Warp 3 Bonus Barrel");
                 static AnyGun = new Moves("Any Gun");
-                static FreeDiddyGun = new Moves("Free Diddy Gun");
+                static AnyInstrument = new Moves("Any Instrument");
                 static CheckOfLegends = new Moves("All 5 Guns");
 
                 // Climbing
                 static ClimbingCheck = new Moves("Climbing", true, [Moves.Climbing], true); // Had to move this above the Barriers since JapesCoconut requires climbing
 
+                // Switchsanity (non-randomized)
+                static JapesRambi = new Moves("Rambi Cage Gun", true, [Moves.Coconut], true);
+                static JapesPainting = new Moves("Painting Room Gun", true, [Moves.Peanut], true);
+                static JapesDiddyCave = new Moves("Peanut Gate Gun", true, [Moves.Peanut], true);
+                static JapesFreeKong = new Moves("Free Diddy Gun", true, [Moves.Coconut], true);
+                static GalleonCannonGame = new Moves("Cannon Game Gun", true, [Moves.Pineapple], true);
+                static AztecGuitar = new Moves("Oasis Instrument Pad", true, [Moves.Guitar], true);
+                static AztecBlueprintDoor = new Moves("Stone Door Gun", true, [Moves.Coconut], true);
+                static AztecLlamaCoconut = new Moves("Llama Temple Gun", true, [Moves.Coconut], true);
+                static AztecLlamaGrape = new Moves("Llama Temple Gun", true, [Moves.Grape], true);
+                static AztecLlamaFeather = new Moves("Llama Temple Gun", true, [Moves.Feather], true);
+                static AztecQuicksandSwitch = new Moves("Quicksand Tunnel Switch", true, [Moves.LevelSlam], true);
+
+                // Switchsanity (random per seed)
+                static JapesShellhiveRandom = new Moves("Hive Area Gun");
+                static JapesRambiRandom = new Moves("Rambi Cage Gun");
+                static JapesPaintingRandom = new Moves("Painting Room Gun");
+                static JapesDiddyCaveRandom = new Moves("Peanut Gate Gun");
+                static JapesFreeKongRandom = new Moves("Free Diddy Gun");
+                static AztecGuitarRandom = new Moves("Oasis Instrument Pad");
+                static AztecBlueprintDoorRandom = new Moves("Stone Door Gun");
+                static AztecLlamaTempleRandom = new Moves("Llama Temple Gun"); // No need to list out duplicates if they're random
+                static AztecLlamaCoconutRandom = Moves.AztecLlamaTempleRandom;
+                static AztecLlamaGrapeRandom = Moves.AztecLlamaTempleRandom;
+                static AztecLlamaFeatherRandom = Moves.AztecLlamaTempleRandom;
+                static GalleonLighthouseRandom = new Moves("Lighthouse Area Gun");
+                static GalleonPeanutRandom = new Moves("Shipwreck Area Gun");
+                static GalleonCannonGameRandom = new Moves("Cannon Game Gun");
+                static ForestYellowTunnelRandom = new Moves("Yellow Tunnel Gun");
+                static ForestGreenTunnelFeatherRandom = new Moves("Green Tunnel Gun 1");
+                static ForestGreenTunnelPineappleRandom = new Moves("Green Tunnel Gun 2");
+
                 // Barriers
-                static JapesCoconut = new Moves("Japes Coconut Gates", true, [Moves.FreeDiddyGun, Moves.ClimbingCheck], true); // No logic determined yet for this
+                static JapesCoconut = new Moves("Japes Coconut Gates", true, [Moves.JapesFreeKong, Moves.ClimbingCheck], true);
                 static JapesShellhive = new Moves("Japes Shellhive Gate", true, [Moves.Feather], true);
-                static AztecTunnelDoor = new Moves("Aztec Tunnel Door", true, [Moves.Guitar, Moves.Vines], true);
+                static AztecTunnelDoor = new Moves("Aztec Tunnel Door", true, [Moves.AztecGuitar, Moves.Vines], true);
                 static Aztec5DT = new Moves("Aztec 5DT Switches", true, [Moves.Rocket, Moves.Peanut, Moves.LevelSlam], true);
                 static AztecLlama = new Moves("Aztec Llama Switch", true, [Moves.Blast], true);
                 static FactoryProduction = new Moves("Production Room On", true, [Moves.Grab, Moves.Coconut, Moves.ClimbingCheck], true);
@@ -400,16 +432,6 @@
                 static CryptLankyEntry = new Moves("Castle Crypt Doors", true, [Moves.Grape], true);
                 static CryptTinyEntry = new Moves("Castle Crypt Doors", true, [Moves.Feather], true);
                 static CryptChunkyEntry = new Moves("Castle Crypt Doors", true, [Moves.Pineapple], true);
-                // Switchsanity (default values)
-                static JapesRambi = new Moves("Japes Switch to Rambi", true, [Moves.Coconut], true);
-                static JapesPainting = new Moves("Japes Switch to Painting", true, [Moves.Peanut], true);
-                static JapesDiddyCave = new Moves("Japes Diddy Cave Switches", true, [Moves.Peanut], true);
-                static GalleonCannonGame = new Moves("Galleon Cannon Game Switches", true, [Moves.Pineapple], true);
-                static AztecBlueprintDoor = new Moves("Aztec Blueprint Door Switches", true, [Moves.Coconut], true);
-                static AztecLlamaCoconut = new Moves("Aztec Llama Switch (1)", true, [Moves.Coconut], true);
-                static AztecLlamaGrape = new Moves("Aztec Llama Switch (2)", true, [Moves.Grape], true);
-                static AztecLlamaFeather = new Moves("Aztec Llama Switch (3)", true, [Moves.Feather], true);
-                static AztecQuicksandSwitch = new Moves("Aztec Quicksand Tunnel Switch", true, [Moves.LevelSlam], true);
                 // Enable all warps
                 static AllWarps = new Moves("Preactivate All Warps");
                 static IsDiddy = new Moves("Diddy");

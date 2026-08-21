@@ -122,6 +122,17 @@ def handle_switchsanity(settings):
     return overrides
 
 
+def starts_with_move(settings, *move_names):
+    """Check if a move is guaranteed in a starting move pool."""
+    for i in range(5):
+        pool = settings.get(f"starting_moves_list_{i + 1}", [])
+        if settings.get(f"starting_moves_list_count_{i + 1}", 0) < len(pool):
+            continue
+        if any(move.name in move_names for move in pool):
+            return True
+    return False
+
+
 def settings_to_config(settings):
     # These three are just a straight name translation
     barriers = [BARRIERS[barrier.name] for barrier in settings.get("remove_barriers_selected", []) if BARRIERS[barrier.name]]
@@ -132,19 +143,11 @@ def settings_to_config(settings):
     if warps is not None and warps.name == "all":
         barriers.append("switchAllWarps")
 
-    # Check if we start with climbing *or* if climbing is guaranteed in a starting move pool
-    for move in settings.get("starting_move_list_selected", []):
-        if move.name == "Climbing":
-            barriers.append("switchClimbing")
-            break
-    else:
-        for i in range(5):
-            pool = settings.get(f"starting_moves_list_{i + 1}", [])
-            if settings.get(f"starting_moves_list_count_{i + 1}", 0) < len(pool):
-                continue
-            if any(move.name == "Climbing" for move in pool):
-                barriers.append("switchClimbing")
-                break
+    if starts_with_move(settings, "Climbing"):
+        barriers.append("switchClimbing")
+    # Settings strings can contain any of the 3 slams as a starting move
+    if starts_with_move(settings, "ProgressiveSlam", "ProgressiveSlam2", "ProgressiveSlam3"):
+        barriers.append("switchSlam")
 
     full_medal = int(settings["medal_cb_req"])
     # "Half" medals do not have to be strictly 50% of the full medal (mirrors Spoiler.py).

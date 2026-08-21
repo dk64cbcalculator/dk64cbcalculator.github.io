@@ -200,6 +200,12 @@
                                 Preactivate All Warps
                             </label>
                         </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchSlam">
+                            <label class="form-check-label" for="switchSlam">
+                                Start with Green Slam
+                            </label>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -371,6 +377,8 @@
 
                 // Climbing
                 static ClimbingCheck = new Moves("Climbing", true, [Moves.Climbing], true); // Had to move this above the Barriers since JapesCoconut requires climbing
+                // Green Slam
+                static SlamCheck = new Moves("Green Slam", true, [Moves.Slam], true); // Above the Barriers since FactoryTesting requires a slam
 
                 // Switchsanity (non-randomized)
                 static JapesRambi = new Moves("Rambi Cage Gun", true, [Moves.Coconut], true);
@@ -411,7 +419,7 @@
                 static Aztec5DT = new Moves("Aztec 5DT Switches", true, [Moves.Rocket, Moves.Peanut, Moves.LevelSlam], true);
                 static AztecLlama = new Moves("Aztec Llama Switch", true, [Moves.Blast], true);
                 static FactoryProduction = new Moves("Production Room On", true, [Moves.Grab, Moves.Coconut, Moves.ClimbingCheck], true);
-                static FactoryTesting = new Moves("Testing Side Open", true, [Moves.Slam], true);
+                static FactoryTesting = new Moves("Testing Side Open", true, [Moves.SlamCheck], true);
                 static GalleonLighthouse = new Moves("Lighthouse Side Open", true, [Moves.Coconut], true);
                 static GalleonPeanut = new Moves("Shipwreck Side Open", true, [Moves.Peanut], true);
                 static GalleonShipSpawned = new Moves("Ship Spawned", true, [Moves.LevelSlam, Moves.Grab, Moves.ClimbingCheck], true);
@@ -494,19 +502,16 @@
             }
 
             const presetOrder = [
-                // "s2",
-                // "s3",
-                // "s3can",
-                // "s3clo",
-                // "s4",
                 "s5",
-                "beginner",
-                "beginner_dev",
+                "scrubs2",
                 "blzr",
                 "vanilla",
+                "nsak",
                 "thurry",
-                "hell",
                 "kevin",
+                "coop",
+                "beanblitz",
+                "gvm",
                 "klungo",
                 // Imported presets are added above this line
             ]
@@ -826,6 +831,7 @@
                     "switchCryptDoors": [Moves.CryptDKEntry, Moves.CryptDiddyEntry, Moves.CryptLankyEntry, Moves.CryptTinyEntry, Moves.CryptChunkyEntry],
                     "switchClimbing": [Moves.ClimbingCheck],
                     "switchAllWarps": [Moves.AllWarps],
+                    "switchSlam": [Moves.SlamCheck],
                 };
                 opened_barriers = []
                 Object.keys(barrier_data).forEach(id => {

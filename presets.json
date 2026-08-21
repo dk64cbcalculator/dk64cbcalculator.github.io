@@ -1,273 +1,8 @@
 {
-    "s2": {
-        "name": "Season 2",
-        "barriers": [
-            "switchAztec5DT",
-            "switchAztecLlama",
-            "switchFactoryProd",
-            "switchGalleonShipyard",
-            "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchAztecIce",
-            "switchClimbing"
-        ],
-        "full_medal": 40,
-        "galleon_water": "Low",
-        "fungi_time": "Day"
-    },
-    "beginner": {
-        "name": "Beginner (Master Branch)",
-        "barriers": [
-            "switchAztec5DT",
-            "switchAztecLlama",
-            "switchFactoryProd",
-            "switchGalleonShipyard",
-            "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchAztecIce",
-            "switchClimbing"
-        ],
-        "full_medal": 30,
-        "galleon_water": "Low",
-        "fungi_time": "Day"
-    },
-    "blzr": {
-        "name": "Balanced LZR",
-        "barriers": [
-            "switchAztec5DT",
-            "switchFactoryProd",
-            "switchGalleonShipyard",
-            "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchAztecIce"
-        ],
-        "full_medal": 40,
-        "galleon_water": "Low",
-        "fungi_time": "Dusk"
-    },
-    "thurry": {
-        "name": "Treasure Hurry",
-        "barriers": [
-            "switchAztecLlama",
-            "switchGalleonShipyard",
-            "switchGalleonSeasick",
-            "switchAztecIce"
-        ],
-        "full_medal": 50,
-        "galleon_water": "Low",
-        "fungi_time": "Day"
-    },
-    "s3can": {
-        "name": "Season 3 Candidates (Excl. CLO)",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztec5DT",
-            "switchAztecTunnel",
-            "switchFactoryProd",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchAztecIce",
-            "switchClimbing"
-        ],
-        "full_medal": 40,
-        "galleon_water": "High",
-        "fungi_time": "Dusk"
-    },
-    "s3clo": {
-        "name": "Season 3 CLO Candidate",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztec5DT",
-            "switchAztecTunnel",
-            "switchFactoryProd",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonShipyard",
-            "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchAztecIce",
-            "switchClimbing"
-        ],
-        "full_medal": 40,
-        "galleon_water": "Low",
-        "fungi_time": "Dusk"
-    },
-    "vanilla": {
-        "name": "Vanilla",
-        "barriers": [
-            "switchClimbing"
-        ],
-        "full_medal": 75,
-        "galleon_water": "Low",
-        "fungi_time": "Day"
-    },
-    "hell": {
-        "name": "Hell Mode",
-        "barriers": [],
-        "full_medal": 80,
-        "galleon_water": "Low",
-        "fungi_time": "Progressive"
-    },
-    "s3": {
-        "name": "Season 3",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztec5DT",
-            "switchAztecTunnel",
-            "switchFactoryProd",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchAztecIce",
-            "switchClimbing"
-        ],
-        "full_medal": 45,
-        "galleon_water": "High",
-        "fungi_time": "Day"
-    },
-    "kevin": {
-        "name": "KEVIN",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztecIce",
-            "switchAztecTunnel",
-            "switchAztec5DT",
-            "switchFactoryProd",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonShipyard",
-            "switchGalleonSeasick",
-            "switchCavesIgloo"
-        ],
-        "full_medal": 40,
-        "galleon_water": "High",
-        "fungi_time": "Dusk"
-    },
-    "s4": {
-        "name": "Season 4",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztec5DT",
-            "switchAztecTunnel",
-            "switchFactoryTesting",
-            "switchGalleonShipyard",
-            "switchGalleonSeasick",
-            "switchForestGreen",
-            "switchCavesWalls",
-            "switchAztecIce",
-            "switchClimbing"
-        ],
-        "full_medal": 50,
-        "galleon_water": "High",
-        "fungi_time": "Night"
-    },
-    "beginner_dev": {
-        "name": "Beginner Settings (Dev Branch)",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztecIce",
-            "switchAztecTunnel",
-            "switchAztec5DT",
-            "switchFactoryTesting",
-            "switchFactoryProd",
-            "switchGalleonShipyard",
-            "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchCavesWalls",
-            "switchClimbing"
-        ],
-        "full_medal": 35,
-        "galleon_water": "High",
-        "fungi_time": "Dusk"
-    },
-    "s5getvial": {
-        "name": "Get Vial Manipulation",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztecIce",
-            "switchAztec5DT",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonSeasick",
-            "switchCavesIgloo"
-        ],
-        "full_medal": 40,
-        "galleon_water": "High",
-        "fungi_time": "Day"
-    },
-    "s5getvial2": {
-        "name": "Get Vial Manipulation v2",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztecIce",
-            "switchAztecTunnel",
-            "switchAztec5DT",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonSeasick",
-            "switchCavesIgloo"
-        ],
-        "full_medal": 25,
-        "galleon_water": "High",
-        "fungi_time": "Day"
-    },
-    "s5barrierskip": {
-        "name": "Barrier Skip",
-        "barriers": [
-            "switchAztecTunnel",
-            "switchAztec5DT",
-            "switchAztecLlama",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonShipyard",
-            "switchForestYellow",
-            "switchAllWarps"
-        ],
-        "full_medal": 50,
-        "galleon_water": "High",
-        "fungi_time": "Day"
-    },
-    "s5rainbowslide": {
-        "name": "Rainbow Slide",
-        "barriers": [
-            "switchJapesCoconut",
-            "switchAztecIce",
-            "switchAztec5DT",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonSeasick",
-            "switchGalleonTreasure",
-            "switchForestGreen",
-            "switchCavesIgloo"
-        ],
-        "full_medal": 27,
-        "galleon_water": "High",
-        "fungi_time": "Day"
-    },
-    "s5RainbowBarrier": {
-        "name": "Rainbow Barrier",
-        "barriers": [
-            "switchAztecIce",
-            "switchAztecTunnel",
-            "switchAztec5DT",
-            "switchAztecLlama",
-            "switchFactoryTesting",
-            "switchGalleonLighthouse",
-            "switchGalleonShipyard",
-            "switchGalleonTreasure",
-            "switchForestYellow",
-            "switchCavesWalls",
-            "switchAllWarps"
-        ],
-        "full_medal": 35,
-        "galleon_water": "High",
-        "fungi_time": "Day"
-    },
     "s5": {
-        "name": "Season 5",
+        "name": "Season 5 Race Settings",
+        "galleon_water": "High",
+        "fungi_time": "Day",
         "barriers": [
             "switchAztecIce",
             "switchAztecTunnel",
@@ -277,38 +12,253 @@
             "switchGalleonShipyard",
             "switchGalleonTreasure",
             "switchForestYellow",
-            "switchAllWarps"
+            "switchAllWarps",
+            "switchSlam"
         ],
         "full_medal": 60,
         "half_medal": 35,
-        "galleon_water": "High",
-        "fungi_time": "Day",
         "switchsanity": {
             "JapesRambi": "Peanut",
             "JapesPainting": "Coconut",
             "JapesDiddyCave": "Coconut",
             "JapesFreeKong": "Grape",
-            "GalleonCannonGame": "Feather",
             "AztecLlamaCoconut": "AnyGun",
             "AztecLlamaGrape": "AnyGun",
             "AztecLlamaFeather": "AnyGun",
-            "AztecGuitar": "Sax"
+            "AztecGuitar": "Sax",
+            "GalleonCannonGame": "Feather"
         }
+    },
+    "scrubs2": {
+        "name": "Beginner Settings - Scrubs Season 2",
+        "galleon_water": "High",
+        "fungi_time": "Dusk",
+        "barriers": [
+            "switchJapesCoconut",
+            "switchAztecIce",
+            "switchAztecTunnel",
+            "switchAztec5DT",
+            "switchFactoryProd",
+            "switchFactoryTesting",
+            "switchGalleonShipyard",
+            "switchGalleonSeasick",
+            "switchCavesIgloo",
+            "switchCavesWalls",
+            "switchClimbing",
+            "switchSlam"
+        ],
+        "full_medal": 35,
+        "switchsanity": {
+            "JapesFreeKong": "JapesFreeKongRandom"
+        }
+    },
+    "blzr": {
+        "name": "Balanced LZR",
+        "galleon_water": "Low",
+        "fungi_time": "Dusk",
+        "barriers": [
+            "switchJapesCoconut",
+            "switchAztecTunnel",
+            "switchAztec5DT",
+            "switchAztecLlama",
+            "switchFactoryProd",
+            "switchFactoryTesting",
+            "switchGalleonLighthouse",
+            "switchGalleonShipyard",
+            "switchGalleonSeasick",
+            "switchCavesIgloo",
+            "switchClimbing",
+            "switchSlam"
+        ],
+        "full_medal": 40
+    },
+    "vanilla": {
+        "name": "Vanilla Game But Better",
+        "galleon_water": "Low",
+        "fungi_time": "Day",
+        "barriers": [
+            "switchClimbing",
+            "switchSlam"
+        ],
+        "full_medal": 75
+    },
+    "nsak": {
+        "name": "No Style, All Keys",
+        "galleon_water": "High",
+        "fungi_time": "Dusk",
+        "barriers": [
+            "switchJapesCoconut",
+            "switchAztecIce",
+            "switchAztecTunnel",
+            "switchAztec5DT",
+            "switchFactoryProd",
+            "switchFactoryTesting",
+            "switchGalleonLighthouse",
+            "switchClimbing",
+            "switchSlam"
+        ],
+        "full_medal": 40,
+        "switchsanity": {
+            "JapesShellhive": "JapesShellhiveRandom",
+            "JapesRambi": "JapesRambiRandom",
+            "JapesPainting": "JapesPaintingRandom",
+            "JapesDiddyCave": "JapesDiddyCaveRandom",
+            "JapesFreeKong": "JapesFreeKongRandom",
+            "AztecBlueprintDoor": "AztecBlueprintDoorRandom",
+            "AztecLlamaCoconut": "AztecLlamaCoconutRandom",
+            "AztecLlamaGrape": "AztecLlamaGrapeRandom",
+            "AztecLlamaFeather": "AztecLlamaFeatherRandom",
+            "AztecGuitar": "AztecGuitarRandom",
+            "GalleonLighthouse": "GalleonLighthouseRandom",
+            "GalleonPeanut": "GalleonPeanutRandom",
+            "GalleonCannonGame": "GalleonCannonGameRandom",
+            "ForestYellowTunnel": "ForestYellowTunnelRandom",
+            "ForestGreenTunnelFeather": "ForestGreenTunnelFeatherRandom",
+            "ForestGreenTunnelPineapple": "ForestGreenTunnelPineappleRandom"
+        }
+    },
+    "thurry": {
+        "name": "Treasure Hurry",
+        "galleon_water": "High",
+        "fungi_time": "Dusk",
+        "barriers": [
+            "switchJapesCoconut",
+            "switchAztecIce",
+            "switchAztecTunnel",
+            "switchFactoryProd",
+            "switchFactoryTesting",
+            "switchGalleonShipyard",
+            "switchGalleonSeasick",
+            "switchCavesIgloo",
+            "switchClimbing",
+            "switchSlam"
+        ],
+        "full_medal": 40,
+        "switchsanity": {
+            "JapesShellhive": "JapesShellhiveRandom",
+            "JapesRambi": "JapesRambiRandom",
+            "JapesPainting": "JapesPaintingRandom",
+            "JapesDiddyCave": "JapesDiddyCaveRandom",
+            "JapesFreeKong": "JapesFreeKongRandom",
+            "AztecBlueprintDoor": "AztecBlueprintDoorRandom",
+            "AztecLlamaCoconut": "AztecLlamaCoconutRandom",
+            "AztecLlamaGrape": "AztecLlamaGrapeRandom",
+            "AztecLlamaFeather": "AztecLlamaFeatherRandom",
+            "AztecGuitar": "AztecGuitarRandom",
+            "GalleonLighthouse": "GalleonLighthouseRandom",
+            "GalleonPeanut": "GalleonPeanutRandom",
+            "GalleonCannonGame": "GalleonCannonGameRandom",
+            "ForestYellowTunnel": "ForestYellowTunnelRandom",
+            "ForestGreenTunnelFeather": "ForestGreenTunnelFeatherRandom",
+            "ForestGreenTunnelPineapple": "ForestGreenTunnelPineappleRandom"
+        }
+    },
+    "kevin": {
+        "name": "KEVIN 5.0",
+        "galleon_water": "High",
+        "fungi_time": "Dusk",
+        "barriers": [
+            "switchJapesCoconut",
+            "switchJapesShellhive",
+            "switchAztecIce",
+            "switchAztec5DT",
+            "switchAztecLlama",
+            "switchFactoryTesting",
+            "switchGalleonLighthouse",
+            "switchGalleonShipyard",
+            "switchGalleonSeasick",
+            "switchGalleonTreasure",
+            "switchForestGreen",
+            "switchCavesIgloo",
+            "switchCavesWalls",
+            "switchSlam"
+        ],
+        "full_medal": 40,
+        "half_medal": 20,
+        "switchsanity": {
+            "JapesPainting": "Grape",
+            "JapesDiddyCave": "JapesDiddyCaveRandom",
+            "JapesFreeKong": "JapesFreeKongRandom",
+            "AztecGuitar": "AztecGuitarRandom",
+            "ForestYellowTunnel": "ForestYellowTunnelRandom"
+        }
+    },
+    "coop": {
+        "name": "Co-op",
+        "galleon_water": "High",
+        "fungi_time": "Dusk",
+        "barriers": [
+            "switchJapesCoconut",
+            "switchAztecIce",
+            "switchAztecTunnel",
+            "switchAztec5DT",
+            "switchFactoryProd",
+            "switchFactoryTesting",
+            "switchGalleonLighthouse",
+            "switchGalleonShipyard",
+            "switchGalleonSeasick",
+            "switchCavesIgloo",
+            "switchSlam"
+        ],
+        "full_medal": 100,
+        "switchsanity": {
+            "JapesFreeKong": "JapesFreeKongRandom"
+        }
+    },
+    "beanblitz": {
+        "name": "Bean Blitz",
+        "galleon_water": "High",
+        "fungi_time": "Day",
+        "barriers": [
+            "switchJapesCoconut",
+            "switchAztecIce",
+            "switchAztecTunnel",
+            "switchAztec5DT",
+            "switchFactoryProd",
+            "switchFactoryTesting",
+            "switchGalleonLighthouse",
+            "switchGalleonShipyard",
+            "switchGalleonSeasick",
+            "switchCavesIgloo",
+            "switchClimbing",
+            "switchSlam"
+        ],
+        "full_medal": 40,
+        "switchsanity": {
+            "JapesFreeKong": "JapesFreeKongRandom"
+        }
+    },
+    "gvm": {
+        "name": "Get Vial Manipulation",
+        "galleon_water": "High",
+        "fungi_time": "Day",
+        "barriers": [
+            "switchJapesCoconut",
+            "switchAztecIce",
+            "switchAztec5DT",
+            "switchFactoryTesting",
+            "switchGalleonLighthouse",
+            "switchGalleonSeasick",
+            "switchCavesIgloo",
+            "switchSlam"
+        ],
+        "full_medal": 40
     },
     "klungo": {
         "name": "Klungo's Brew",
+        "galleon_water": "High",
+        "fungi_time": "Day",
         "barriers": [
             "switchAztecIce",
             "switchAztec5DT",
             "switchAztecLlama",
             "switchFactoryTesting",
             "switchGalleonLighthouse",
-            "switchCavesWalls"
+            "switchCavesWalls",
+            "switchSlam"
         ],
         "full_medal": 70,
         "half_medal": 35,
-        "galleon_water": "High",
-        "fungi_time": "Day",
         "switchsanity": {
             "JapesRambi": "Peanut",
             "JapesPainting": "Coconut",
@@ -317,9 +267,9 @@
             "AztecLlamaCoconut": "Pineapple",
             "AztecLlamaGrape": "Pineapple",
             "AztecLlamaFeather": "Pineapple",
+            "AztecGuitar": "Sax",
             "GalleonPeanut": "Pineapple",
             "GalleonCannonGame": "Feather",
-            "AztecGuitar": "Sax",
             "ForestYellowTunnel": "Coconut",
             "ForestGreenTunnelFeather": "Peanut",
             "ForestGreenTunnelPineapple": "Peanut"

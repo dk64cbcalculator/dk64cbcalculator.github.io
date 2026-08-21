@@ -89,7 +89,7 @@ const requirement_data = {
         ],
         "Chunky": [
             new Requirement(5, [[Moves.Moveless]]), // 5 bananas in JungleJapesStart
-            new Requirement(15, [[Moves.Barrels, Moves.Slam]]), // 2 bunches, 5 bananas in JapesCatacomb
+            new Requirement(15, [[Moves.Barrels, Moves.SlamCheck]]), // 2 bunches, 5 bananas in JapesCatacomb
             new Requirement(10, [ // 2 bunches in JapesHillTop
                 [Moves.ClimbingCheck],
                 [Moves.AllWarps],
@@ -565,12 +565,12 @@ const requirement_data = {
                 [Moves.RaisedWater, Moves.GalleonPeanut],
             ]),
             new Requirement(20, [ // 4 bunches in SickBay
-                [Moves.Slam, Moves.AllWarps, Moves.GalleonShipSpawned],
-                [Moves.Slam, Moves.RaisedWater, Moves.GalleonLighthouse, Moves.GalleonShipSpawned],
+                [Moves.SlamCheck, Moves.AllWarps, Moves.GalleonShipSpawned],
+                [Moves.SlamCheck, Moves.RaisedWater, Moves.GalleonLighthouse, Moves.GalleonShipSpawned],
             ]),
             new Requirement(5, [ // 1 bunch in SickBay
-                [Moves.Slam, Moves.Punch, Moves.AllWarps, Moves.GalleonShipSpawned],
-                [Moves.Slam, Moves.Punch, Moves.RaisedWater, Moves.GalleonLighthouse, Moves.GalleonShipSpawned],
+                [Moves.SlamCheck, Moves.Punch, Moves.AllWarps, Moves.GalleonShipSpawned],
+                [Moves.SlamCheck, Moves.Punch, Moves.RaisedWater, Moves.GalleonLighthouse, Moves.GalleonShipSpawned],
             ]),
         ],
     },
@@ -580,7 +580,7 @@ const requirement_data = {
             new Requirement(10, [[Moves.Coconut]]), // 1 balloon in MillArea
             new Requirement(5, [[Moves.Night]]), // 5 bananas in ThornvineArea
             new Requirement(15, [[Moves.CheckOfLegends]]), // 3 bunches in MushroomLower
-            new Requirement(5, [[Moves.Slam, Moves.Day]]), // 1 bunch in GrinderRoom
+            new Requirement(5, [[Moves.SlamCheck, Moves.Day]]), // 1 bunch in GrinderRoom
             new Requirement(10, [[Moves.LevelSlam, Moves.Coconut]]), // 1 balloon in GrinderRoom
             new Requirement(5, [[Moves.Strong, Moves.Night]]), // 1 bunch in ThornvineArea
             new Requirement(5, [[Moves.LevelSlam, Moves.Strong, Moves.Night]]), // 1 bunch in ThornvineBarn
@@ -791,7 +791,7 @@ const requirement_data = {
             new Requirement(6, [[Moves.Barrels, Moves.CavesIceWalls]]), // 6 bananas in BoulderCave
             new Requirement(10, [[Moves.Pineapple, Moves.CavesIceWalls]]), // 1 balloon in CavesSnideArea
             new Requirement(10, [[Moves.Barrels, Moves.Hunky, Moves.CavesIceWalls]]), // 1 bunch in BoulderCave; 5 bananas in IglooArea
-            new Requirement(20, [[Moves.Slam, Moves.Triangle, Moves.Gone]]), // 4 bunches in ChunkyCabin
+            new Requirement(20, [[Moves.SlamCheck, Moves.Triangle, Moves.Gone]]), // 4 bunches in ChunkyCabin
             new Requirement(10, [[Moves.Pineapple, Moves.Triangle, Moves.CavesIglooPads]]), // 1 balloon in ChunkyIgloo
             new Requirement(10, [ // 1 balloon in CavesBonusCave
                 [Moves.Pineapple, Moves.AllWarps],

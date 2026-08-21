@@ -697,7 +697,7 @@ def to_javascript(cb_requirements, special_requirements):
     kong_map = {Kongs.donkey: "DK", Kongs.diddy: "Diddy", Kongs.lanky: "Lanky", Kongs.tiny: "Tiny", Kongs.chunky: "Chunky"}
     move_map = {
         **{"can_use_vines": "Vines", "swim": "Diving", "oranges": "Oranges", "barrels": "Barrels", "climbing": "ClimbingCheck"},
-        **{"Slam": "Slam", "levelSlam": "LevelSlam"},
+        **{"Slam": "SlamCheck", "levelSlam": "LevelSlam"},
         # Kong-specific
         **{"coconut": "Coconut", "bongos": "Bongos", "grab": "Grab", "strongKong": "Strong", "blast": "Blast"},
         **{"peanut": "Peanut", "guitar": "Guitar", "charge": "Charge", "jetpack": "Rocket", "spring": "Spring"},

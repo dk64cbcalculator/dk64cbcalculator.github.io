@@ -8,10 +8,13 @@ from pathlib import Path
 sys.path.insert(0, os.getcwd())
 
 from randomizer.SettingStrings import decrypt_settings_string_enum
+from randomizer.Settings import Settings
 from randomizer.Lists.Switches import SwitchData
 from randomizer.Enums.Switches import Switches
 from randomizer.Enums.SwitchTypes import SwitchType
 from randomizer.Enums.Kongs import Kongs
+from randomizer.Enums.Settings import ActivateAllBananaports, ClimbingStatus
+from randomizer.Enums.Types import Types
 
 BARRIERS = {
     "japes_coconut_gates": "switchJapesCoconut",
@@ -39,26 +42,29 @@ BARRIERS = {
 
 
 def handle_switchsanity(settings):
+    if not settings.switchsanity_enabled:
+        return None
+
     assignments = {
-        Switches.JapesFeather: settings.get("switchsanity_switch_japes_to_hive"),
-        Switches.JapesRambi: settings.get("switchsanity_switch_japes_to_rambi"),
-        Switches.JapesPainting: settings.get("switchsanity_switch_japes_to_painting_room"),
-        Switches.JapesDiddyCave: settings.get("switchsanity_switch_japes_to_cavern"),
-        Switches.JapesFreeKong: settings.get("switchsanity_switch_japes_free_kong"),
-        Switches.AztecBlueprintDoor: settings.get("switchsanity_switch_aztec_to_kasplat_room"),
-        Switches.AztecLlamaCoconut: settings.get("switchsanity_switch_aztec_llama_front"),
-        Switches.AztecLlamaGrape: settings.get("switchsanity_switch_aztec_llama_side"),
-        Switches.AztecLlamaFeather: settings.get("switchsanity_switch_aztec_llama_back"),
-        Switches.GalleonLighthouse: settings.get("switchsanity_switch_galleon_to_lighthouse_side"),
-        Switches.GalleonShipwreck: settings.get("switchsanity_switch_galleon_to_shipwreck_side"),
-        Switches.GalleonCannonGame: settings.get("switchsanity_switch_galleon_to_cannon_game"),
-        Switches.FungiYellow: settings.get("switchsanity_switch_fungi_yellow_tunnel"),
-        Switches.FungiGreenFeather: settings.get("switchsanity_switch_fungi_green_tunnel_near"),
-        Switches.FungiGreenPineapple: settings.get("switchsanity_switch_fungi_green_tunnel_far"),
+        Switches.JapesFeather: settings.switchsanity_switch_japes_to_hive,
+        Switches.JapesRambi: settings.switchsanity_switch_japes_to_rambi,
+        Switches.JapesPainting: settings.switchsanity_switch_japes_to_painting_room,
+        Switches.JapesDiddyCave: settings.switchsanity_switch_japes_to_cavern,
+        Switches.JapesFreeKong: settings.switchsanity_switch_japes_free_kong,
+        Switches.AztecBlueprintDoor: settings.switchsanity_switch_aztec_to_kasplat_room,
+        Switches.AztecLlamaCoconut: settings.switchsanity_switch_aztec_llama_front,
+        Switches.AztecLlamaGrape: settings.switchsanity_switch_aztec_llama_side,
+        Switches.AztecLlamaFeather: settings.switchsanity_switch_aztec_llama_back,
+        Switches.GalleonLighthouse: settings.switchsanity_switch_galleon_to_lighthouse_side,
+        Switches.GalleonShipwreck: settings.switchsanity_switch_galleon_to_shipwreck_side,
+        Switches.GalleonCannonGame: settings.switchsanity_switch_galleon_to_cannon_game,
+        Switches.FungiYellow: settings.switchsanity_switch_fungi_yellow_tunnel,
+        Switches.FungiGreenFeather: settings.switchsanity_switch_fungi_green_tunnel_near,
+        Switches.FungiGreenPineapple: settings.switchsanity_switch_fungi_green_tunnel_far,
 
-        Switches.AztecGuitar: settings.get("switchsanity_switch_aztec_to_connector_tunnel"),
+        Switches.AztecGuitar: settings.switchsanity_switch_aztec_to_connector_tunnel,
 
-        Switches.AztecQuicksandSwitch: settings.get("switchsanity_switch_aztec_sand_tunnel"),
+        Switches.AztecQuicksandSwitch: settings.switchsanity_switch_aztec_sand_tunnel,
 
         # Isles has no CBs.
         Switches.IslesMonkeyport: None,
@@ -123,65 +129,53 @@ def handle_switchsanity(settings):
 
 
 def settings_to_config(settings):
-    # These three are just a straight name translation
-    barriers = [BARRIERS[barrier.name] for barrier in settings.get("remove_barriers_selected", []) if BARRIERS[barrier.name]]
-    galleon_water = {"lowered": "Low", "raised": "High"}[settings["galleon_water"].name]
-    fungi_time = {"day": "Day", "night": "Night", "dusk": "Dusk", "progressive": "Progressive"}[settings["fungi_time"].name]
-
-    warps = settings.get("activate_all_bananaports")
-    if warps is not None and warps.name == "all":
-        barriers.append("switchAllWarps")
-
-    # Check if we start with climbing *or* if climbing is guaranteed in a starting move pool
-    for move in settings.get("starting_move_list_selected", []):
-        if move.name == "Climbing":
-            barriers.append("switchClimbing")
-            break
-    else:
-        for i in range(5):
-            pool = settings.get(f"starting_moves_list_{i + 1}", [])
-            if settings.get(f"starting_moves_list_count_{i + 1}", 0) < len(pool):
-                continue
-            if any(move.name == "Climbing" for move in pool):
-                barriers.append("switchClimbing")
-                break
-
-    full_medal = int(settings["medal_cb_req"])
-    # "Half" medals do not have to be strictly 50% of the full medal (mirrors Spoiler.py).
-    half_medal = max(1, int(full_medal * (int(settings.get("half_medal_percentage", 50)) / 100)))
-
+    # These two are just a straight name translation.
     config = {
-        "barriers": barriers,
-        "full_medal": full_medal,
-        "half_medal": half_medal,
-        "galleon_water": galleon_water,
-        "fungi_time": fungi_time,
+        "galleon_water": {"lowered": "Low", "raised": "High"}[settings.galleon_water.name],
+        "fungi_time": {"day": "Day", "night": "Night", "dusk": "Dusk", "progressive": "Progressive"}[settings.fungi_time.name],
     }
+
+    config["barriers"] = []
+    for barrier in settings.remove_barriers_selected:
+        if BARRIERS[barrier.name]:
+            config["barriers"].append(BARRIERS[barrier.name])
+    if settings.activate_all_bananaports == ActivateAllBananaports.all:
+        config["barriers"].append("switchAllWarps")
+    if settings.climbing_status == ClimbingStatus.normal:
+        config["barriers"].append("switchClimbing")
+    if settings.start_with_slam:
+        config["barriers"].append("switchSlam")
+
+    config["full_medal"] = int(settings.medal_cb_req)
+    if Types.HalfMedal in settings.shuffled_location_types:
+        # "Half" medals do not have to be strictly 50% of the full medal (mirrors Spoiler.py).
+        config["half_medal"] = max(1, int(config["full_medal"] * (int(settings.half_medal_percentage) / 100)))
+
     if switchsanity := handle_switchsanity(settings):
         config["switchsanity"] = switchsanity
     return config
 
 
-settings = decrypt_settings_string_enum(sys.argv[1])
+settings = Settings(decrypt_settings_string_enum(sys.argv[1]))
 key = sys.argv[2]
 name = sys.argv[3]
 config = {"name": name, **settings_to_config(settings)}
 
-preset_file = Path('../presets.json') # We are running inside the DK64-Randomizer tree
-with preset_file.open('r', encoding='utf-8') as f:
+# Add the settings to the JSON data
+preset_file = Path("../presets.json") # We are running inside the DK64-Randomizer tree
+with preset_file.open("r", encoding="utf-8") as f:
     presets = json.load(f)
 presets[key] = config
-with preset_file.open('w', encoding='utf-8') as f:
+with preset_file.open("w", encoding="utf-8") as f:
     json.dump(presets, f, indent=4)
 
-# Register the key in the calculator's ordered preset list, unless it's already listed.
-index_file = Path('../index.html')
+# Add the key to the HTML listing
+index_file = Path("../index.html")
 marker = "// Imported presets are added above this line"
-html = index_file.read_text(encoding='utf-8')
+html = index_file.read_text(encoding="utf-8")
 marker_pos = html.index(marker)  # raises if the anchor is missing
 indent = html[html.rfind("\n", 0, marker_pos) + 1 : marker_pos]
 anchor = indent + marker
 entry = f'{indent}"{key}",\n'
 if entry not in html:
-    index_file.write_text(html.replace(anchor, entry + anchor, 1), encoding='utf-8')
-
+    index_file.write_text(html.replace(anchor, entry + anchor, 1), encoding="utf-8")

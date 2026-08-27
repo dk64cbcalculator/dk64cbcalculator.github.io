@@ -663,40 +663,31 @@
                 return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal || 0}`
             }
 
-            function applySettingsString(set_str) {
-                const segs = set_str.split("|");
-                // CB Count
-                cb_count = document.getElementById("cb-req-count").value = parseInt(segs[2]);
-                document.getElementById("cb-req-count").setAttribute("fullMedal", cb_count);
-                const halfMedal = parseInt(segs[3]); // Missing segment -> undefined -> NaN -> false
-                if (halfMedal) {
-                    document.getElementById("cb-req-count").setAttribute("halfMedal", halfMedal);
-                } else {
-                    document.getElementById("cb-req-count").removeAttribute("halfMedal");
-                }
-                document.getElementById("cb-req-desc").innerText = "Medal Requirement";
-                // Selects
-                const selects = document.getElementsByClassName("barrier-select");
-                segs[1].split("").forEach((val, index) => {
-                    if (index < selects.length) {
-                        const k_selects = selects[index].getElementsByTagName("option");
-                        const sub_index = parseInt(val);
-                        if (sub_index < k_selects.length) {
-                            selects[index].value = k_selects[sub_index].getAttribute("value");
-                        }
-                    }
-                })
+            function parseCustomPreset(json) {
+                let preset = { name: json.name, barriers: [], switchsanity: new Map() }
+                const segs = json.setstr.split("|");
+
                 // Toggles
                 const switches = document.getElementsByClassName("barrier-switch");
                 const raw_val = parseInt(segs[0], 16);
                 for (let i = 0; i < switches.length; i++) {
                     const check = 1 << i;
                     if (raw_val & check) {
-                        switches[i].checked = true;
-                    } else {
-                        switches[i].checked = false;
+                        preset.barriers.push(switches[i].id);
                     }
                 }
+
+                // Selects
+                const selects = document.getElementsByClassName("barrier-select");
+                const optionValue = (select, digit) => select.options[parseInt(digit)]?.value ?? select.value;
+                preset.galleon_water = optionValue(selects[0], segs[1][0]);
+                preset.fungi_time = optionValue(selects[1], segs[1][1]);
+
+                // CB Count
+                preset.full_medal = parseInt(segs[2]);
+                preset.half_medal = parseInt(segs[3]);
+
+                return preset;
             }
 
             function populatePresets() {
@@ -803,9 +794,7 @@
                 })
                 custom_presets.forEach(json => {
                     if (json.key == document.getElementById("preset_selector").value) {
-                        switchsanity = new Map();
-                        applySettingsString(json.setstr);
-                        updateDisplay(json.name);
+                        applySpecificPreset(parseCustomPreset(json));
                     }
                 })
             }

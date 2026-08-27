@@ -117,6 +117,32 @@
             "ForestGreenTunnelPineapple": "ForestGreenTunnelPineappleRandom"
         }
     },
+    "hell": {
+        "name": "Hell Mode",
+        "galleon_water": "Low",
+        "fungi_time": "Progressive",
+        "barriers": [],
+        "full_medal": 85,
+        "half_medal": 42,
+        "switchsanity": {
+            "JapesShellhive": "JapesShellhiveRandom",
+            "JapesRambi": "JapesRambiRandom",
+            "JapesPainting": "JapesPaintingRandom",
+            "JapesDiddyCave": "JapesDiddyCaveRandom",
+            "JapesFreeKong": "JapesFreeKongRandom",
+            "AztecBlueprintDoor": "AztecBlueprintDoorRandom",
+            "AztecLlamaCoconut": "AztecLlamaCoconutRandom",
+            "AztecLlamaGrape": "AztecLlamaGrapeRandom",
+            "AztecLlamaFeather": "AztecLlamaFeatherRandom",
+            "AztecGuitar": "AztecGuitarRandom",
+            "GalleonLighthouse": "GalleonLighthouseRandom",
+            "GalleonPeanut": "GalleonPeanutRandom",
+            "GalleonCannonGame": "GalleonCannonGameRandom",
+            "ForestYellowTunnel": "ForestYellowTunnelRandom",
+            "ForestGreenTunnelFeather": "ForestGreenTunnelFeatherRandom",
+            "ForestGreenTunnelPineapple": "ForestGreenTunnelPineappleRandom"
+        }
+    },
     "thurry": {
         "name": "Treasure Hurry",
         "galleon_water": "High",

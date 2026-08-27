@@ -660,7 +660,7 @@
                         }
                     }
                 }
-                return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal}`
+                return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal || 0}`
             }
 
             function applySettingsString(set_str) {
@@ -668,8 +668,11 @@
                 // CB Count
                 cb_count = document.getElementById("cb-req-count").value = parseInt(segs[2]);
                 document.getElementById("cb-req-count").setAttribute("fullMedal", cb_count);
-                if (segs.length > 2) {
-                    document.getElementById("cb-req-count").setAttribute("halfMedal", parseInt(segs[3]));
+                const halfMedal = parseInt(segs[3]); // Missing segment -> undefined -> NaN -> false
+                if (halfMedal) {
+                    document.getElementById("cb-req-count").setAttribute("halfMedal", halfMedal);
+                } else {
+                    document.getElementById("cb-req-count").removeAttribute("halfMedal");
                 }
                 document.getElementById("cb-req-desc").innerText = "Medal Requirement";
                 // Selects

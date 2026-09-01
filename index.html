@@ -368,6 +368,10 @@
             }
 
             class Moves {
+                // Tags for moves related to guns/instruments, so they can be collapsed
+                static GunMove = class GunMove extends Moves {};
+                static InstrumentMove = class InstrumentMove extends Moves {};
+
                 static Moveless = new Moves("Nothing", false);
                 static LevelSlam = new Moves("Level Slam");
                 static Slam = new Moves("Green Slam");
@@ -397,23 +401,23 @@
                 static Climbing = new Moves("Climbing");
                 static Oranges = new Moves("Oranges");
                 // Guns
-                static Coconut = new Moves("Coconut");
-                static Peanut = new Moves("Peanut");
-                static Grape = new Moves("Grape");
-                static Feather = new Moves("Feather");
-                static Pineapple = new Moves("Pineapple");
+                static Coconut = new Moves.GunMove("Coconut");
+                static Peanut = new Moves.GunMove("Peanut");
+                static Grape = new Moves.GunMove("Grape");
+                static Feather = new Moves.GunMove("Feather");
+                static Pineapple = new Moves.GunMove("Pineapple");
                 // Instruments
-                static Bongos = new Moves("Bongos");
-                static Guitar = new Moves("Guitar");
-                static Trombone = new Moves("Trombone");
-                static Sax = new Moves("Sax");
-                static Triangle = new Moves("Triangle");
+                static Bongos = new Moves.InstrumentMove("Bongos");
+                static Guitar = new Moves.InstrumentMove("Guitar");
+                static Trombone = new Moves.InstrumentMove("Trombone");
+                static Sax = new Moves.InstrumentMove("Sax");
+                static Triangle = new Moves.InstrumentMove("Triangle");
                 // Misc Events
                 static AztecW5Bonus = new Moves("Aztec Warp 5 Bonus Barrel");
                 static CavesW3Bonus = new Moves("Caves Warp 3 Bonus Barrel");
                 static AnyGun = new Moves("Any Gun");
                 static AnyInstrument = new Moves("Any Instrument");
-                static CheckOfLegends = new Moves("All 5 Guns");
+                static CheckOfLegends = new Moves.GunMove("All 5 Guns");
 
                 // Climbing
                 static ClimbingCheck = new Moves("Climbing", true, [Moves.Climbing], true); // Had to move this above the Barriers since JapesCoconut requires climbing
@@ -434,23 +438,23 @@
                 static AztecQuicksandSwitch = new Moves("Quicksand Tunnel Switch", true, [Moves.LevelSlam], true);
 
                 // Switchsanity (random per seed)
-                static JapesShellhiveRandom = new Moves("Hive Area Gun");
-                static JapesRambiRandom = new Moves("Rambi Cage Gun");
-                static JapesPaintingRandom = new Moves("Painting Room Gun");
-                static JapesDiddyCaveRandom = new Moves("Peanut Gate Gun");
-                static JapesFreeKongRandom = new Moves("Free Diddy Gun");
-                static AztecGuitarRandom = new Moves("Oasis Instrument Pad");
-                static AztecBlueprintDoorRandom = new Moves("Stone Door Gun");
-                static AztecLlamaTempleRandom = new Moves("Llama Temple Gun"); // No need to list out duplicates if they're random
+                static JapesShellhiveRandom = new Moves.GunMove("Hive Area Gun");
+                static JapesRambiRandom = new Moves.GunMove("Rambi Cage Gun");
+                static JapesPaintingRandom = new Moves.GunMove("Painting Room Gun");
+                static JapesDiddyCaveRandom = new Moves.GunMove("Peanut Gate Gun");
+                static JapesFreeKongRandom = new Moves.GunMove("Free Diddy Gun");
+                static AztecGuitarRandom = new Moves.InstrumentMove("Oasis Instrument Pad");
+                static AztecBlueprintDoorRandom = new Moves.GunMove("Stone Door Gun");
+                static AztecLlamaTempleRandom = new Moves.GunMove("Llama Temple Gun"); // No need to list out duplicates if they're random
                 static AztecLlamaCoconutRandom = Moves.AztecLlamaTempleRandom;
                 static AztecLlamaGrapeRandom = Moves.AztecLlamaTempleRandom;
                 static AztecLlamaFeatherRandom = Moves.AztecLlamaTempleRandom;
-                static GalleonLighthouseRandom = new Moves("Lighthouse Area Gun");
-                static GalleonPeanutRandom = new Moves("Shipyard Area Gun");
-                static GalleonCannonGameRandom = new Moves("Cannon Game Gun");
-                static ForestYellowTunnelRandom = new Moves("Yellow Tunnel Gun");
-                static ForestGreenTunnelFeatherRandom = new Moves("Green Tunnel Gun 1");
-                static ForestGreenTunnelPineappleRandom = new Moves("Green Tunnel Gun 2");
+                static GalleonLighthouseRandom = new Moves.GunMove("Lighthouse Area Gun");
+                static GalleonPeanutRandom = new Moves.GunMove("Shipyard Area Gun");
+                static GalleonCannonGameRandom = new Moves.GunMove("Cannon Game Gun");
+                static ForestYellowTunnelRandom = new Moves.GunMove("Yellow Tunnel Gun");
+                static ForestGreenTunnelFeatherRandom = new Moves.GunMove("Green Tunnel Gun 1");
+                static ForestGreenTunnelPineappleRandom = new Moves.GunMove("Green Tunnel Gun 2");
 
                 // Barriers
                 static JapesCoconut = new Moves("Japes Coconut Gates", true, [Moves.JapesFreeKong, Moves.ClimbingCheck], true);
@@ -1120,11 +1124,27 @@
                 if (updated_threshold > 0) {
                     let beat_permutations = [];
                     const perms = Math.pow(2, all_moves.length);
+                    // Owning all 5 guns covers any single gun, and owning any gun/instrument covers the "Any" variants.
+                    const gun_moves = all_moves.filter(move => move instanceof Moves.GunMove);
+                    const instrument_moves = all_moves.filter(move => move instanceof Moves.InstrumentMove);
+                    const expandMoves = (move_list) => {
+                        if (move_list.includes(Moves.CheckOfLegends)) {
+                            move_list = move_list.concat(gun_moves);
+                        }
+                        if (move_list.filter(move => gun_moves.includes(move)).length > 0) {
+                            move_list = move_list.concat([Moves.AnyGun]);
+                        }
+                        if (move_list.filter(move => instrument_moves.includes(move)).length > 0) {
+                            move_list = move_list.concat([Moves.AnyInstrument]);
+                        }
+                        return move_list;
+                    }
                     for (let i = 0; i < perms; i++) {
                         const local_moves = all_moves.filter((move, index) => (i & Math.pow(2, index)) != 0);
+                        const owned_moves = expandMoves(local_moves);
                         local_total = updated_threshold;
                         list.forEach(item => {
-                            if (item.can_acquire(local_moves)) {
+                            if (item.can_acquire(owned_moves)) {
                                 local_total -= item.amount;
                             }
                         })

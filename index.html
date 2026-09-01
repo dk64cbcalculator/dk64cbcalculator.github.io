@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html data-bs-theme="dark">
     <head>
         <title>DK64 Randomizer Colored Banana Calculator</title>
@@ -8,8 +9,9 @@
         <meta content="A calculator, primarily for Donkey Kong 64 Randomizer players, to determine the requirements to obtain a banana medal check in Donkey Kong 64 in a glitchless in-logic context." property="og:description" />
         <meta content="DK64 Utils" property="og:site_name" />
         <meta content="https://raw.githubusercontent.com/dk64cbcalculator/dk64cbcalculator.github.io/master/assets/head.png" property="og:image" />
+        <link rel="icon" href="assets/head.png" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
         <style>
             .container {
                 width: 70%;
@@ -27,12 +29,16 @@
             #preset_selector.pulse-select {
                 background-color: rgba(0, 255, 0, 0.1);
             }
+            /* Line the dropdowns up with each other by giving every label the same width. */
+            #barrierModal .input-group-text {
+                width: 10rem;
+            }
         </style>
     </head>
     <body>
         <!-- Toggles Modal -->
         <div class="modal fade" id="barrierModal" tabindex="-1" aria-labelledby="barrierModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                     <h1 class="modal-title fs-5" id="barrierModalLabel">Select opened barriers</h1>
@@ -41,14 +47,29 @@
                     <div class="modal-body">
                         <h5>Jungle Japes</h5>
                         <!-- Japes Coconut Gates -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchJapesCoconut">
-                            <label class="form-check-label" for="switchJapesCoconut">Japes Coconut Gates</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesFreeKong">Coconut Gates</label>
+                            <select class="form-select switchsanity-select" id="selectJapesFreeKong"></select>
                         </div>
                         <!-- Japes Shellhive Gates -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchJapesShellhive">
-                            <label class="form-check-label" for="switchJapesShellhive">Japes Shellhive Gate</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesShellhive">Shellhive Gate</label>
+                            <select class="form-select switchsanity-select" id="selectJapesShellhive"></select>
+                        </div>
+                        <!-- Japes Peanut Gate -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesDiddyCave">Peanut Gate</label>
+                            <select class="form-select switchsanity-select" id="selectJapesDiddyCave"></select>
+                        </div>
+                        <!-- Japes Painting Room -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesPainting">Painting Room</label>
+                            <select class="form-select switchsanity-select" id="selectJapesPainting"></select>
+                        </div>
+                        <!-- Japes Rambi Cage -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesRambi">Rambi Cage</label>
+                            <select class="form-select switchsanity-select" id="selectJapesRambi"></select>
                         </div>
                         <div class="mt-3">
                             <h5>Angry Aztec</h5>
@@ -56,7 +77,7 @@
                         <!-- Aztec Tunnel Door -->
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchAztecTunnel">
-                            <label class="form-check-label" for="switchAztecTunnel">Aztec Tunnel Door</label>
+                            <label class="form-check-label" for="switchAztecTunnel">Aztec Tunnel Door Opened</label>
                         </div>
                         <!-- Aztec 5DT Switches -->
                         <div class="form-check form-switch">
@@ -75,6 +96,39 @@
                                 Aztec Tiny Temple Ice Melted
                             </label>
                         </div>
+                        <!-- Aztec Oasis Instrument Pad -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecGuitar">Instrument Pad</label>
+                            <select class="form-select switchsanity-select" id="selectAztecGuitar">
+                                <option>Bongos</option>
+                                <option selected>Guitar</option>
+                                <option>Trombone</option>
+                                <option>Sax</option>
+                                <option>Triangle</option>
+                                <option>Random</option>
+                                <option>Any Instrument</option>
+                            </select>
+                        </div>
+                        <!-- Aztec Stone Door -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecBlueprintDoor">Stone Door</label>
+                            <select class="form-select switchsanity-select" id="selectAztecBlueprintDoor"></select>
+                        </div>
+                        <!-- Aztec Llama Temple (Coconut) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecLlamaCoconut">Llama Temple</label>
+                            <select class="form-select switchsanity-select" id="selectAztecLlamaCoconut"></select>
+                        </div>
+                        <!-- Aztec Llama Temple (Grape) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecLlamaGrape">Llama Temple</label>
+                            <select class="form-select switchsanity-select" id="selectAztecLlamaGrape"></select>
+                        </div>
+                        <!-- Aztec Llama Temple (Feather) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecLlamaFeather">Llama Temple</label>
+                            <select class="form-select switchsanity-select" id="selectAztecLlamaFeather"></select>
+                        </div>
                         <div class="mt-3">
                             <h5>Frantic Factory</h5>
                         </div>
@@ -92,14 +146,14 @@
                             <h5>Gloomy Galleon</h5>
                         </div>
                         <!-- Galleon Lighthouse Gate -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchGalleonLighthouse">
-                            <label class="form-check-label" for="switchGalleonLighthouse">Galleon Lighthouse Side Open</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectGalleonLighthouse">Lighthouse Gate</label>
+                            <select class="form-select switchsanity-select" id="selectGalleonLighthouse"></select>
                         </div>
                         <!-- Galleon Shipyard Gate -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchGalleonShipyard" checked>
-                            <label class="form-check-label" for="switchGalleonShipyard">Galleon Shipyard Side Open</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectGalleonPeanut">Shipyard Gate</label>
+                            <select class="form-select switchsanity-select" id="selectGalleonPeanut"></select>
                         </div>
                         <!-- Galleon Seasick Ship -->
                         <div class="form-check form-switch">
@@ -113,52 +167,46 @@
                                 Galleon Treasure Room Opened
                             </label>
                         </div>
-                        <!-- Galleon Water -->
-                        <div class="small">
-                            Galleon Water Setting
+                        <!-- Galleon Cannon Game -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectGalleonCannonGame">Cannon Game</label>
+                            <select class="form-select switchsanity-select" id="selectGalleonCannonGame"></select>
                         </div>
-                        <select class="form-select barrier-select" id="selectGalleonWater">
-                            <option value="Low" selected>Lowered</option>
-                            <option value="High">Raised</option>
-                        </select>
-                        <div class="form-check form-switch" hidden>
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchGalleonLowered" checked>
-                            <label class="form-check-label" for="switchGalleonLowered">Galleon Low Water Access</label>
-                        </div>
-                        <div class="form-check form-switch" hidden>
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchGalleonRaised">
-                            <label class="form-check-label" for="switchGalleonRaised">Galleon High Water Access</label>
+                        <!-- Galleon Water Level -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectGalleonWater">Water Level</label>
+                            <select class="form-select barrier-select" id="selectGalleonWater">
+                                <option value="Low" selected>Lowered</option>
+                                <option value="High">Raised</option>
+                            </select>
                         </div>
                         <div class="mt-3">
                             <h5>Fungi Forest</h5>
                         </div>
-                        <!-- Fungi Green Tunnel -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchForestGreen">
-                            <label class="form-check-label" for="switchForestGreen">Fungi Green Tunnel Open</label>
+                        <!-- Fungi Green Tunnel (Feather) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectForestGreenTunnelFeather">Green Tunnel 1</label>
+                            <select class="form-select switchsanity-select" id="selectForestGreenTunnelFeather"></select>
+                        </div>
+                        <!-- Fungi Green Tunnel (Pineapple) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectForestGreenTunnelPineapple">Green Tunnel 2</label>
+                            <select class="form-select switchsanity-select" id="selectForestGreenTunnelPineapple"></select>
                         </div>
                         <!-- Fungi Yellow Tunnel -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchForestYellow">
-                            <label class="form-check-label" for="switchForestYellow">Fungi Yellow Tunnel Open</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectForestYellowTunnel">Yellow Tunnel</label>
+                            <select class="form-select switchsanity-select" id="selectForestYellowTunnel"></select>
                         </div>
                         <!-- Fungi Time of Day -->
-                        <div class="small">
-                            Fungi Time of Day Setting
-                        </div>
-                        <select class="form-select barrier-select" id="selectForestTime">
-                            <option value="Day" selected>Day Start</option>
-                            <option value="Night">Night Start</option>
-                            <option value="Dusk">Dusk</option>
-                            <option value="Progressive">Progressive</option>
-                        </select>
-                        <div class="form-check form-switch" hidden>
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchForestDay" checked>
-                            <label class="form-check-label" for="switchForestDay">Fungi Daytime Access</label>
-                        </div>
-                        <div class="form-check form-switch" hidden>
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchForestNight">
-                            <label class="form-check-label" for="switchForestNight">Fungi Nighttime Access</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectForestTime">Time of Day</label>
+                            <select class="form-select barrier-select" id="selectForestTime">
+                                <option value="Day" selected>Day Start</option>
+                                <option value="Night">Night Start</option>
+                                <option value="Dusk">Dusk</option>
+                                <option value="Progressive">Progressive</option>
+                            </select>
                         </div>
                         <div class="mt-3">
                             <h5>Crystal Caves</h5>
@@ -171,9 +219,7 @@
                         <!-- Caves Ice Walls -->
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchCavesWalls">
-                            <label class="form-check-label" for="switchCavesWalls">
-                                Caves Ice Walls punched
-                            </label>
+                            <label class="form-check-label" for="switchCavesWalls">Caves Ice Walls Punched</label>
                         </div>
                         <div class="mt-3">
                             <h5>Creepy Castle</h5>
@@ -190,21 +236,15 @@
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchClimbing">
-                            <label class="form-check-label" for="switchClimbing">
-                                Start with Climbing
-                            </label>
+                            <label class="form-check-label" for="switchClimbing">Start with Climbing</label>
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchAllWarps">
-                            <label class="form-check-label" for="switchAllWarps">
-                                Preactivate All Warps
-                            </label>
+                            <label class="form-check-label" for="switchAllWarps">Preactivate All Warps</label>
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchSlam">
-                            <label class="form-check-label" for="switchSlam">
-                                Start with Green Slam
-                            </label>
+                            <label class="form-check-label" for="switchSlam">Start with Green Slam</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -290,7 +330,7 @@
             </div>
             <div id="permutations"></div>
         </div>
-        
+
 
         <script>
             getMedalRequirement = () => {
@@ -488,6 +528,25 @@
             // Custom switchsanity barriers for this preset
             let switchsanity = new Map();
 
+            // Dropdowns whose gate can be removed outright, rather than only switched to a different gun.
+            const openableBarriers = ["selectJapesFreeKong", "selectJapesShellhive", "selectGalleonLighthouse", "selectGalleonPeanut",
+                "selectForestGreenTunnelFeather", "selectForestGreenTunnelPineapple", "selectForestYellowTunnel"];
+
+            for (let select of document.querySelectorAll(".switchsanity-select")) {
+                if (select.length > 0) continue; // Ignore any selectors which are prefilled (e.g. instrumentsanity)
+
+                let options = ["Coconut", "Peanut", "Grape", "Feather", "Pineapple", "Random", "Any Gun"];
+                if (openableBarriers.includes(select.id)) options.unshift("Opened");
+
+                const vanilla = Moves[select.id.slice("select".length)].barrier_moves[0].name;
+                for (let value of options) {
+                    const option = document.createElement("option");
+                    option.text = value;
+                    if (value == vanilla) option.defaultSelected = true;
+                    select.add(option);
+                }
+            }
+
             function getBarrierRequirement(barrier) {
                 if (barrier.is_barrier) {
                     if (opened_barriers.includes(barrier)) {
@@ -563,11 +622,7 @@
                 return null;
             }
 
-            let custom_presets = [{
-                "key": "custom0",
-                "name": "Season 2 (Obsolete)",
-                "setstr": '32739|00|40'
-            }];
+            let custom_presets = [];
 
             function updateCookie() {
                 setCookie("customPresets", JSON.stringify(custom_presets), 365);
@@ -636,53 +691,81 @@
                 })
             }
 
+            // Persistent order for the barrier flags in custom settings strings, so that the UX can continue to develop freely.
+            const barrier_flags = [
+                "selectJapesFreeKong",      "selectJapesShellhive",     "switchAztecTunnel",    "switchAztec5DT",           "switchAztecLlama",
+                "switchAztecIce",           "switchFactoryProd",        "switchFactoryTesting", "selectGalleonLighthouse",  "selectGalleonPeanut",
+                "switchGalleonSeasick",     "switchGalleonTreasure",    "switchGalleonLowered", "switchGalleonRaised",      "switchForestGreen",
+                "selectForestYellowTunnel", "switchForestDay",          "switchForestNight",    "switchCavesIgloo",         "switchCavesWalls",
+                "switchCryptDoors",         "switchClimbing",           "switchAllWarps",       "switchSlam",               "selectForestGreenTunnelFeather",
+                "selectForestGreenTunnelPineapple",
+            ];
+
+            const switch_settings = [
+                "selectGalleonWater",               "selectForestTime",         "selectJapesFreeKong",      "selectJapesShellhive",     "selectJapesDiddyCave",
+                "selectJapesPainting",              "selectJapesRambi",         "selectAztecBlueprintDoor", "selectAztecLlamaCoconut",  "selectAztecLlamaGrape",
+                "selectAztecLlamaFeather",          "selectGalleonLighthouse",  "selectGalleonPeanut",      "selectGalleonCannonGame",  "selectForestGreenTunnelFeather",
+                "selectForestGreenTunnelPineapple", "selectForestYellowTunnel",  "selectAztecGuitar",
+            ];
+
             function convertSettingsToString() {
-                let switch_booleans = [];
-                let select_indexes = [];
                 let switch_str = 0;
-                const switches = document.getElementsByClassName("barrier-switch");
-                const selects = document.getElementsByClassName("barrier-select");
+                barrier_flags.forEach((id, index) => {
+                    const elem = document.getElementById(id);
+                    if (elem && elem.checked) { // Ignore deprecated flags
+                        switch_str |= (1 << index);
+                    }
+                });
+
+                const select_indexes = switch_settings.map(id => document.getElementById(id).selectedIndex);
+
                 const fullMedal = document.getElementById("cb-req-count").getAttribute("fullMedal");
                 const halfMedal = document.getElementById("cb-req-count").getAttribute("halfMedal");
-                for (let s = 0; s < switches.length; s++) {
-                    let boolean_val = switches[s].checked;
-                    switch_booleans.push(boolean_val);
-                    if (boolean_val) {
-                        switch_str |= (1 << s);
-                    }
-                }
-                for (let k = 0; k < selects.length; k++) {
-                    select_indexes.push(0);
-                    const k_options = selects[k].getElementsByTagName("option");
-                    for (let j = 0; j < k_options.length; j++) {
-                        if (k_options[j].getAttribute("value") == selects[k].value) {
-                            select_indexes[k] = j;
-                        }
-                    }
-                }
-                return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal || 0}`
+                return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal || 0}|1`
             }
 
             function parseCustomPreset(json) {
-                let preset = { name: json.name, barriers: [], switchsanity: new Map() }
+                let preset = { name: json.name, barriers: [], switchsanity: new Map() };
                 const segs = json.setstr.split("|");
+                const version = parseInt(segs[4]) || 0;
+                if (version > 1) return; // Unknown version 
 
                 // Toggles
-                const switches = document.getElementsByClassName("barrier-switch");
                 const raw_val = parseInt(segs[0], 16);
-                for (let i = 0; i < switches.length; i++) {
-                    const check = 1 << i;
-                    if (raw_val & check) {
-                        preset.barriers.push(switches[i].id);
+                barrier_flags.forEach((bit, index) => {
+                    if (raw_val & (1 << index)) {
+                        preset.barriers.push(bit);
                     }
+                });
+                // Legacy handling for green tunnel (now two flags)
+                if (preset.barriers.includes("switchForestGreen")) {
+                    preset.barriers.push("selectForestGreenTunnelFeather", "selectForestGreenTunnelPineapple");
                 }
 
-                // Selects
-                const selects = document.getElementsByClassName("barrier-select");
-                const optionValue = (select, digit) => select.options[parseInt(digit)]?.value ?? select.value;
-                preset.galleon_water = optionValue(selects[0], segs[1][0]);
-                preset.fungi_time = optionValue(selects[1], segs[1][1]);
+                switch_settings.forEach((id, index) => {
+                    if (index >= segs[1].length) return;
 
+                    const elem = document.getElementById(id);
+                    const value = elem.options[parseInt(segs[1][index])].value;
+                    const name = id.slice("select".length);
+
+                    if (id == "selectGalleonWater") {
+                        preset.galleon_water = value;
+                    } else if (id == "selectForestTime") {
+                        preset.fungi_time = value;
+                    } else if (value == "Opened") {
+                        preset.barriers.push(id);
+                    } else if (value == "Any Gun") {
+                        preset.switchsanity.set(Moves[name], Moves.AnyGun);
+                    } else if (value == "Any Instrument") {
+                        preset.switchsanity.set(Moves[name], Moves.AnyInstrument);
+                    } else if (value == "Random") {
+                        preset.switchsanity.set(Moves[name], Moves[name + "Random"]);
+                    } else {
+                        preset.switchsanity.set(Moves[name], Moves[value]);
+                    }
+                });
+                
                 // CB Count
                 preset.full_medal = parseInt(segs[2]);
                 preset.half_medal = parseInt(segs[3]);
@@ -702,38 +785,6 @@
                 custom_presets = JSON.parse(custom_preset_cookie)
             }
 
-            function updateSelects() {
-                // Galleon Water
-                const gal_water = document.getElementById("selectGalleonWater").value;
-                let gal_water_low = false;
-                let gal_water_high = false;
-                if (gal_water == "Low") {
-                    gal_water_low = true;
-                    gal_water_high = false;
-                } else if (gal_water == "High") {
-                    gal_water_low = false;
-                    gal_water_high = true;
-                }
-                document.getElementById("switchGalleonLowered").checked = gal_water_low;
-                document.getElementById("switchGalleonRaised").checked = gal_water_high;
-                // Fungi Time of Day
-                const fun_tod = document.getElementById("selectForestTime").value;
-                let fun_day = false;
-                let fun_night = false;
-                if (fun_tod == "Day") {
-                    fun_day = true;
-                    fun_night = false;
-                } else if (fun_tod == "Night") {
-                    fun_day = false;
-                    fun_night = true;
-                } else if (["Dusk", "Progressive"].includes(fun_tod)) {
-                    fun_day = true;
-                    fun_night = true;
-                }
-                document.getElementById("switchForestDay").checked = fun_day;
-                document.getElementById("switchForestNight").checked = fun_night;
-            }
-
             function resetPresetHeader() {
                 const appl_preset = document.getElementById("applied_preset_indic");
                 appl_preset.innerText = "";
@@ -749,7 +800,6 @@
             }
 
             function updateDisplay(preset_name) {
-                updateSelects();
                 updateBarriers();
                 getRequiredMoves();
                 const appl_preset = document.getElementById("applied_preset_indic");
@@ -760,12 +810,29 @@
 
             function applySpecificPreset(p) {
                 const switches = document.getElementsByClassName("barrier-switch");
-                for (let s = 0; s < switches.length; s++) {
-                    switches[s].checked = false;
+                for (let elem of switches) {
+                    elem.checked = p.barriers.includes(elem.id);
                 }
-                p.barriers.forEach(barrier => {
-                    document.getElementById(barrier).checked = true;
-                })
+
+                const switchsanity_controls = document.getElementsByClassName("switchsanity-select");
+                for (let elem of switchsanity_controls) {
+                    if (p.barriers.includes(elem.id)) {
+                        // No need to track the switchsanity of an opened barrier
+                        elem.value = "Opened";
+                        continue;
+                    }
+
+                    const name = elem.id.slice("select".length);
+                    const switched_move = p.switchsanity.get(Moves[name])
+                    if (switched_move == undefined) {
+                        elem.value = Moves[name].barrier_moves[0].name;
+                    } else if (switched_move == Moves[name + "Random"]) {
+                        elem.value = "Random";
+                    } else {
+                        elem.value = switched_move.name;
+                    }
+                }
+
                 document.getElementById("cb-req-count").value = p.full_medal;
                 document.getElementById("cb-req-count").setAttribute("fullMedal", p.full_medal);
                 document.getElementById("cb-req-desc").innerText = "Medal Requirement";
@@ -779,7 +846,6 @@
                     document.getElementById("cb-req-desc").removeEventListener("click", toggleHalfMedal);
                 }
 
-                switchsanity = p.switchsanity;
                 document.getElementById("selectGalleonWater").value = p.galleon_water;
                 document.getElementById("selectForestTime").value = p.fungi_time;
                 updateDisplay(p.name);
@@ -801,23 +867,29 @@
 
             function updateBarriers() {
                 barrier_data = {
-                    "switchJapesCoconut": [Moves.JapesCoconut],
-                    "switchJapesShellhive": [Moves.JapesShellhive],
+                    "selectJapesFreeKong": [Moves.JapesCoconut],
+                    "selectJapesShellhive": [Moves.JapesShellhive],
+                    "selectJapesDiddyCave": [Moves.JapesDiddyCave],
+                    "selectJapesPainting": [Moves.JapesPainting],
+                    "selectJapesRambi": [Moves.JapesRambi],
                     "switchAztecTunnel": [Moves.AztecTunnelDoor],
                     "switchAztec5DT": [Moves.Aztec5DT],
                     "switchAztecLlama": [Moves.AztecLlama],
+                    "selectAztecBlueprintDoor": [Moves.AztecBlueprintDoor],
+                    "selectAztecLlamaCoconut": [Moves.AztecLlamaCoconut],
+                    "selectAztecLlamaGrape": [Moves.AztecLlamaGrape],
+                    "selectAztecLlamaFeather": [Moves.AztecLlamaFeather],
+                    "selectAztecGuitar": [Moves.AztecGuitar],
                     "switchFactoryProd": [Moves.FactoryProduction],
                     "switchFactoryTesting": [Moves.FactoryTesting],
-                    "switchGalleonLighthouse": [Moves.GalleonLighthouse],
-                    "switchGalleonShipyard": [Moves.GalleonPeanut],
+                    "selectGalleonLighthouse": [Moves.GalleonLighthouse],
+                    "selectGalleonPeanut": [Moves.GalleonPeanut],
+                    "selectGalleonCannonGame": [Moves.GalleonCannonGame],
                     "switchGalleonSeasick": [Moves.GalleonShipSpawned],
-                    "switchForestGreen": [Moves.ForestGreenTunnelFeather, Moves.ForestGreenTunnelPineapple],
-                    "switchForestYellow": [Moves.ForestYellowTunnel],
                     "switchCavesIgloo": [Moves.CavesIglooPads],
-                    "switchForestDay": [Moves.Day],
-                    "switchForestNight": [Moves.Night],
-                    "switchGalleonLowered": [Moves.LoweredWater],
-                    "switchGalleonRaised": [Moves.RaisedWater],
+                    "selectForestGreenTunnelFeather": [Moves.ForestGreenTunnelFeather],
+                    "selectForestGreenTunnelPineapple": [Moves.ForestGreenTunnelPineapple],
+                    "selectForestYellowTunnel": [Moves.ForestYellowTunnel],
                     "switchAztecIce": [Moves.TinyTempleIce],
                     "switchGalleonTreasure": [Moves.GalleonTreasure],
                     "switchCavesWalls": [Moves.CavesIceWalls],
@@ -827,34 +899,44 @@
                     "switchSlam": [Moves.SlamCheck],
                 };
                 opened_barriers = []
+                switchsanity = new Map();
                 Object.keys(barrier_data).forEach(id => {
-                    const doc = document.getElementById(id);
-                    if (doc.checked) {
+                    const elem = document.getElementById(id);
+                    if (elem.checked || elem.value == "Opened") {
                         opened_barriers = opened_barriers.concat(barrier_data[id]);
+                    } else if (elem.type == "select-one") {
+                        const name = id.slice("select".length);
+                        if (elem.value == "Random") {
+                            switchsanity.set(Moves[name], Moves[name + "Random"]);
+                        } else if (elem.value == "Any Gun") {
+                            switchsanity.set(Moves[name], Moves.AnyGun);
+                        } else if (elem.value == "Any Instrument") {
+                            switchsanity.set(Moves[name], Moves.AnyInstrument);
+                        } else {
+                            switchsanity.set(Moves[name], Moves[elem.value]);
+                        }
                     }
                 });
+
+                const water_level = document.getElementById("selectGalleonWater").value;
+                opened_barriers.push(water_level == "High" ? Moves.RaisedWater : Moves.LoweredWater);
+
+                // Dusk and Progressive aren't locked to either time, so they open both barriers.
+                const time_of_day = document.getElementById("selectForestTime").value;
+                if (time_of_day != "Night") opened_barriers.push(Moves.Day);
+                if (time_of_day != "Day") opened_barriers.push(Moves.Night);
             }
             updateBarriers()
 
-            const barrier_toggles = document.getElementsByClassName("barrier-switch");
-            for (let b = 0; b < barrier_toggles.length; b++) {
-                barrier_toggles[b].addEventListener("change", (e) => {
-                    updateBarriers();
-                    getRequiredMoves();
-                    resetPresetHeader();
-                })
-            }
-            const barrier_selects = document.getElementsByClassName("barrier-select");
-            for (let b = 0; b < barrier_selects.length; b++) {
-                barrier_selects[b].addEventListener("change", (e) => {
-                    updateSelects();
+            for (let elem of document.querySelectorAll(".barrier-switch, .barrier-select, .switchsanity-select")) {
+                elem.addEventListener("change", (e) => {
                     updateBarriers();
                     getRequiredMoves();
                     resetPresetHeader();
                 })
             }
 
-            // The requirement_data structure (which used to live right here) is instead imported after this inline script, directly from the DK64-Randomizer repo.
+            // The requirement_data structure (which used to live right here) is instead imported after this inline script.
 
             // Verify that requirement_data has 100 CBs for each kong
             window.addEventListener('load', () => {
@@ -1023,13 +1105,6 @@
                         group.forEach(move_set => {
                             if (move_set == Moves.AllWarps) {
                                 // All Warps is off; this branch is unsatisfiable.
-                            } else if (move_set == Moves.IsDiddy || move_set == Moves.IsTiny) {
-                                // Since the Kong whose medal we're collecting is already assumed, these flags only represent using 
-                                // Diddy and Tiny's backlip to reach an area for another Kong. Currently this would only be used for 
-                                // Factory DK medal when climbing is shuffled, since you can skip the R&D ladders with the flippers
-                                // in order to reach the CBs in the power hut with DK.
-                                // But since there is no tag barrel between the R&D ladders and the Power Hut, this would break the 
-                                // Tag Anywhere assumption and is not actually in logic. So we can safely filter these out of the move list.
                             } else if (move_set.requires_moves) {
                                 if (!all_moves.includes(move_set)) {
                                     all_moves.push(move_set);

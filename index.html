@@ -27,12 +27,16 @@
             #preset_selector.pulse-select {
                 background-color: rgba(0, 255, 0, 0.1);
             }
+            /* Line the dropdowns up with each other by giving every label the same width. */
+            #barrierModal .input-group-text {
+                width: 10rem;
+            }
         </style>
     </head>
     <body>
         <!-- Toggles Modal -->
         <div class="modal fade" id="barrierModal" tabindex="-1" aria-labelledby="barrierModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                     <h1 class="modal-title fs-5" id="barrierModalLabel">Select opened barriers</h1>
@@ -56,7 +60,7 @@
                         <!-- Aztec Tunnel Door -->
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchAztecTunnel">
-                            <label class="form-check-label" for="switchAztecTunnel">Aztec Tunnel Door</label>
+                            <label class="form-check-label" for="switchAztecTunnel">Aztec Tunnel Door Opened</label>
                         </div>
                         <!-- Aztec 5DT Switches -->
                         <div class="form-check form-switch">
@@ -113,14 +117,14 @@
                                 Galleon Treasure Room Opened
                             </label>
                         </div>
-                        <!-- Galleon Water -->
-                        <div class="small">
-                            Galleon Water Setting
+                        <!-- Galleon Water Level -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectGalleonWater">Water Level</label>
+                            <select class="form-select barrier-select" id="selectGalleonWater">
+                                <option value="Low" selected>Lowered</option>
+                                <option value="High">Raised</option>
+                            </select>
                         </div>
-                        <select class="form-select barrier-select" id="selectGalleonWater">
-                            <option value="Low" selected>Lowered</option>
-                            <option value="High">Raised</option>
-                        </select>
                         <div class="form-check form-switch" hidden>
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchGalleonLowered" checked>
                             <label class="form-check-label" for="switchGalleonLowered">Galleon Low Water Access</label>
@@ -143,15 +147,15 @@
                             <label class="form-check-label" for="switchForestYellow">Fungi Yellow Tunnel Open</label>
                         </div>
                         <!-- Fungi Time of Day -->
-                        <div class="small">
-                            Fungi Time of Day Setting
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectForestTime">Time of Day</label>
+                            <select class="form-select barrier-select" id="selectForestTime">
+                                <option value="Day" selected>Day Start</option>
+                                <option value="Night">Night Start</option>
+                                <option value="Dusk">Dusk</option>
+                                <option value="Progressive">Progressive</option>
+                            </select>
                         </div>
-                        <select class="form-select barrier-select" id="selectForestTime">
-                            <option value="Day" selected>Day Start</option>
-                            <option value="Night">Night Start</option>
-                            <option value="Dusk">Dusk</option>
-                            <option value="Progressive">Progressive</option>
-                        </select>
                         <div class="form-check form-switch" hidden>
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchForestDay" checked>
                             <label class="form-check-label" for="switchForestDay">Fungi Daytime Access</label>
@@ -171,9 +175,7 @@
                         <!-- Caves Ice Walls -->
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchCavesWalls">
-                            <label class="form-check-label" for="switchCavesWalls">
-                                Caves Ice Walls punched
-                            </label>
+                            <label class="form-check-label" for="switchCavesWalls">Caves Ice Walls Punched</label>
                         </div>
                         <div class="mt-3">
                             <h5>Creepy Castle</h5>
@@ -190,21 +192,15 @@
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchClimbing">
-                            <label class="form-check-label" for="switchClimbing">
-                                Start with Climbing
-                            </label>
+                            <label class="form-check-label" for="switchClimbing">Start with Climbing</label>
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchAllWarps">
-                            <label class="form-check-label" for="switchAllWarps">
-                                Preactivate All Warps
-                            </label>
+                            <label class="form-check-label" for="switchAllWarps">Preactivate All Warps</label>
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchSlam">
-                            <label class="form-check-label" for="switchSlam">
-                                Start with Green Slam
-                            </label>
+                            <label class="form-check-label" for="switchSlam">Start with Green Slam</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -290,7 +286,7 @@
             </div>
             <div id="permutations"></div>
         </div>
-        
+
 
         <script>
             getMedalRequirement = () => {
@@ -854,7 +850,7 @@
                 })
             }
 
-            // The requirement_data structure (which used to live right here) is instead imported after this inline script, directly from the DK64-Randomizer repo.
+            // The requirement_data structure (which used to live right here) is instead imported after this inline script.
 
             // Verify that requirement_data has 100 CBs for each kong
             window.addEventListener('load', () => {

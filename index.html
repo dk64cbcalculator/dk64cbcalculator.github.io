@@ -620,11 +620,7 @@
                 return null;
             }
 
-            let custom_presets = [{
-                "key": "custom0",
-                "name": "Season 2 (Obsolete)",
-                "setstr": '32739|00|40'
-            }];
+            let custom_presets = [];
 
             function updateCookie() {
                 setCookie("customPresets", JSON.stringify(custom_presets), 365);
@@ -693,53 +689,81 @@
                 })
             }
 
+            // Persistent order for the barrier flags in custom settings strings, so that the UX can continue to develop freely.
+            const barrier_flags = [
+                "selectJapesFreeKong",      "selectJapesShellhive",     "switchAztecTunnel",    "switchAztec5DT",           "switchAztecLlama",
+                "switchAztecIce",           "switchFactoryProd",        "switchFactoryTesting", "selectGalleonLighthouse",  "selectGalleonPeanut",
+                "switchGalleonSeasick",     "switchGalleonTreasure",    "switchGalleonLowered", "switchGalleonRaised",      "switchForestGreen",
+                "selectForestYellowTunnel", "switchForestDay",          "switchForestNight",    "switchCavesIgloo",         "switchCavesWalls",
+                "switchCryptDoors",         "switchClimbing",           "switchAllWarps",       "switchSlam",               "selectForestGreenTunnelFeather",
+                "selectForestGreenTunnelPineapple",
+            ];
+
+            const switch_settings = [
+                "selectGalleonWater",               "selectForestTime",         "selectJapesFreeKong",      "selectJapesShellhive",     "selectJapesDiddyCave",
+                "selectJapesPainting",              "selectJapesRambi",         "selectAztecBlueprintDoor", "selectAztecLlamaCoconut",  "selectAztecLlamaGrape",
+                "selectAztecLlamaFeather",          "selectGalleonLighthouse",  "selectGalleonPeanut",      "selectGalleonCannonGame",  "selectForestGreenTunnelFeather",
+                "selectForestGreenTunnelPineapple", "selectForestYellowTunnel",  "selectAztecGuitar",
+            ];
+
             function convertSettingsToString() {
-                let switch_booleans = [];
-                let select_indexes = [];
                 let switch_str = 0;
-                const switches = document.getElementsByClassName("barrier-switch");
-                const selects = document.getElementsByClassName("barrier-select");
+                barrier_flags.forEach((id, index) => {
+                    const elem = document.getElementById(id);
+                    if (elem && elem.checked) { // Ignore deprecated flags
+                        switch_str |= (1 << index);
+                    }
+                });
+
+                const select_indexes = switch_settings.map(id => document.getElementById(id).selectedIndex);
+
                 const fullMedal = document.getElementById("cb-req-count").getAttribute("fullMedal");
                 const halfMedal = document.getElementById("cb-req-count").getAttribute("halfMedal");
-                for (let s = 0; s < switches.length; s++) {
-                    let boolean_val = switches[s].checked;
-                    switch_booleans.push(boolean_val);
-                    if (boolean_val) {
-                        switch_str |= (1 << s);
-                    }
-                }
-                for (let k = 0; k < selects.length; k++) {
-                    select_indexes.push(0);
-                    const k_options = selects[k].getElementsByTagName("option");
-                    for (let j = 0; j < k_options.length; j++) {
-                        if (k_options[j].getAttribute("value") == selects[k].value) {
-                            select_indexes[k] = j;
-                        }
-                    }
-                }
-                return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal || 0}`
+                return `${switch_str.toString(16)}|${select_indexes.join("")}|${fullMedal}|${halfMedal || 0}|1`
             }
 
             function parseCustomPreset(json) {
-                let preset = { name: json.name, barriers: [], switchsanity: new Map() }
+                let preset = { name: json.name, barriers: [], switchsanity: new Map() };
                 const segs = json.setstr.split("|");
+                const version = parseInt(segs[4]) || 0;
+                if (version > 1) return; // Unknown version 
 
                 // Toggles
-                const switches = document.getElementsByClassName("barrier-switch");
                 const raw_val = parseInt(segs[0], 16);
-                for (let i = 0; i < switches.length; i++) {
-                    const check = 1 << i;
-                    if (raw_val & check) {
-                        preset.barriers.push(switches[i].id);
+                barrier_flags.forEach((bit, index) => {
+                    if (raw_val & (1 << index)) {
+                        preset.barriers.push(bit);
                     }
+                });
+                // Legacy handling for green tunnel (now two flags)
+                if (preset.barriers.includes("switchForestGreen")) {
+                    preset.barriers.push("selectForestGreenTunnelFeather", "selectForestGreenTunnelPineapple");
                 }
 
-                // Selects
-                const selects = document.getElementsByClassName("barrier-select");
-                const optionValue = (select, digit) => select.options[parseInt(digit)]?.value ?? select.value;
-                preset.galleon_water = optionValue(selects[0], segs[1][0]);
-                preset.fungi_time = optionValue(selects[1], segs[1][1]);
+                switch_settings.forEach((id, index) => {
+                    if (index >= segs[1].length) return;
 
+                    const elem = document.getElementById(id);
+                    const value = elem.options[parseInt(segs[1][index])].value;
+                    const name = id.slice("select".length);
+
+                    if (id == "selectGalleonWater") {
+                        preset.galleon_water = value;
+                    } else if (id == "selectForestTime") {
+                        preset.fungi_time = value;
+                    } else if (value == "Opened") {
+                        preset.barriers.push(id);
+                    } else if (value == "Any Gun") {
+                        preset.switchsanity.set(Moves[name], Moves.AnyGun);
+                    } else if (value == "Any Instrument") {
+                        preset.switchsanity.set(Moves[name], Moves.AnyInstrument);
+                    } else if (value == "Random") {
+                        preset.switchsanity.set(Moves[name], Moves[name + "Random"]);
+                    } else {
+                        preset.switchsanity.set(Moves[name], Moves[value]);
+                    }
+                });
+                
                 // CB Count
                 preset.full_medal = parseInt(segs[2]);
                 preset.half_medal = parseInt(segs[3]);

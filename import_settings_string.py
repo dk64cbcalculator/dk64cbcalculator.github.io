@@ -17,23 +17,24 @@ from randomizer.Enums.Settings import ActivateAllBananaports, ClimbingStatus
 from randomizer.Enums.Types import Types
 
 BARRIERS = {
-    "japes_coconut_gates": "switchJapesCoconut",
-    "japes_shellhive_gate": "switchJapesShellhive",
-    "aztec_tunnel_door": "switchAztecTunnel",
-    "aztec_5dtemple_switches": "switchAztec5DT",
-    "aztec_llama_switches": "switchAztecLlama",
-    "aztec_tiny_temple_ice": "switchAztecIce",
-    "factory_production_room": "switchFactoryProd",
-    "factory_testing_gate": "switchFactoryTesting",
-    "galleon_lighthouse_gate": "switchGalleonLighthouse",
-    "galleon_shipyard_area_gate": "switchGalleonShipyard",
-    "galleon_seasick_ship": "switchGalleonSeasick",
-    "galleon_treasure_room": "switchGalleonTreasure",
-    "castle_crypt_doors": "switchCryptDoors",
-    "forest_green_tunnel": "switchForestGreen",
-    "forest_yellow_tunnel": "switchForestYellow",
-    "caves_igloo_pads": "switchCavesIgloo",
-    "caves_ice_walls": "switchCavesWalls",
+    "japes_coconut_gates": ["selectJapesFreeKong"],
+    "japes_shellhive_gate": ["selectJapesShellhive"],
+    "aztec_tunnel_door": ["switchAztecTunnel"],
+    "aztec_5dtemple_switches": ["switchAztec5DT"],
+    "aztec_llama_switches": ["switchAztecLlama"],
+    "aztec_tiny_temple_ice": ["switchAztecIce"],
+    "factory_production_room": ["switchFactoryProd"],
+    "factory_testing_gate": ["switchFactoryTesting"],
+    "galleon_lighthouse_gate": ["selectGalleonLighthouse"],
+    "galleon_shipyard_area_gate": ["selectGalleonPeanut"],
+    "galleon_seasick_ship": ["switchGalleonSeasick"],
+    "galleon_treasure_room": ["switchGalleonTreasure"],
+    "castle_crypt_doors": ["switchCryptDoors"],
+    # Both gates are controlled by the same settings toggle
+    "forest_green_tunnel": ["selectForestGreenTunnelFeather", "selectForestGreenTunnelPineapple"],
+    "forest_yellow_tunnel": ["selectForestYellowTunnel"],
+    "caves_igloo_pads": ["switchCavesIgloo"],
+    "caves_ice_walls": ["switchCavesWalls"],
 
     # Unused, but included so we can import accurately
     "helm_punch_gates": None,
@@ -138,7 +139,7 @@ def settings_to_config(settings):
     config["barriers"] = []
     for barrier in settings.remove_barriers_selected:
         if BARRIERS[barrier.name]:
-            config["barriers"].append(BARRIERS[barrier.name])
+            config["barriers"] += BARRIERS[barrier.name]
     if settings.activate_all_bananaports == ActivateAllBananaports.all:
         config["barriers"].append("switchAllWarps")
     if settings.climbing_status == ClimbingStatus.normal:

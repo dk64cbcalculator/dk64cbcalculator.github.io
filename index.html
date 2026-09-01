@@ -45,14 +45,29 @@
                     <div class="modal-body">
                         <h5>Jungle Japes</h5>
                         <!-- Japes Coconut Gates -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchJapesCoconut">
-                            <label class="form-check-label" for="switchJapesCoconut">Japes Coconut Gates</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesFreeKong">Coconut Gates</label>
+                            <select class="form-select switchsanity-select" id="selectJapesFreeKong"></select>
                         </div>
                         <!-- Japes Shellhive Gates -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchJapesShellhive">
-                            <label class="form-check-label" for="switchJapesShellhive">Japes Shellhive Gate</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesShellhive">Shellhive Gate</label>
+                            <select class="form-select switchsanity-select" id="selectJapesShellhive"></select>
+                        </div>
+                        <!-- Japes Peanut Gate -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesDiddyCave">Peanut Gate</label>
+                            <select class="form-select switchsanity-select" id="selectJapesDiddyCave"></select>
+                        </div>
+                        <!-- Japes Painting Room -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesPainting">Painting Room</label>
+                            <select class="form-select switchsanity-select" id="selectJapesPainting"></select>
+                        </div>
+                        <!-- Japes Rambi Cage -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectJapesRambi">Rambi Cage</label>
+                            <select class="form-select switchsanity-select" id="selectJapesRambi"></select>
                         </div>
                         <div class="mt-3">
                             <h5>Angry Aztec</h5>
@@ -79,6 +94,39 @@
                                 Aztec Tiny Temple Ice Melted
                             </label>
                         </div>
+                        <!-- Aztec Oasis Instrument Pad -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecGuitar">Instrument Pad</label>
+                            <select class="form-select switchsanity-select" id="selectAztecGuitar">
+                                <option>Bongos</option>
+                                <option selected>Guitar</option>
+                                <option>Trombone</option>
+                                <option>Sax</option>
+                                <option>Triangle</option>
+                                <option>Random</option>
+                                <option>Any Instrument</option>
+                            </select>
+                        </div>
+                        <!-- Aztec Stone Door -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecBlueprintDoor">Stone Door</label>
+                            <select class="form-select switchsanity-select" id="selectAztecBlueprintDoor"></select>
+                        </div>
+                        <!-- Aztec Llama Temple (Coconut) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecLlamaCoconut">Llama Temple</label>
+                            <select class="form-select switchsanity-select" id="selectAztecLlamaCoconut"></select>
+                        </div>
+                        <!-- Aztec Llama Temple (Grape) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecLlamaGrape">Llama Temple</label>
+                            <select class="form-select switchsanity-select" id="selectAztecLlamaGrape"></select>
+                        </div>
+                        <!-- Aztec Llama Temple (Feather) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectAztecLlamaFeather">Llama Temple</label>
+                            <select class="form-select switchsanity-select" id="selectAztecLlamaFeather"></select>
+                        </div>
                         <div class="mt-3">
                             <h5>Frantic Factory</h5>
                         </div>
@@ -96,14 +144,14 @@
                             <h5>Gloomy Galleon</h5>
                         </div>
                         <!-- Galleon Lighthouse Gate -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchGalleonLighthouse">
-                            <label class="form-check-label" for="switchGalleonLighthouse">Galleon Lighthouse Side Open</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectGalleonLighthouse">Lighthouse Gate</label>
+                            <select class="form-select switchsanity-select" id="selectGalleonLighthouse"></select>
                         </div>
                         <!-- Galleon Shipyard Gate -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchGalleonShipyard" checked>
-                            <label class="form-check-label" for="switchGalleonShipyard">Galleon Shipyard Side Open</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectGalleonPeanut">Shipyard Gate</label>
+                            <select class="form-select switchsanity-select" id="selectGalleonPeanut"></select>
                         </div>
                         <!-- Galleon Seasick Ship -->
                         <div class="form-check form-switch">
@@ -117,6 +165,11 @@
                                 Galleon Treasure Room Opened
                             </label>
                         </div>
+                        <!-- Galleon Cannon Game -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectGalleonCannonGame">Cannon Game</label>
+                            <select class="form-select switchsanity-select" id="selectGalleonCannonGame"></select>
+                        </div>
                         <!-- Galleon Water Level -->
                         <div class="input-group mb-2">
                             <label class="input-group-text" for="selectGalleonWater">Water Level</label>
@@ -128,15 +181,20 @@
                         <div class="mt-3">
                             <h5>Fungi Forest</h5>
                         </div>
-                        <!-- Fungi Green Tunnel -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchForestGreen">
-                            <label class="form-check-label" for="switchForestGreen">Fungi Green Tunnel Open</label>
+                        <!-- Fungi Green Tunnel (Feather) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectForestGreenTunnelFeather">Green Tunnel 1</label>
+                            <select class="form-select switchsanity-select" id="selectForestGreenTunnelFeather"></select>
+                        </div>
+                        <!-- Fungi Green Tunnel (Pineapple) -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectForestGreenTunnelPineapple">Green Tunnel 2</label>
+                            <select class="form-select switchsanity-select" id="selectForestGreenTunnelPineapple"></select>
                         </div>
                         <!-- Fungi Yellow Tunnel -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchForestYellow">
-                            <label class="form-check-label" for="switchForestYellow">Fungi Yellow Tunnel Open</label>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectForestYellowTunnel">Yellow Tunnel</label>
+                            <select class="form-select switchsanity-select" id="selectForestYellowTunnel"></select>
                         </div>
                         <!-- Fungi Time of Day -->
                         <div class="input-group mb-2">
@@ -468,6 +526,25 @@
             // Custom switchsanity barriers for this preset
             let switchsanity = new Map();
 
+            // Dropdowns whose gate can be removed outright, rather than only switched to a different gun.
+            const openableBarriers = ["selectJapesFreeKong", "selectJapesShellhive", "selectGalleonLighthouse", "selectGalleonPeanut",
+                "selectForestGreenTunnelFeather", "selectForestGreenTunnelPineapple", "selectForestYellowTunnel"];
+
+            for (let select of document.querySelectorAll(".switchsanity-select")) {
+                if (select.length > 0) continue; // Ignore any selectors which are prefilled (e.g. instrumentsanity)
+
+                let options = ["Coconut", "Peanut", "Grape", "Feather", "Pineapple", "Random", "Any Gun"];
+                if (openableBarriers.includes(select.id)) options.unshift("Opened");
+
+                const vanilla = Moves[select.id.slice("select".length)].barrier_moves[0].name;
+                for (let value of options) {
+                    const option = document.createElement("option");
+                    option.text = value;
+                    if (value == vanilla) option.defaultSelected = true;
+                    select.add(option);
+                }
+            }
+
             function getBarrierRequirement(barrier) {
                 if (barrier.is_barrier) {
                     if (opened_barriers.includes(barrier)) {
@@ -707,12 +784,29 @@
 
             function applySpecificPreset(p) {
                 const switches = document.getElementsByClassName("barrier-switch");
-                for (let s = 0; s < switches.length; s++) {
-                    switches[s].checked = false;
+                for (let elem of switches) {
+                    elem.checked = p.barriers.includes(elem.id);
                 }
-                p.barriers.forEach(barrier => {
-                    document.getElementById(barrier).checked = true;
-                })
+
+                const switchsanity_controls = document.getElementsByClassName("switchsanity-select");
+                for (let elem of switchsanity_controls) {
+                    if (p.barriers.includes(elem.id)) {
+                        // No need to track the switchsanity of an opened barrier
+                        elem.value = "Opened";
+                        continue;
+                    }
+
+                    const name = elem.id.slice("select".length);
+                    const switched_move = p.switchsanity.get(Moves[name])
+                    if (switched_move == undefined) {
+                        elem.value = Moves[name].barrier_moves[0].name;
+                    } else if (switched_move == Moves[name + "Random"]) {
+                        elem.value = "Random";
+                    } else {
+                        elem.value = switched_move.name;
+                    }
+                }
+
                 document.getElementById("cb-req-count").value = p.full_medal;
                 document.getElementById("cb-req-count").setAttribute("fullMedal", p.full_medal);
                 document.getElementById("cb-req-desc").innerText = "Medal Requirement";
@@ -726,7 +820,6 @@
                     document.getElementById("cb-req-desc").removeEventListener("click", toggleHalfMedal);
                 }
 
-                switchsanity = p.switchsanity;
                 document.getElementById("selectGalleonWater").value = p.galleon_water;
                 document.getElementById("selectForestTime").value = p.fungi_time;
                 updateDisplay(p.name);
@@ -748,19 +841,29 @@
 
             function updateBarriers() {
                 barrier_data = {
-                    "switchJapesCoconut": [Moves.JapesCoconut],
-                    "switchJapesShellhive": [Moves.JapesShellhive],
+                    "selectJapesFreeKong": [Moves.JapesCoconut],
+                    "selectJapesShellhive": [Moves.JapesShellhive],
+                    "selectJapesDiddyCave": [Moves.JapesDiddyCave],
+                    "selectJapesPainting": [Moves.JapesPainting],
+                    "selectJapesRambi": [Moves.JapesRambi],
                     "switchAztecTunnel": [Moves.AztecTunnelDoor],
                     "switchAztec5DT": [Moves.Aztec5DT],
                     "switchAztecLlama": [Moves.AztecLlama],
+                    "selectAztecBlueprintDoor": [Moves.AztecBlueprintDoor],
+                    "selectAztecLlamaCoconut": [Moves.AztecLlamaCoconut],
+                    "selectAztecLlamaGrape": [Moves.AztecLlamaGrape],
+                    "selectAztecLlamaFeather": [Moves.AztecLlamaFeather],
+                    "selectAztecGuitar": [Moves.AztecGuitar],
                     "switchFactoryProd": [Moves.FactoryProduction],
                     "switchFactoryTesting": [Moves.FactoryTesting],
-                    "switchGalleonLighthouse": [Moves.GalleonLighthouse],
-                    "switchGalleonShipyard": [Moves.GalleonPeanut],
+                    "selectGalleonLighthouse": [Moves.GalleonLighthouse],
+                    "selectGalleonPeanut": [Moves.GalleonPeanut],
+                    "selectGalleonCannonGame": [Moves.GalleonCannonGame],
                     "switchGalleonSeasick": [Moves.GalleonShipSpawned],
-                    "switchForestGreen": [Moves.ForestGreenTunnelFeather, Moves.ForestGreenTunnelPineapple],
-                    "switchForestYellow": [Moves.ForestYellowTunnel],
                     "switchCavesIgloo": [Moves.CavesIglooPads],
+                    "selectForestGreenTunnelFeather": [Moves.ForestGreenTunnelFeather],
+                    "selectForestGreenTunnelPineapple": [Moves.ForestGreenTunnelPineapple],
+                    "selectForestYellowTunnel": [Moves.ForestYellowTunnel],
                     "switchAztecIce": [Moves.TinyTempleIce],
                     "switchGalleonTreasure": [Moves.GalleonTreasure],
                     "switchCavesWalls": [Moves.CavesIceWalls],
@@ -770,10 +873,22 @@
                     "switchSlam": [Moves.SlamCheck],
                 };
                 opened_barriers = []
+                switchsanity = new Map();
                 Object.keys(barrier_data).forEach(id => {
-                    const doc = document.getElementById(id);
-                    if (doc.checked) {
+                    const elem = document.getElementById(id);
+                    if (elem.checked || elem.value == "Opened") {
                         opened_barriers = opened_barriers.concat(barrier_data[id]);
+                    } else if (elem.type == "select-one") {
+                        const name = id.slice("select".length);
+                        if (elem.value == "Random") {
+                            switchsanity.set(Moves[name], Moves[name + "Random"]);
+                        } else if (elem.value == "Any Gun") {
+                            switchsanity.set(Moves[name], Moves.AnyGun);
+                        } else if (elem.value == "Any Instrument") {
+                            switchsanity.set(Moves[name], Moves.AnyInstrument);
+                        } else {
+                            switchsanity.set(Moves[name], Moves[elem.value]);
+                        }
                     }
                 });
 
@@ -787,17 +902,8 @@
             }
             updateBarriers()
 
-            const barrier_toggles = document.getElementsByClassName("barrier-switch");
-            for (let b = 0; b < barrier_toggles.length; b++) {
-                barrier_toggles[b].addEventListener("change", (e) => {
-                    updateBarriers();
-                    getRequiredMoves();
-                    resetPresetHeader();
-                })
-            }
-            const barrier_selects = document.getElementsByClassName("barrier-select");
-            for (let b = 0; b < barrier_selects.length; b++) {
-                barrier_selects[b].addEventListener("change", (e) => {
+            for (let elem of document.querySelectorAll(".barrier-switch, .barrier-select, .switchsanity-select")) {
+                elem.addEventListener("change", (e) => {
                     updateBarriers();
                     getRequiredMoves();
                     resetPresetHeader();

@@ -112,8 +112,8 @@ class Logic(LogicVarHolder):
         return self.swim
 
     def CanOpenJapesGates(self):
-        """Quality of life improvement from rando."""
-        return True
+        """Check if we can pick up the item inside Diddy's cage, thus opening the gates in Japes."""
+        return self.hasMoveSwitchsanity(Switches.JapesFreeKong)
 
     def IsBossReachable(self, level):
         """Not strictly necessary (there aren't CBs inside boss rooms) but allows for assumed tagging inside boss rooms."""
@@ -267,6 +267,7 @@ class MockRegion:
     def __init__(self, region_id):
         """Initialize the MockRegion with a region ID."""
         self.events = collections.defaultdict(SetOfSets)
+        self.barriers = collections.defaultdict(SetOfSets)
         self.cbs = collections.defaultdict(SetOfSets)
         self.exits = collections.defaultdict(SetOfSets)
         self.warps = {}
@@ -336,6 +337,47 @@ def all_kongs_can_use(requirement):
     return requirement.isdisjoint(["isdonkey", "isdiddy", "islanky", "istiny", "ischunky"])
 
 
+def simplify_requirement(requirement, kong=None):
+    """Drop any requirements which are already implied by the rest of the requirement.
+
+    A couple of the cases only apply once we know who is doing the collecting, so they are skipped
+    for barriers, which anybody can open.
+    """
+    # Special case #1: We require "night" and "day" separately from guns, but they are overlapping.
+    # If the requirement contains night or day access *and* one of the 5 guns, remove night/day.
+    if requirement.intersection({"coconut", "peanut", "grape", "feather", "pineapple"}):
+        requirement.discard(Events.Night)
+        requirement.discard(Events.Day)
+    # Special case #2: We require "levelSlam" (i.e. switch color) separately from just "slam" (i.e. pounding a box).
+    # If the requirement contains both, just report levelSlam (the more restrictive requirement)
+    if requirement.intersection({"levelSlam"}):
+        requirement.discard("Slam")
+    # Special case #3: We assume Enguarde is available if lanky is available.
+    if kong == Kongs.lanky:
+        requirement.discard(Events.ShipyardEnguarde)
+        requirement.discard(Events.LighthouseEnguarde)
+    # Special case #4: We assume kongs are implied if any kong-specific moves are required.
+    if requirement.intersection({"coconut", "bongos", "grab", "strongKong", "blast"}):
+        requirement.discard("isdonkey")
+        requirement.discard("donkey")
+    if requirement.intersection({"peanut", "guitar", "charge", "jetpack", "spring"}):
+        requirement.discard("isdiddy")
+        requirement.discard("diddy")
+    if requirement.intersection({"grape", "trombone", "handstand", "sprint", "balloon"}):
+        requirement.discard("islanky")
+        requirement.discard("lanky")
+    if requirement.intersection({"feather", "saxophone", "twirl", "mini", "monkeyport"}):
+        requirement.discard("istiny")
+        requirement.discard("tiny")
+    if requirement.intersection({"pineapple", "triangle", "punch", "hunkyChunky", "gorillaGone"}):
+        requirement.discard("ischunky")
+        requirement.discard("chunky")
+    # Special case #5: We assume kongs are implied for their own CBs
+    if kong is not None:
+        requirement.discard("is" + kong.name.lower())
+        requirement.discard(kong.name.lower())
+
+
 def flatten_graph(region_logic, region_bananas, requirements):
     """Stage 1 of computation: Convert the raw data formats.
 
@@ -361,13 +403,13 @@ def flatten_graph(region_logic, region_bananas, requirements):
     for region_id, region in region_logic.items():
         for event in region.events:
             if event.name in requirements:
-                regions[region_id].events[event.name] = SetOfSets()
-                continue  # Events which are explicitly listed as requirements shouldn't be satisfiable
+                regions[region_id].events[event.name] = SetOfSets()  # Events which are explicitly listed as requirements shouldn't be satisfiable,
+                events.append((regions[region_id].barriers, event))  # but we still add them to the main event list so we can determine their requirements.
             elif event.logic(no_requirements):
                 regions[region_id].events[event.name].add(set())
                 event_names.add(event.name)
             else:
-                events.append((region_id, event))
+                events.append((regions[region_id].events, event))
                 event_names.add(event.name)
 
     # For the purposes of further graph flattening, allow events as requirements, but don't modify the original list.
@@ -376,9 +418,9 @@ def flatten_graph(region_logic, region_bananas, requirements):
     print("Computing event requirements")
     for requirement in possible_requirements({*requirements, *event_names}):  # Events may be requirements for other events
         l = Logic(requirement)
-        for region_id, event in events:
+        for event_requirements, event in events:
             if event.logic(l):
-                if regions[region_id].events[event.name].add(requirement):
+                if event_requirements[event.name].add(requirement):
                     # print(f"Event {event.name.name} in region {region.name} is directly possible using requirement {requirement}")
                     pass
 
@@ -614,7 +656,7 @@ def traverse_graph(regions, entry_region):
 
 
 def compute_cb_requirements(regions, region_requirements):
-    """Stage 3: Compute the requirements to reach each CB/Bunch/Balloon.
+    """Stage 3a: Compute the requirements to reach each CB/Bunch/Balloon.
 
     We already parsed out the relevant collectible objects during our flatten_graph prepass.
     Now, it's time to actually make the magic happen, and use our knowledge of region and
@@ -638,38 +680,7 @@ def compute_cb_requirements(regions, region_requirements):
                         # print(f"Region requirement {region_requirement} for region {region.name} does not include kong {cb.kong.name}, skipping {cb.amount} {cb.type.name}")
                         continue
 
-                    # Special case #1: We require "night" and "day" separately from guns, but they are overlapping.
-                    # If the requirement contains night or day access *and* one of the 5 guns, remove night/day.
-                    if requirement.intersection({"coconut", "peanut", "grape", "feather", "pineapple"}):
-                        requirement.discard(Events.Night)
-                        requirement.discard(Events.Day)
-                    # Special case #2: We require "levelSlam" (i.e. switch color) separately from just "slam" (i.e. pounding a box).
-                    # If the requirement contains both, just report levelSlam (the more restrictive requirement)
-                    if requirement.intersection({"levelSlam"}):
-                        requirement.discard("Slam")
-                    # Special case #3: We assume Enguarde is available if lanky is available.
-                    if cb.kong == Kongs.lanky:
-                        requirement.discard(Events.ShipyardEnguarde)
-                        requirement.discard(Events.LighthouseEnguarde)
-                    # Special case #4: We assume kongs are implied if any kong-specific moves are required.
-                    if requirement.intersection({"coconut", "bongos", "grab", "strongKong", "blast"}):
-                        requirement.discard("isdonkey")
-                        requirement.discard("donkey")
-                    if requirement.intersection({"peanut", "guitar", "charge", "jetpack", "spring"}):
-                        requirement.discard("isdiddy")
-                        requirement.discard("diddy")
-                    if requirement.intersection({"grape", "trombone", "handstand", "sprint", "balloon"}):
-                        requirement.discard("islanky")
-                        requirement.discard("lanky")
-                    if requirement.intersection({"feather", "saxophone", "twirl", "mini", "monkeyport"}):
-                        requirement.discard("istiny")
-                        requirement.discard("tiny")
-                    if requirement.intersection({"pineapple", "triangle", "punch", "hunkyChunky", "gorillaGone"}):
-                        requirement.discard("ischunky")
-                        requirement.discard("chunky")
-                    # Special case #5: We assume kongs are implied for their own CBs
-                    requirement.discard("is" + cb.kong.name.lower())
-                    requirement.discard(cb.kong.name.lower())
+                    simplify_requirement(requirement, cb.kong)
 
                     # Finally, once we're done processing all the hacks, add the requirements.
                     requirements_crossproduct.add(requirement)
@@ -680,6 +691,28 @@ def compute_cb_requirements(regions, region_requirements):
             all_cb_requirements[cb.kong][requirements_crossproduct].append((cb, region))
 
     return all_cb_requirements
+
+
+def compute_barrier_requirements(regions, region_requirements):
+    """Stage 3b: Compute the requirements to open each barrier.
+
+    Barriers are specially handled during the loop -- they are added as "unsatisfiable",
+    so that CBs locked behind a barrier will report the barrier itself as a specific requirement.
+    However, we did accumulate their requirements during the main loop,
+    so we can compute the cross-product (just like CBs) to determine the full requirements here.
+    """
+    print("Computing barrier requirements")
+    all_barrier_requirements = collections.defaultdict(SetOfSets)
+    for region in region_requirements:
+        # The same barrier can live in several regions, so every way of opening it accumulates together.
+        for barrier, barrier_requirements in regions[region].barriers.items():
+            for barrier_requirement in barrier_requirements:
+                for region_requirement in region_requirements[region]:
+                    requirement = barrier_requirement | region_requirement
+                    simplify_requirement(requirement)
+                    all_barrier_requirements[barrier].add(requirement)
+
+    return all_barrier_requirements
 
 
 def to_javascript(cb_requirements, special_requirements):
@@ -798,6 +831,7 @@ LEVELS = [
             Switches.JapesRambi: "JapesRambi",
             Switches.JapesPainting: "JapesPainting",
             Switches.JapesDiddyCave: "JapesDiddyCave",
+            Switches.JapesFreeKong: "JapesFreeKong",
             Locations.JapesDiddyMountain: "JapesW5Bonus",  # Not actually required for any CBs, but used by interim logic
         },
     },

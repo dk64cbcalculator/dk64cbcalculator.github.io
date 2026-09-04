@@ -833,7 +833,7 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
     are merely hard-coded in the HTML, since there's very little risk of drift.
     """
     # Note: Order matters here -- some barriers depend on each other.
-    BARRIER_NAMES = {
+    barrier_names = {
         # Japes
         Events.JapesFreeKongOpenGates: "Japes Coconut Gates",
         # Aztec
@@ -857,7 +857,7 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
     move_map_values = list(move_map.values())
 
     output = ""
-    for barrier, barrier_name in BARRIER_NAMES.items():
+    for barrier, barrier_name in barrier_names.items():
         if barrier not in barrier_requirements:
             continue
 

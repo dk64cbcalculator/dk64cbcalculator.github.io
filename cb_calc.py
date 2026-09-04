@@ -715,6 +715,23 @@ def compute_barrier_requirements(regions, region_requirements):
     return all_barrier_requirements
 
 
+MOVE_MAP = {
+    **{"can_use_vines": "Vines", "swim": "Diving", "oranges": "Oranges", "barrels": "Barrels", "climbing": "ClimbingCheck"},
+    **{"Slam": "SlamCheck", "levelSlam": "LevelSlam"},
+    # Kong-specific
+    **{"coconut": "Coconut", "bongos": "Bongos", "grab": "Grab", "strongKong": "Strong", "blast": "Blast"},
+    **{"peanut": "Peanut", "guitar": "Guitar", "charge": "Charge", "jetpack": "Rocket", "spring": "Spring"},
+    **{"grape": "Grape", "trombone": "Trombone", "handstand": "Orangstand", "sprint": "Sprint", "balloon": "Balloon"},
+    **{"feather": "Feather", "saxophone": "Sax", "twirl": "Twirl", "mini": "Mini", "monkeyport": "Monkeyport"},
+    **{"pineapple": "Pineapple", "triangle": "Triangle", "punch": "Punch", "hunkyChunky": "Hunky", "gorillaGone": "Gone"},
+    # Kongs
+    **{"donkey": "Donkey", "diddy": "Diddy", "lanky": "Lanky", "tiny": "Tiny", "chunky": "Chunky"},
+    **{"isdonkey": "IsDonkey", "isdiddy": "IsDiddy", "islanky": "IsLanky", "istiny": "IsTiny", "ischunky": "IsChunky"},
+    # Global settings
+    **{"AllWarps": "AllWarps"},
+}
+
+
 def cbs_to_javascript(cb_requirements, special_requirements):
     """Stage 4a: Generate the output for the HTML front-end.
 
@@ -728,21 +745,7 @@ def cbs_to_javascript(cb_requirements, special_requirements):
     """
     # The javascript code uses slightly different names for kongs and moves.
     kong_map = {Kongs.donkey: "DK", Kongs.diddy: "Diddy", Kongs.lanky: "Lanky", Kongs.tiny: "Tiny", Kongs.chunky: "Chunky"}
-    move_map = {
-        **{"can_use_vines": "Vines", "swim": "Diving", "oranges": "Oranges", "barrels": "Barrels", "climbing": "ClimbingCheck"},
-        **{"Slam": "SlamCheck", "levelSlam": "LevelSlam"},
-        # Kong-specific
-        **{"coconut": "Coconut", "bongos": "Bongos", "grab": "Grab", "strongKong": "Strong", "blast": "Blast"},
-        **{"peanut": "Peanut", "guitar": "Guitar", "charge": "Charge", "jetpack": "Rocket", "spring": "Spring"},
-        **{"grape": "Grape", "trombone": "Trombone", "handstand": "Orangstand", "sprint": "Sprint", "balloon": "Balloon"},
-        **{"feather": "Feather", "saxophone": "Sax", "twirl": "Twirl", "mini": "Mini", "monkeyport": "Monkeyport"},
-        **{"pineapple": "Pineapple", "triangle": "Triangle", "punch": "Punch", "hunkyChunky": "Hunky", "gorillaGone": "Gone"},
-        # Kongs
-        **{"donkey": "Donkey", "diddy": "Diddy", "lanky": "Lanky", "tiny": "Tiny", "chunky": "Chunky"},
-        **{"isdonkey": "IsDonkey", "isdiddy": "IsDiddy", "islanky": "IsLanky", "istiny": "IsTiny", "ischunky": "IsChunky"},
-        # Global settings
-        **{"AllWarps": "AllWarps"},
-    }
+    move_map = dict(MOVE_MAP)
     move_map.update(special_requirements)
     move_map_keys = list(move_map.keys())
     move_map_values = list(move_map.values())
@@ -829,22 +832,22 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
     However, not all barriers are converted in this way -- some of the simpler requirements
     are merely hard-coded in the HTML, since there's very little risk of drift.
     """
-    # The javascript code uses slightly different names for moves.
-    move_map = {
-        **{"can_use_vines": "Vines", "swim": "Diving", "oranges": "Oranges", "barrels": "Barrels", "climbing": "ClimbingCheck"},
-        **{"Slam": "SlamCheck", "levelSlam": "LevelSlam"},
-        # Kong-specific
-        **{"coconut": "Coconut", "bongos": "Bongos", "grab": "Grab", "strongKong": "Strong", "blast": "Blast"},
-        **{"peanut": "Peanut", "guitar": "Guitar", "charge": "Charge", "jetpack": "Rocket", "spring": "Spring"},
-        **{"grape": "Grape", "trombone": "Trombone", "handstand": "Orangstand", "sprint": "Sprint", "balloon": "Balloon"},
-        **{"feather": "Feather", "saxophone": "Sax", "twirl": "Twirl", "mini": "Mini", "monkeyport": "Monkeyport"},
-        **{"pineapple": "Pineapple", "triangle": "Triangle", "punch": "Punch", "hunkyChunky": "Hunky", "gorillaGone": "Gone"},
-        # Kongs
-        **{"donkey": "Donkey", "diddy": "Diddy", "lanky": "Lanky", "tiny": "Tiny", "chunky": "Chunky"},
-        **{"isdonkey": "IsDonkey", "isdiddy": "IsDiddy", "islanky": "IsLanky", "istiny": "IsTiny", "ischunky": "IsChunky"},
-        # Global settings
-        **{"AllWarps": "AllWarps"},
+    # Note: Order matters here -- some barriers depend on each other.
+    BARRIER_NAMES = {
+        Events.JapesFreeKongOpenGates: "Japes Coconut Gates",
+        Events.AztecGuitarPad: "Aztec Tunnel Door",
+        Events.FedTotem: "Aztec 5DT Switches",
+        Events.LlamaFreed: "Aztec Llama Switch",
+        Events.AztecIceMelted: "Tiny Temple Ice Melted",
+        Events.TestingGateOpened: "Testing Side Open",
+        Events.MainCoreActivated: "Production Room On",
+        Events.WaterRaised: "Galleon Raised Water",
+        Events.WaterLowered: "Galleon Lowered Water",
+        Events.ActivatedLighthouse: "Ship Spawned",
+        Events.ShipyardTreasureRoomOpened: "Treasure Room Open",
     }
+
+    move_map = dict(MOVE_MAP)
     move_map.update(special_requirements)
     move_map_keys = list(move_map.keys())
     move_map_values = list(move_map.values())
@@ -869,25 +872,17 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
             move_names = ", ".join(("Moves." + move_map_values[c] for c in converted_requirement))
             moves.append(f"[{move_names}]")
 
-        output += f'Moves.{move_map[barrier]} = new Moves("{barrier_name}", true, [' + ", ".join(moves) + "], true);\n"
+        output += f'Moves.{move_map[barrier]} = new Moves("{barrier_name}", true, '
+        if len(moves) == 1:
+            output += f"[{moves[0]}], true);\n"
+        else:
+            output += "[\n"
+            for move in moves:
+                output += f"    {move}" + ",\n"
+            output += "], true);\n"
 
     return output
 
-
-# Note: Order matters here -- some barriers depend on each other.
-BARRIER_NAMES = {
-    Events.JapesFreeKongOpenGates: "Japes Coconut Gates",
-    Events.AztecGuitarPad: "Aztec Tunnel Door",
-    Events.FedTotem: "Aztec 5DT Switches",
-    Events.LlamaFreed: "Aztec Llama Switch",
-    Events.AztecIceMelted: "Tiny Temple Ice Melted",
-    Events.TestingGateOpened: "Testing Side Open",
-    Events.MainCoreActivated: "Production Room On",
-    Events.WaterRaised: "Galleon Raised Water",
-    Events.WaterLowered: "Galleon Lowered Water",
-    Events.ActivatedLighthouse: "Ship Spawned",
-    Events.ShipyardTreasureRoomOpened: "Treasure Room Open",
-}
 
 LEVELS = [
     {
@@ -1007,12 +1002,11 @@ if __name__ == "__main__":
 
         print("\tFinished level", level["name"])
 
+        barrier_output += barriers_to_javascript(barrier_requirements, level["special_requirements"])
+
         cb_output += f'    "{level["name"]}": {{\n'
         cb_output += cbs_to_javascript(cb_requirements, level["special_requirements"])
         cb_output += "    },\n"
-
-        barrier_output += barriers_to_javascript(barrier_requirements, level["special_requirements"])
-
 
     cb_output += "}\n"
     with open("barrier_data.js", "w") as f:

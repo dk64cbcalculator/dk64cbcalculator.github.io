@@ -7,5 +7,5 @@ Moves.FactoryTesting = new Moves("Testing Side Open", true, [[Moves.SlamCheck]],
 Moves.FactoryProduction = new Moves("Production Room On", true, [[Moves.ClimbingCheck, Moves.Coconut, Moves.Grab, Moves.AllWarps], [Moves.ClimbingCheck, Moves.Coconut, Moves.Grab, Moves.FactoryTesting]], true);
 Moves.RaisedWater = new Moves("Galleon Raised Water", true, [[Moves.Diving, Moves.AllWarps], [Moves.Diving, Moves.GalleonLighthouse]], true);
 Moves.LoweredWater = new Moves("Galleon Lowered Water", true, [[Moves.Diving, Moves.AllWarps], [Moves.Diving, Moves.GalleonLighthouse]], true);
-Moves.GalleonShipSpawned = new Moves("Ship Spawned", true, [[Moves.ClimbingCheck, Moves.LevelSlam, Moves.Grab, Moves.AllWarps], [Moves.ClimbingCheck, Moves.LevelSlam, Moves.Grab, Moves.GalleonLighthouse, Moves.RaisedWater]], true);
-Moves.GalleonTreasure = new Moves("Treasure Room Open", true, [[Moves.AllWarps, Moves.Enguarde, Moves.RaisedWater], [Moves.Enguarde, Moves.GalleonPeanut, Moves.RaisedWater]], true);
+Moves.GalleonShipSpawned = new Moves("Ship Spawned", true, [[Moves.ClimbingCheck, Moves.LevelSlam, Moves.Grab, Moves.AllWarps], [Moves.ClimbingCheck, Moves.LevelSlam, Moves.Grab, Moves.RaisedWater, Moves.GalleonLighthouse]], true);
+Moves.GalleonTreasure = new Moves("Treasure Room Open", true, [[Moves.AllWarps, Moves.RaisedWater, Moves.Enguarde], [Moves.RaisedWater, Moves.GalleonPeanut, Moves.Enguarde]], true);

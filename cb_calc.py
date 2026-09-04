@@ -897,12 +897,12 @@ LEVELS = [
         "entry_region": Regions.JungleJapesEntryHandler,
         "special_requirements": {
             Events.JapesFreeKongOpenGates: "JapesCoconut",
-            Locations.JapesDiddyMountain: "JapesW5Bonus",  # Not actually required for any CBs, but used by interim logic
-            Switches.JapesDiddyCave: "JapesDiddyCave",
-            Switches.JapesFeather: "JapesShellhive",
             Switches.JapesFreeKong: "JapesFreeKong",
-            Switches.JapesPainting: "JapesPainting",
+            Switches.JapesFeather: "JapesShellhive",
             Switches.JapesRambi: "JapesRambi",
+            Switches.JapesPainting: "JapesPainting",
+            Switches.JapesDiddyCave: "JapesDiddyCave",
+            Locations.JapesDiddyMountain: "JapesW5Bonus",  # Not actually required for any CBs, but used by interim logic
         },
     },
     {
@@ -913,16 +913,16 @@ LEVELS = [
         "entry_region": Regions.AngryAztecOasis,
         "special_requirements": {
             Events.AztecGuitarPad: "AztecTunnelDoor",
+            Switches.AztecGuitar: "AztecGuitar",
+            Events.LlamaFreed: "AztecLlama",
+            Switches.AztecBlueprintDoor: "AztecBlueprintDoor",
+            Switches.AztecLlamaCoconut: "AztecLlamaCoconut",
+            Switches.AztecLlamaGrape: "AztecLlamaGrape",
+            Switches.AztecLlamaFeather: "AztecLlamaFeather",
+            Switches.AztecQuicksandSwitch: "AztecQuicksandSwitch",
             Events.AztecIceMelted: "TinyTempleIce",
             Events.FedTotem: "Aztec5DT",
-            Events.LlamaFreed: "AztecLlama",
             Locations.AztecDonkeyQuicksandCave: "AztecW5Bonus",
-            Switches.AztecBlueprintDoor: "AztecBlueprintDoor",
-            Switches.AztecGuitar: "AztecGuitar",
-            Switches.AztecLlamaCoconut: "AztecLlamaCoconut",
-            Switches.AztecLlamaFeather: "AztecLlamaFeather",
-            Switches.AztecLlamaGrape: "AztecLlamaGrape",
-            Switches.AztecQuicksandSwitch: "AztecQuicksandSwitch",
         },
     },
     {
@@ -931,8 +931,8 @@ LEVELS = [
         "bananas": FactoryBananas,
         "entry_region": Regions.FranticFactoryEntryHandler,
         "special_requirements": {
-            Events.MainCoreActivated: "FactoryProduction",
             Events.TestingGateOpened: "FactoryTesting",
+            Events.MainCoreActivated: "FactoryProduction",
         },
     },
     {
@@ -941,16 +941,16 @@ LEVELS = [
         "bananas": GalleonBananas,
         "entry_region": Regions.GloomyGalleonEntryHandler,
         "special_requirements": {
-            Events.ActivatedLighthouse: "GalleonShipSpawned",
-            Events.LighthouseEnguarde: "Enguarde",
-            Events.LighthouseGateOpened: "GalleonLighthouse",
-            Events.ShipyardEnguarde: "Enguarde",
-            Events.ShipyardGateOpened: "GalleonPeanut",
-            Events.ShipyardTreasureRoomOpened: "GalleonTreasure",
-            Events.WaterLowered: "LoweredWater",
             Events.WaterRaised: "RaisedWater",
-            Locations.GalleonDiddyGoldTower: "DiddyGoldTower",
+            Events.WaterLowered: "LoweredWater",
+            Events.LighthouseGateOpened: "GalleonLighthouse",
+            Events.ShipyardGateOpened: "GalleonPeanut",
+            Events.ActivatedLighthouse: "GalleonShipSpawned",
+            Events.ShipyardTreasureRoomOpened: "GalleonTreasure",
+            Events.ShipyardEnguarde: "Enguarde",
+            Events.LighthouseEnguarde: "Enguarde",
             Switches.GalleonCannonGame: "GalleonCannonGame",
+            Locations.GalleonDiddyGoldTower: "DiddyGoldTower",
         },
     },
     {
@@ -959,12 +959,12 @@ LEVELS = [
         "bananas": ForestBananas,
         "entry_region": Regions.FungiForestEntryHandler,
         "special_requirements": {
+            Events.Night: "Night",
             Events.Day: "Day",
             Events.HollowTreeGateOpened: "ForestYellowTunnel",
-            Events.MushroomCannonsSpawned: "CheckOfLegends",
-            Events.Night: "Night",
             Switches.FungiGreenFeather: "ForestGreenTunnelFeather",
             Switches.FungiGreenPineapple: "ForestGreenTunnelPineapple",
+            Events.MushroomCannonsSpawned: "CheckOfLegends",
         },
     },
     {
@@ -973,9 +973,9 @@ LEVELS = [
         "bananas": CavesBananas,
         "entry_region": Regions.CrystalCavesEntryHandler,
         "special_requirements": {
-            Locations.CavesTinyCaveBarrel: "CavesW3Bonus",
             RemovedBarriersSelected.caves_ice_walls: "CavesIceWalls",
             RemovedBarriersSelected.caves_igloo_pads: "CavesIglooPads",
+            Locations.CavesTinyCaveBarrel: "CavesW3Bonus",
         },
     },
     {

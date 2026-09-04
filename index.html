@@ -1074,7 +1074,7 @@
                         })
 
                         // Small bugfix: There may be multiple requirements to get an item. If one of those requirements
-                        // is completely satisfied by presets, it becomes moveless and should compleetely erase all other requirements.
+                        // is completely satisfied by presets, it becomes moveless and should completely erase all other requirements.
                         // For example, some Lanky CBs in Fungi require [[Climbing], [Balloon]], but when Climbing is in the preset,
                         // we should never consider them to logically require Balloon.
                         // Thus, if we detect that any requirement group became moveless, we remove all other requirements.

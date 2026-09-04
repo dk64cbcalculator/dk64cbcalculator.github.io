@@ -378,6 +378,8 @@
                 // Kongs
                 static Diddy = new Moves("Diddy");
                 static Enguarde = new Moves("Enguarde");
+                static IsDiddy = new Moves("Diddy");
+                static IsTiny = new Moves("Tiny");
                 // Special Moves
                 static Strong = new Moves("Strong Kong");
                 static Blast = new Moves("Baboon Blast");
@@ -406,23 +408,19 @@
                 static Grape = new Moves.GunMove("Grape");
                 static Feather = new Moves.GunMove("Feather");
                 static Pineapple = new Moves.GunMove("Pineapple");
+                static CheckOfLegends = new Moves.GunMove("All 5 Guns");
+                static AnyGun = new Moves("Any Gun");
                 // Instruments
                 static Bongos = new Moves.InstrumentMove("Bongos");
                 static Guitar = new Moves.InstrumentMove("Guitar");
                 static Trombone = new Moves.InstrumentMove("Trombone");
                 static Sax = new Moves.InstrumentMove("Sax");
                 static Triangle = new Moves.InstrumentMove("Triangle");
-                // Misc Events
+                static AnyInstrument = new Moves("Any Instrument");
+                // Warps
                 static AztecW5Bonus = new Moves("Aztec Warp 5 Bonus Barrel");
                 static CavesW3Bonus = new Moves("Caves Warp 3 Bonus Barrel");
-                static AnyGun = new Moves("Any Gun");
-                static AnyInstrument = new Moves("Any Instrument");
-                static CheckOfLegends = new Moves.GunMove("All 5 Guns");
-
-                // Climbing
-                static ClimbingCheck = new Moves("Climbing", true, [[Moves.Climbing]], true); // Had to move this above the Barriers since JapesCoconut requires climbing
-                // Green Slam
-                static SlamCheck = new Moves("Green Slam", true, [[Moves.Slam]], true); // Above the Barriers since FactoryTesting requires a slam
+                static AllWarps = new Moves("Preactivate All Warps");
 
                 // Switchsanity (non-randomized)
                 static JapesRambi = new Moves("Rambi Cage Gun", true, [[Moves.Coconut]], true);
@@ -457,26 +455,23 @@
                 static ForestGreenTunnelPineappleRandom = new Moves.GunMove("Green Tunnel Gun 2");
 
                 // Barriers
+                static ClimbingCheck = new Moves("Climbing", true, [[Moves.Climbing]], true);
+                static SlamCheck = new Moves("Green Slam", true, [[Moves.Slam]], true);
                 static JapesShellhive = new Moves("Japes Shellhive Gate", true, [[Moves.Feather]], true);
                 static GalleonLighthouse = new Moves("Lighthouse Side Open", true, [[Moves.Coconut]], true);
                 static GalleonPeanut = new Moves("Shipyard Side Open", true, [[Moves.Peanut]], true);
                 static ForestGreenTunnelPineapple = new Moves("Green Tunnel Opened (Pineapple)", true, [[Moves.Pineapple]], true);
                 static ForestGreenTunnelFeather = new Moves("Green Tunnel Opened (Feather)", true, [[Moves.Feather]], true);
                 static ForestYellowTunnel = new Moves("Yellow Tunnel Opened", true, [[Moves.Grape]], true);
-                static CavesIglooPads = new Moves("Caves Igloo Pads Spawned", true, [[Moves.Rocket]], true);
                 static Night = new Moves("Fungi Night", true, [[Moves.AnyGun]], true);
                 static Day = new Moves("Fungi Day", true, [[Moves.AnyGun]], true);
+                static CavesIglooPads = new Moves("Caves Igloo Pads Spawned", true, [[Moves.Rocket]], true);
                 static CavesIceWalls = new Moves("Caves Ice Walls", true, [[Moves.Punch]], true);
-                // Crypt Entry
                 static CryptDKEntry = new Moves("Castle Crypt Doors", true, [[Moves.Coconut]], true);
                 static CryptDiddyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Peanut]], true);
                 static CryptLankyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Grape]], true);
                 static CryptTinyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Feather]], true);
                 static CryptChunkyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Pineapple]], true);
-                // Enable all warps
-                static AllWarps = new Moves("Preactivate All Warps");
-                static IsDiddy = new Moves("Diddy");
-                static IsTiny = new Moves("Tiny");
 
                 // The more complex barriers have been moved out to barrier_data.js.
 

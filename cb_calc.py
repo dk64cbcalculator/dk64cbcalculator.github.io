@@ -834,17 +834,21 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
     """
     # Note: Order matters here -- some barriers depend on each other.
     BARRIER_NAMES = {
+        # Japes
         Events.JapesFreeKongOpenGates: "Japes Coconut Gates",
+        # Aztec
         Events.AztecGuitarPad: "Aztec Tunnel Door",
-        Events.FedTotem: "Aztec 5DT Switches",
+        Events.FedTotem: "Aztec 5DT Switches", # Depends on AztecGuitarPad
         Events.LlamaFreed: "Aztec Llama Switch",
         Events.AztecIceMelted: "Tiny Temple Ice Melted",
+        # Factory
         Events.TestingGateOpened: "Testing Side Open",
-        Events.MainCoreActivated: "Production Room On",
+        Events.MainCoreActivated: "Production Room On", # Depends on TestingGateOpened
+        # Galleon
         Events.WaterRaised: "Galleon Raised Water",
         Events.WaterLowered: "Galleon Lowered Water",
-        Events.ActivatedLighthouse: "Ship Spawned",
-        Events.ShipyardTreasureRoomOpened: "Treasure Room Open",
+        Events.ActivatedLighthouse: "Ship Spawned", # Depends on WaterRaised
+        Events.ShipyardTreasureRoomOpened: "Treasure Room Open", # Depends on WaterRaised
     }
 
     move_map = dict(MOVE_MAP)

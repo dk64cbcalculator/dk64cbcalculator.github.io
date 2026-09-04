@@ -715,8 +715,8 @@ def compute_barrier_requirements(regions, region_requirements):
     return all_barrier_requirements
 
 
-def to_javascript(cb_requirements, special_requirements):
-    """Stage 4: Generate the output for Ballaam's CB calculator.
+def cbs_to_javascript(cb_requirements, special_requirements):
+    """Stage 4a: Generate the output for the HTML front-end.
 
     Finally, we need to emit this data in some format that Javascript can understand.
     Thankfully, that's not too bad -- there's just a bit of renaming and other small fixups.
@@ -819,6 +819,76 @@ def to_javascript(cb_requirements, special_requirements):
     return output
 
 
+def barriers_to_javascript(barrier_requirements, special_requirements):
+    """Stage 4b: Generate the barrier definitions for the HTML front-end.
+    
+    Much like the CBs above, to accurately represent the medal requirements
+    we need to know how to open the various barriers. These too were hard-coded,
+    and have slowly gotten out of sync.
+
+    However, not all barriers are converted in this way -- some of the simpler requirements
+    are merely hard-coded in the HTML, since there's very little risk of drift.
+    """
+    # The javascript code uses slightly different names for moves.
+    move_map = {
+        **{"can_use_vines": "Vines", "swim": "Diving", "oranges": "Oranges", "barrels": "Barrels", "climbing": "ClimbingCheck"},
+        **{"Slam": "SlamCheck", "levelSlam": "LevelSlam"},
+        # Kong-specific
+        **{"coconut": "Coconut", "bongos": "Bongos", "grab": "Grab", "strongKong": "Strong", "blast": "Blast"},
+        **{"peanut": "Peanut", "guitar": "Guitar", "charge": "Charge", "jetpack": "Rocket", "spring": "Spring"},
+        **{"grape": "Grape", "trombone": "Trombone", "handstand": "Orangstand", "sprint": "Sprint", "balloon": "Balloon"},
+        **{"feather": "Feather", "saxophone": "Sax", "twirl": "Twirl", "mini": "Mini", "monkeyport": "Monkeyport"},
+        **{"pineapple": "Pineapple", "triangle": "Triangle", "punch": "Punch", "hunkyChunky": "Hunky", "gorillaGone": "Gone"},
+        # Kongs
+        **{"donkey": "Donkey", "diddy": "Diddy", "lanky": "Lanky", "tiny": "Tiny", "chunky": "Chunky"},
+        **{"isdonkey": "IsDonkey", "isdiddy": "IsDiddy", "islanky": "IsLanky", "istiny": "IsTiny", "ischunky": "IsChunky"},
+        # Global settings
+        **{"AllWarps": "AllWarps"},
+    }
+    move_map.update(special_requirements)
+    move_map_keys = list(move_map.keys())
+    move_map_values = list(move_map.values())
+
+    output = ""
+    for barrier, barrier_name in BARRIER_NAMES.items():
+        if barrier not in barrier_requirements:
+            continue
+
+        # Sort the output (for consistency).
+        # 1. Each requirement is ordered by the moves in the move map
+        # 2. Either/or requirements are ordered by length, then by moves in the move map
+        converted = []
+        for requirement in barrier_requirements[barrier]:
+            converted_requirement = [move_map_keys.index(r) for r in requirement]
+            converted_requirement.sort()
+            converted.append(converted_requirement)
+        converted.sort(key=lambda row: (len(row), *row))
+
+        moves = []
+        for converted_requirement in converted:
+            move_names = ", ".join(("Moves." + move_map_values[c] for c in converted_requirement))
+            moves.append(f"[{move_names}]")
+
+        output += f'Moves.{move_map[barrier]} = new Moves("{barrier_name}", true, [' + ", ".join(moves) + "], true);\n"
+
+    return output
+
+
+# Note: Order matters here -- some barriers depend on each other.
+BARRIER_NAMES = {
+    Events.JapesFreeKongOpenGates: "Japes Coconut Gates",
+    Events.AztecGuitarPad: "Aztec Tunnel Door",
+    Events.FedTotem: "Aztec 5DT Switches",
+    Events.LlamaFreed: "Aztec Llama Switch",
+    Events.AztecIceMelted: "Tiny Temple Ice Melted",
+    Events.TestingGateOpened: "Testing Side Open",
+    Events.MainCoreActivated: "Production Room On",
+    Events.WaterRaised: "Galleon Raised Water",
+    Events.WaterLowered: "Galleon Lowered Water",
+    Events.ActivatedLighthouse: "Ship Spawned",
+    Events.ShipyardTreasureRoomOpened: "Treasure Room Open",
+}
+
 LEVELS = [
     {
         "name": "Japes",
@@ -827,12 +897,12 @@ LEVELS = [
         "entry_region": Regions.JungleJapesEntryHandler,
         "special_requirements": {
             Events.JapesFreeKongOpenGates: "JapesCoconut",
-            Switches.JapesFeather: "JapesShellhive",
-            Switches.JapesRambi: "JapesRambi",
-            Switches.JapesPainting: "JapesPainting",
-            Switches.JapesDiddyCave: "JapesDiddyCave",
-            Switches.JapesFreeKong: "JapesFreeKong",
             Locations.JapesDiddyMountain: "JapesW5Bonus",  # Not actually required for any CBs, but used by interim logic
+            Switches.JapesDiddyCave: "JapesDiddyCave",
+            Switches.JapesFeather: "JapesShellhive",
+            Switches.JapesFreeKong: "JapesFreeKong",
+            Switches.JapesPainting: "JapesPainting",
+            Switches.JapesRambi: "JapesRambi",
         },
     },
     {
@@ -843,15 +913,16 @@ LEVELS = [
         "entry_region": Regions.AngryAztecOasis,
         "special_requirements": {
             Events.AztecGuitarPad: "AztecTunnelDoor",
-            Events.LlamaFreed: "AztecLlama",
-            Switches.AztecBlueprintDoor: "AztecBlueprintDoor",
-            Switches.AztecLlamaCoconut: "AztecLlamaCoconut",
-            Switches.AztecLlamaGrape: "AztecLlamaGrape",
-            Switches.AztecLlamaFeather: "AztecLlamaFeather",
-            Switches.AztecQuicksandSwitch: "AztecQuicksandSwitch",
             Events.AztecIceMelted: "TinyTempleIce",
             Events.FedTotem: "Aztec5DT",
+            Events.LlamaFreed: "AztecLlama",
             Locations.AztecDonkeyQuicksandCave: "AztecW5Bonus",
+            Switches.AztecBlueprintDoor: "AztecBlueprintDoor",
+            Switches.AztecGuitar: "AztecGuitar",
+            Switches.AztecLlamaCoconut: "AztecLlamaCoconut",
+            Switches.AztecLlamaFeather: "AztecLlamaFeather",
+            Switches.AztecLlamaGrape: "AztecLlamaGrape",
+            Switches.AztecQuicksandSwitch: "AztecQuicksandSwitch",
         },
     },
     {
@@ -860,8 +931,8 @@ LEVELS = [
         "bananas": FactoryBananas,
         "entry_region": Regions.FranticFactoryEntryHandler,
         "special_requirements": {
-            Events.TestingGateOpened: "FactoryTesting",
             Events.MainCoreActivated: "FactoryProduction",
+            Events.TestingGateOpened: "FactoryTesting",
         },
     },
     {
@@ -870,16 +941,16 @@ LEVELS = [
         "bananas": GalleonBananas,
         "entry_region": Regions.GloomyGalleonEntryHandler,
         "special_requirements": {
-            Events.WaterRaised: "RaisedWater",
-            Events.WaterLowered: "LoweredWater",
-            Events.LighthouseGateOpened: "GalleonLighthouse",
-            Events.ShipyardGateOpened: "GalleonPeanut",
             Events.ActivatedLighthouse: "GalleonShipSpawned",
-            Events.ShipyardTreasureRoomOpened: "GalleonTreasure",
-            Events.ShipyardEnguarde: "Enguarde",
             Events.LighthouseEnguarde: "Enguarde",
-            Switches.GalleonCannonGame: "GalleonCannonGame",
+            Events.LighthouseGateOpened: "GalleonLighthouse",
+            Events.ShipyardEnguarde: "Enguarde",
+            Events.ShipyardGateOpened: "GalleonPeanut",
+            Events.ShipyardTreasureRoomOpened: "GalleonTreasure",
+            Events.WaterLowered: "LoweredWater",
+            Events.WaterRaised: "RaisedWater",
             Locations.GalleonDiddyGoldTower: "DiddyGoldTower",
+            Switches.GalleonCannonGame: "GalleonCannonGame",
         },
     },
     {
@@ -888,12 +959,12 @@ LEVELS = [
         "bananas": ForestBananas,
         "entry_region": Regions.FungiForestEntryHandler,
         "special_requirements": {
-            Events.Night: "Night",
             Events.Day: "Day",
             Events.HollowTreeGateOpened: "ForestYellowTunnel",
+            Events.MushroomCannonsSpawned: "CheckOfLegends",
+            Events.Night: "Night",
             Switches.FungiGreenFeather: "ForestGreenTunnelFeather",
             Switches.FungiGreenPineapple: "ForestGreenTunnelPineapple",
-            Events.MushroomCannonsSpawned: "CheckOfLegends",
         },
     },
     {
@@ -902,9 +973,9 @@ LEVELS = [
         "bananas": CavesBananas,
         "entry_region": Regions.CrystalCavesEntryHandler,
         "special_requirements": {
+            Locations.CavesTinyCaveBarrel: "CavesW3Bonus",
             RemovedBarriersSelected.caves_ice_walls: "CavesIceWalls",
             RemovedBarriersSelected.caves_igloo_pads: "CavesIglooPads",
-            Locations.CavesTinyCaveBarrel: "CavesW3Bonus",
         },
     },
     {
@@ -919,7 +990,8 @@ LEVELS = [
 ]
 
 if __name__ == "__main__":
-    output = "const requirement_data = {\n"
+    barrier_output = ""
+    cb_output = "const requirement_data = {\n"
     for level in LEVELS:
         requirements = [*BASE_REQUIREMENTS, *level["special_requirements"].keys()]
 
@@ -931,11 +1003,19 @@ if __name__ == "__main__":
 
         cb_requirements = compute_cb_requirements(regions, region_requirements)
 
+        barrier_requirements = compute_barrier_requirements(regions, region_requirements)
+
         print("\tFinished level", level["name"])
 
-        output += f'    "{level["name"]}": {{\n'
-        output += to_javascript(cb_requirements, level["special_requirements"])
-        output += "    },\n"
-    output += "}\n"
+        cb_output += f'    "{level["name"]}": {{\n'
+        cb_output += cbs_to_javascript(cb_requirements, level["special_requirements"])
+        cb_output += "    },\n"
+
+        barrier_output += barriers_to_javascript(barrier_requirements, level["special_requirements"])
+
+
+    cb_output += "}\n"
+    with open("barrier_data.js", "w") as f:
+        f.write(barrier_output)
     with open("requirement_data.js", "w") as f:
-        f.write(output)
+        f.write(cb_output)

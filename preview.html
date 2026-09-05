@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>DK64 CB Calculator Preview</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <iframe id="frame" style="position: fixed; inset: 0; border: 0; width: 100%; height: 100%"></iframe>
+
+        <script>
+            // Github pages only serves a single branch, so this page exists to dynamically load other branches (e.g. for PR review).
+            const repo = "dk64cbcalculator/dk64cbcalculator.github.io";
+            const branch = new URLSearchParams(location.search).get("branch");
+            const base = `https://raw.githubusercontent.com/${repo}/${branch}/`;
+
+            // raw.githubusercontent serves .js as text/plain+nosniff, so a linked <script> won't run, so we fetch and inline them.
+            // All other scripts (like fetch) resolve properly via <base>.
+            const SCRIPTS = ["barrier_data.js", "requirement_data.js"];
+
+            async function preview(branch) {
+                if (branch == undefined) return "<p style='font: 1rem sans-serif; padding: 1rem'>Add <code>?branch=branch-name</code> to the URL to preview a branch.</p>";
+                const result = await fetch(base + "index.html");
+                if (!result.ok) return "<p style='font: 1rem sans-serif; padding: 1rem'>Branch not found.</p>";
+
+                let html = await result.text();
+                html = html.replace("DK64 Randomizer Medal Move Requirement Calculator", `DK64 CB calc preview on branch "${branch}"`)
+                for (const name of SCRIPTS) {
+                    const tag = `<script type="text/javascript" src="${name}"><\/script>`;
+                    const code = await (await fetch(base + name)).text();
+                    html = html.replace(tag, () => `<script>${code}<\/script>`);
+                }
+                return html.replace(/<head>/i, `<head><base href="${base}">`);
+            }
+
+            preview(branch).then(html => document.getElementById("frame").srcdoc = html);
+        </script>
+    </body>
+</html>

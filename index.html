@@ -406,36 +406,32 @@
                 static Grape = new Moves.GunMove("Grape");
                 static Feather = new Moves.GunMove("Feather");
                 static Pineapple = new Moves.GunMove("Pineapple");
+                static CheckOfLegends = new Moves.GunMove("All 5 Guns");
+                static AnyGun = new Moves("Any Gun");
                 // Instruments
                 static Bongos = new Moves.InstrumentMove("Bongos");
                 static Guitar = new Moves.InstrumentMove("Guitar");
                 static Trombone = new Moves.InstrumentMove("Trombone");
                 static Sax = new Moves.InstrumentMove("Sax");
                 static Triangle = new Moves.InstrumentMove("Triangle");
-                // Misc Events
+                static AnyInstrument = new Moves("Any Instrument");
+                // Warps
                 static AztecW5Bonus = new Moves("Aztec Warp 5 Bonus Barrel");
                 static CavesW3Bonus = new Moves("Caves Warp 3 Bonus Barrel");
-                static AnyGun = new Moves("Any Gun");
-                static AnyInstrument = new Moves("Any Instrument");
-                static CheckOfLegends = new Moves.GunMove("All 5 Guns");
-
-                // Climbing
-                static ClimbingCheck = new Moves("Climbing", true, [Moves.Climbing], true); // Had to move this above the Barriers since JapesCoconut requires climbing
-                // Green Slam
-                static SlamCheck = new Moves("Green Slam", true, [Moves.Slam], true); // Above the Barriers since FactoryTesting requires a slam
+                static AllWarps = new Moves("Preactivate All Warps");
 
                 // Switchsanity (non-randomized)
-                static JapesRambi = new Moves("Rambi Cage Gun", true, [Moves.Coconut], true);
-                static JapesPainting = new Moves("Painting Room Gun", true, [Moves.Peanut], true);
-                static JapesDiddyCave = new Moves("Peanut Gate Gun", true, [Moves.Peanut], true);
-                static JapesFreeKong = new Moves("Free Diddy Gun", true, [Moves.Coconut], true);
-                static GalleonCannonGame = new Moves("Cannon Game Gun", true, [Moves.Pineapple], true);
-                static AztecGuitar = new Moves("Oasis Instrument Pad", true, [Moves.Guitar], true);
-                static AztecBlueprintDoor = new Moves("Stone Door Gun", true, [Moves.Coconut], true);
-                static AztecLlamaCoconut = new Moves("Llama Temple Gun", true, [Moves.Coconut], true);
-                static AztecLlamaGrape = new Moves("Llama Temple Gun", true, [Moves.Grape], true);
-                static AztecLlamaFeather = new Moves("Llama Temple Gun", true, [Moves.Feather], true);
-                static AztecQuicksandSwitch = new Moves("Quicksand Tunnel Switch", true, [Moves.LevelSlam], true);
+                static JapesRambi = new Moves("Rambi Cage Gun", true, [[Moves.Coconut]], true);
+                static JapesPainting = new Moves("Painting Room Gun", true, [[Moves.Peanut]], true);
+                static JapesDiddyCave = new Moves("Peanut Gate Gun", true, [[Moves.Peanut]], true);
+                static JapesFreeKong = new Moves("Free Diddy Gun", true, [[Moves.Coconut]], true);
+                static GalleonCannonGame = new Moves("Cannon Game Gun", true, [[Moves.Pineapple]], true);
+                static AztecGuitar = new Moves("Oasis Instrument Pad", true, [[Moves.Guitar]], true);
+                static AztecBlueprintDoor = new Moves("Stone Door Gun", true, [[Moves.Coconut]], true);
+                static AztecLlamaCoconut = new Moves("Llama Temple Gun", true, [[Moves.Coconut]], true);
+                static AztecLlamaGrape = new Moves("Llama Temple Gun", true, [[Moves.Grape]], true);
+                static AztecLlamaFeather = new Moves("Llama Temple Gun", true, [[Moves.Feather]], true);
+                static AztecQuicksandSwitch = new Moves("Quicksand Tunnel Switch", true, [[Moves.LevelSlam]], true);
 
                 // Switchsanity (random per seed)
                 static JapesShellhiveRandom = new Moves.GunMove("Hive Area Gun");
@@ -457,40 +453,27 @@
                 static ForestGreenTunnelPineappleRandom = new Moves.GunMove("Green Tunnel Gun 2");
 
                 // Barriers
-                static JapesCoconut = new Moves("Japes Coconut Gates", true, [Moves.JapesFreeKong, Moves.ClimbingCheck], true);
-                static JapesShellhive = new Moves("Japes Shellhive Gate", true, [Moves.Feather], true);
-                static AztecTunnelDoor = new Moves("Aztec Tunnel Door", true, [Moves.AztecGuitar, Moves.Vines], true);
-                static Aztec5DT = new Moves("Aztec 5DT Switches", true, [Moves.Rocket, Moves.Peanut, Moves.LevelSlam], true);
-                static AztecLlama = new Moves("Aztec Llama Switch", true, [Moves.Blast], true);
-                static FactoryProduction = new Moves("Production Room On", true, [Moves.Grab, Moves.Coconut, Moves.ClimbingCheck], true);
-                static FactoryTesting = new Moves("Testing Side Open", true, [Moves.SlamCheck], true);
-                static GalleonLighthouse = new Moves("Lighthouse Side Open", true, [Moves.Coconut], true);
-                static GalleonPeanut = new Moves("Shipyard Side Open", true, [Moves.Peanut], true);
-                static GalleonShipSpawned = new Moves("Ship Spawned", true, [Moves.LevelSlam, Moves.Grab, Moves.ClimbingCheck], true);
-                static ForestGreenTunnelPineapple = new Moves("Green Tunnel Opened (Pineapple)", true, [Moves.Pineapple], true);
-                static ForestGreenTunnelFeather = new Moves("Green Tunnel Opened (Feather)", true, [Moves.Feather], true);
-                static ForestYellowTunnel = new Moves("Yellow Tunnel Opened", true, [Moves.Grape], true);
-                static CavesIglooPads = new Moves("Caves Igloo Pads Spawned", true, [Moves.Rocket], true);
-                static Night = new Moves("Fungi Night", true, [Moves.AnyGun], true);
-                static Day = new Moves("Fungi Day", true, [Moves.AnyGun], true);
-                static RaisedWater = new Moves("Galleon Raised Water", true, [Moves.GalleonLighthouse, Moves.Diving], true);
-                static LoweredWater = new Moves("Galleon Lowered Water", true, [Moves.GalleonLighthouse, Moves.Diving], true);
-                static TinyTempleIce = new Moves("Tiny Temple Ice Melted", true, [Moves.Guitar, Moves.LevelSlam, Moves.Peanut], true);
-                static GalleonTreasure = new Moves("Treasure Room Open", true, [Moves.Enguarde, Moves.RaisedWater], true);
-                static CavesIceWalls = new Moves("Caves Ice Walls", true, [Moves.Punch], true);
-                // Crypt Entry
-                static CryptDKEntry = new Moves("Castle Crypt Doors", true, [Moves.Coconut], true);
-                static CryptDiddyEntry = new Moves("Castle Crypt Doors", true, [Moves.Peanut], true);
-                static CryptLankyEntry = new Moves("Castle Crypt Doors", true, [Moves.Grape], true);
-                static CryptTinyEntry = new Moves("Castle Crypt Doors", true, [Moves.Feather], true);
-                static CryptChunkyEntry = new Moves("Castle Crypt Doors", true, [Moves.Pineapple], true);
-                // Enable all warps
-                static AllWarps = new Moves("Preactivate All Warps");
-                static IsDiddy = new Moves("Diddy");
-                static IsTiny = new Moves("Tiny");
+                static ClimbingCheck = new Moves("Climbing", true, [[Moves.Climbing]], true);
+                static SlamCheck = new Moves("Green Slam", true, [[Moves.Slam]], true);
+                static JapesShellhive = new Moves("Japes Shellhive Gate", true, [[Moves.Feather]], true);
+                static GalleonLighthouse = new Moves("Lighthouse Side Open", true, [[Moves.Coconut]], true);
+                static GalleonPeanut = new Moves("Shipyard Side Open", true, [[Moves.Peanut]], true);
+                static ForestGreenTunnelPineapple = new Moves("Green Tunnel Opened (Pineapple)", true, [[Moves.Pineapple]], true);
+                static ForestGreenTunnelFeather = new Moves("Green Tunnel Opened (Feather)", true, [[Moves.Feather]], true);
+                static ForestYellowTunnel = new Moves("Yellow Tunnel Opened", true, [[Moves.Grape]], true);
+                static Night = new Moves("Fungi Night", true, [[Moves.AnyGun]], true);
+                static Day = new Moves("Fungi Day", true, [[Moves.AnyGun]], true);
+                static CavesIglooPads = new Moves("Caves Igloo Pads Spawned", true, [[Moves.Rocket]], true);
+                static CavesIceWalls = new Moves("Caves Ice Walls", true, [[Moves.Punch]], true);
+                static CryptDKEntry = new Moves("Castle Crypt Doors", true, [[Moves.Coconut]], true);
+                static CryptDiddyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Peanut]], true);
+                static CryptLankyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Grape]], true);
+                static CryptTinyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Feather]], true);
+                static CryptChunkyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Pineapple]], true);
 
+                // The more complex barriers have been moved out to barrier_data.js.
 
-                constructor (name, requires_moves=true, barrier_moves=[], is_barrier=false) {
+                constructor (name, requires_moves=true, barrier_moves=[[]], is_barrier=false) {
                     this.name = name;
                     this.requires_moves = requires_moves
                     this.barrier_moves = barrier_moves
@@ -542,7 +525,7 @@
                 let options = ["Coconut", "Peanut", "Grape", "Feather", "Pineapple", "Random", "Any Gun"];
                 if (openableBarriers.includes(select.id)) options.unshift("Opened");
 
-                const vanilla = Moves[select.id.slice("select".length)].barrier_moves[0].name;
+                const vanilla = Moves[select.id.slice("select".length)].barrier_moves[0][0].name;
                 for (let value of options) {
                     const option = document.createElement("option");
                     option.text = value;
@@ -554,10 +537,10 @@
             function getBarrierRequirement(barrier) {
                 if (barrier.is_barrier) {
                     if (opened_barriers.includes(barrier)) {
-                        return []
+                        return [[]]
                     }
                     if (switchsanity.has(barrier)) {
-                        return [switchsanity.get(barrier)];
+                        return [[switchsanity.get(barrier)]];
                     }
                     return barrier.barrier_moves;
                 }
@@ -829,7 +812,7 @@
                     const name = elem.id.slice("select".length);
                     const switched_move = p.switchsanity.get(Moves[name])
                     if (switched_move == undefined) {
-                        elem.value = Moves[name].barrier_moves[0].name;
+                        elem.value = Moves[name].barrier_moves[0][0].name;
                     } else if (switched_move == Moves[name + "Random"]) {
                         elem.value = "Random";
                     } else {
@@ -930,7 +913,6 @@
                 if (time_of_day != "Night") opened_barriers.push(Moves.Day);
                 if (time_of_day != "Day") opened_barriers.push(Moves.Night);
             }
-            updateBarriers()
 
             for (let elem of document.querySelectorAll(".barrier-switch, .barrier-select, .switchsanity-select")) {
                 elem.addEventListener("change", (e) => {
@@ -1053,13 +1035,13 @@
                 })
                 let list = requirement_data[level][kong].slice();
                 // Precalcate list to handle barriers
-                for (let i = 0; i < 2; i++) {
+                for (let i = 0; i < 3; i++) {
                     list.forEach(item => {
                         let anyRequirementIsMoveless = false;
-                        item.requirements.forEach((group, index) => {
+                        item.requirements = item.requirements.flatMap(group => {
                             // Get list of move extensions and removals
                             let purged_moves = [];
-                            let extended_moves = [];
+                            let extension_alternatives = [[]];
                             group.forEach(move_set => {
                                 if (move_set == Moves.AllWarps) {
                                     // If all warps are preactivated, purge the AllWarps move so that this move_set is free.
@@ -1070,13 +1052,14 @@
                                     replacement_moves = getBarrierRequirement(move_set);
                                     if (replacement_moves != null) {
                                         purged_moves.push(move_set);
-                                        extended_moves = extended_moves.concat(replacement_moves)
+                                        extension_alternatives = extension_alternatives.flatMap(alternative => replacement_moves.map(replacement => alternative.concat(replacement)))
                                     }
                                 }
                             })
                             // remove/extend group
                             group = group.filter(k => !purged_moves.includes(k)).slice();
-                            group = group.concat(extended_moves).slice();
+                            return extension_alternatives.map(alternative => group.concat(alternative).slice());
+                        }).map(group => {
                             // Correct moveless situations
                             moveless_check = group.filter(k => k != Moves.Moveless)
                             if (moveless_check.length > 0) {
@@ -1087,11 +1070,11 @@
                                 group = [Moves.Moveless].slice();
                                 anyRequirementIsMoveless = true;
                             }
-                            item.requirements[index] = group.slice();
+                            return group;
                         })
 
                         // Small bugfix: There may be multiple requirements to get an item. If one of those requirements
-                        // is completely satisfied by presets, it becomes moveless and should compleetely erase all other requirements.
+                        // is completely satisfied by presets, it becomes moveless and should completely erase all other requirements.
                         // For example, some Lanky CBs in Fungi require [[Climbing], [Balloon]], but when Climbing is in the preset,
                         // we should never consider them to logically require Balloon.
                         // Thus, if we detect that any requirement group became moveless, we remove all other requirements.
@@ -1208,6 +1191,7 @@
             }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="barrier_data.js"></script>
         <script type="text/javascript" src="requirement_data.js"></script>
     </body>
 </html>

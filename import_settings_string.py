@@ -1,18 +1,20 @@
+"""A script to convert DK64 settings strings into the cb_calc format"""
+
+# Python built-ins
+import collections
 import json
-import os
 import sys
 from pathlib import Path
 
-# getStringFile (js.py shim) loads schema files relative to cwd, so the randomizer root
-# (our cwd) must be importable before we import anything from `randomizer`.
-sys.path.insert(0, os.getcwd())
-
+# Randomizer stuff
 from randomizer.SettingStrings import decrypt_settings_string_enum
 from randomizer.Settings import Settings
+from randomizer.ItemPool import TrainingBarrelAbilities
 from randomizer.Lists.Switches import SwitchData
 from randomizer.Enums.Switches import Switches
 from randomizer.Enums.SwitchTypes import SwitchType
 from randomizer.Enums.Kongs import Kongs
+from randomizer.Enums.Items import Items
 from randomizer.Enums.Settings import ActivateAllBananaports, ClimbingStatus
 from randomizer.Enums.Types import Types
 
@@ -129,14 +131,14 @@ def handle_switchsanity(settings):
     return overrides
 
 
-def settings_to_config(settings):
-    # These two are just a straight name translation.
-    config = {
-        "galleon_water": {"lowered": "Low", "raised": "High"}[settings.galleon_water.name],
-        "fungi_time": {"day": "Day", "night": "Night", "dusk": "Dusk", "progressive": "Progressive"}[settings.fungi_time.name],
-    }
+def settings_to_config(str, name):
+    settings = Settings(decrypt_settings_string_enum(str))
 
-    config["barriers"] = []
+    config = collections.defaultdict(list)
+    config["name"] = name
+    config["galleon_water"] = {"lowered": "Low", "raised": "High"}[settings.galleon_water.name]
+    config["fungi_time"] = {"day": "Day", "night": "Night", "dusk": "Dusk", "progressive": "Progressive"}[settings.fungi_time.name]
+
     for barrier in settings.remove_barriers_selected:
         if BARRIERS[barrier.name]:
             config["barriers"] += BARRIERS[barrier.name]
@@ -147,6 +149,16 @@ def settings_to_config(settings):
     if settings.start_with_slam:
         config["barriers"].append("switchSlam")
 
+    # The calculator diverges from the enum name only for Swim.
+    for moves, count in zip(settings.starting_moves_lists, settings.starting_moves_list_counts):
+        if len(moves) > count:
+            continue
+        for move in moves:
+            if move == Items.Swim:
+                config["starting_moves"].append("Diving")
+            elif move in TrainingBarrelAbilities():
+                config["starting_moves"].append(move.name)
+
     config["full_medal"] = int(settings.medal_cb_req)
     if Types.HalfMedal in settings.shuffled_location_types:
         # "Half" medals do not have to be strictly 50% of the full medal (mirrors Spoiler.py).
@@ -154,29 +166,31 @@ def settings_to_config(settings):
 
     if switchsanity := handle_switchsanity(settings):
         config["switchsanity"] = switchsanity
-    return config
+    return dict(config)
 
 
-settings = Settings(decrypt_settings_string_enum(sys.argv[1]))
-key = sys.argv[2]
-name = sys.argv[3]
-config = {"name": name, **settings_to_config(settings)}
+if __name__ == '__main__':
+    str = sys.argv[1]
+    key = sys.argv[2]
+    name = sys.argv[3]
 
-# Add the settings to the JSON data
-preset_file = Path("../presets.json") # We are running inside the DK64-Randomizer tree
-with preset_file.open("r", encoding="utf-8") as f:
-    presets = json.load(f)
-presets[key] = config
-with preset_file.open("w", encoding="utf-8") as f:
-    json.dump(presets, f, indent=4)
+    config = settings_to_config(str, name)
 
-# Add the key to the HTML listing
-index_file = Path("../index.html")
-marker = "// Imported presets are added above this line"
-html = index_file.read_text(encoding="utf-8")
-marker_pos = html.index(marker)  # raises if the anchor is missing
-indent = html[html.rfind("\n", 0, marker_pos) + 1 : marker_pos]
-anchor = indent + marker
-entry = f'{indent}"{key}",\n'
-if entry not in html:
-    index_file.write_text(html.replace(anchor, entry + anchor, 1), encoding="utf-8")
+    # Add the settings to the JSON data
+    preset_file = Path("../presets.json") # We are running inside the DK64-Randomizer tree
+    with preset_file.open("r", encoding="utf-8") as f:
+        presets = json.load(f)
+    presets[key] = config
+    with preset_file.open("w", encoding="utf-8") as f:
+        json.dump(presets, f, indent=4)
+
+    # Add the key to the HTML listing
+    index_file = Path("../index.html")
+    marker = "// Imported presets are added above this line"
+    html = index_file.read_text(encoding="utf-8")
+    marker_pos = html.index(marker)  # raises if the anchor is missing
+    indent = html[html.rfind("\n", 0, marker_pos) + 1 : marker_pos]
+    anchor = indent + marker
+    entry = f'{indent}"{key}",\n'
+    if entry not in html:
+        index_file.write_text(html.replace(anchor, entry + anchor, 1), encoding="utf-8")

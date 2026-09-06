@@ -15,6 +15,9 @@
             "switchAllWarps",
             "switchSlam"
         ],
+        "starting_moves": [
+            "Diving"
+        ],
         "full_medal": 60,
         "half_medal": 35,
         "switchsanity": {
@@ -70,6 +73,9 @@
             "switchClimbing",
             "switchSlam"
         ],
+        "starting_moves": [
+            "Diving"
+        ],
         "full_medal": 40
     },
     "vanilla": {
@@ -79,6 +85,12 @@
         "barriers": [
             "switchClimbing",
             "switchSlam"
+        ],
+        "starting_moves": [
+            "Vines",
+            "Diving",
+            "Oranges",
+            "Barrels"
         ],
         "full_medal": 75
     },
@@ -96,6 +108,9 @@
             "selectGalleonLighthouse",
             "switchClimbing",
             "switchSlam"
+        ],
+        "starting_moves": [
+            "Vines"
         ],
         "full_medal": 40,
         "switchsanity": {
@@ -121,7 +136,6 @@
         "name": "Hell Mode",
         "galleon_water": "Low",
         "fungi_time": "Progressive",
-        "barriers": [],
         "full_medal": 85,
         "half_medal": 42,
         "switchsanity": {
@@ -227,6 +241,10 @@
             "switchCavesIgloo",
             "switchSlam"
         ],
+        "starting_moves": [
+            "Oranges",
+            "Diving"
+        ],
         "full_medal": 100,
         "switchsanity": {
             "JapesFreeKong": "JapesFreeKongRandom"
@@ -272,7 +290,7 @@
         "full_medal": 40
     },
     "klungo": {
-        "name": "Klungo's Brew",
+        "name": "Klungos Brew",
         "galleon_water": "High",
         "fungi_time": "Day",
         "barriers": [

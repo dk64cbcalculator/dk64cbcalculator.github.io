@@ -716,8 +716,8 @@ def compute_barrier_requirements(regions, region_requirements):
 
 
 MOVE_MAP = {
-    **{"can_use_vines": "Vines", "swim": "Diving", "oranges": "Oranges", "barrels": "Barrels", "climbing": "ClimbingCheck"},
-    **{"Slam": "SlamCheck", "levelSlam": "LevelSlam"},
+    **{"can_use_vines": "Vines", "swim": "Diving", "oranges": "Oranges", "barrels": "Barrels", "climbing": "Climbing"},
+    **{"Slam": "Slam", "levelSlam": "LevelSlam"},
     # Kong-specific
     **{"coconut": "Coconut", "bongos": "Bongos", "grab": "Grab", "strongKong": "Strong", "blast": "Blast"},
     **{"peanut": "Peanut", "guitar": "Guitar", "charge": "Charge", "jetpack": "Rocket", "spring": "Spring"},

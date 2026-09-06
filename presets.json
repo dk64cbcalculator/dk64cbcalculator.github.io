@@ -12,10 +12,10 @@
             "selectGalleonPeanut",
             "switchGalleonTreasure",
             "selectForestYellowTunnel",
-            "switchAllWarps",
-            "switchSlam"
+            "switchAllWarps"
         ],
         "starting_moves": [
+            "Slam",
             "Diving"
         ],
         "full_medal": 60,
@@ -46,9 +46,11 @@
             "selectGalleonPeanut",
             "switchGalleonSeasick",
             "switchCavesIgloo",
-            "switchCavesWalls",
-            "switchClimbing",
-            "switchSlam"
+            "switchCavesWalls"
+        ],
+        "starting_moves": [
+            "Climbing",
+            "Slam"
         ],
         "full_medal": 35,
         "switchsanity": {
@@ -69,11 +71,11 @@
             "selectGalleonLighthouse",
             "selectGalleonPeanut",
             "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchClimbing",
-            "switchSlam"
+            "switchCavesIgloo"
         ],
         "starting_moves": [
+            "Climbing",
+            "Slam",
             "Diving"
         ],
         "full_medal": 40
@@ -82,11 +84,9 @@
         "name": "Vanilla Game But Better",
         "galleon_water": "Low",
         "fungi_time": "Day",
-        "barriers": [
-            "switchClimbing",
-            "switchSlam"
-        ],
         "starting_moves": [
+            "Climbing",
+            "Slam",
             "Vines",
             "Diving",
             "Oranges",
@@ -105,11 +105,11 @@
             "switchAztec5DT",
             "switchFactoryProd",
             "switchFactoryTesting",
-            "selectGalleonLighthouse",
-            "switchClimbing",
-            "switchSlam"
+            "selectGalleonLighthouse"
         ],
         "starting_moves": [
+            "Climbing",
+            "Slam",
             "Vines"
         ],
         "full_medal": 40,
@@ -169,9 +169,11 @@
             "switchFactoryTesting",
             "selectGalleonPeanut",
             "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchClimbing",
-            "switchSlam"
+            "switchCavesIgloo"
+        ],
+        "starting_moves": [
+            "Climbing",
+            "Slam"
         ],
         "full_medal": 40,
         "switchsanity": {
@@ -211,8 +213,10 @@
             "selectForestGreenTunnelFeather",
             "selectForestGreenTunnelPineapple",
             "switchCavesIgloo",
-            "switchCavesWalls",
-            "switchSlam"
+            "switchCavesWalls"
+        ],
+        "starting_moves": [
+            "Slam"
         ],
         "full_medal": 40,
         "half_medal": 20,
@@ -238,10 +242,10 @@
             "selectGalleonLighthouse",
             "selectGalleonPeanut",
             "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchSlam"
+            "switchCavesIgloo"
         ],
         "starting_moves": [
+            "Slam",
             "Oranges",
             "Diving"
         ],
@@ -264,9 +268,11 @@
             "selectGalleonLighthouse",
             "selectGalleonPeanut",
             "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchClimbing",
-            "switchSlam"
+            "switchCavesIgloo"
+        ],
+        "starting_moves": [
+            "Climbing",
+            "Slam"
         ],
         "full_medal": 40,
         "switchsanity": {
@@ -284,8 +290,10 @@
             "switchFactoryTesting",
             "selectGalleonLighthouse",
             "switchGalleonSeasick",
-            "switchCavesIgloo",
-            "switchSlam"
+            "switchCavesIgloo"
+        ],
+        "starting_moves": [
+            "Slam"
         ],
         "full_medal": 40
     },
@@ -299,8 +307,10 @@
             "switchAztecLlama",
             "switchFactoryTesting",
             "selectGalleonLighthouse",
-            "switchCavesWalls",
-            "switchSlam"
+            "switchCavesWalls"
+        ],
+        "starting_moves": [
+            "Slam"
         ],
         "full_medal": 70,
         "half_medal": 35,

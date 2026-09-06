@@ -144,10 +144,11 @@ def settings_to_config(str, name):
             config["barriers"] += BARRIERS[barrier.name]
     if settings.activate_all_bananaports == ActivateAllBananaports.all:
         config["barriers"].append("switchAllWarps")
+    # Climbing and Slam come from their own settings, but the calculator treats every move you start with the same way.
     if settings.climbing_status == ClimbingStatus.normal:
-        config["barriers"].append("switchClimbing")
+        config["starting_moves"].append("Climbing")
     if settings.start_with_slam:
-        config["barriers"].append("switchSlam")
+        config["starting_moves"].append("Slam")
 
     # The calculator diverges from the enum name only for Swim.
     for moves, count in zip(settings.starting_moves_lists, settings.starting_moves_list_counts):

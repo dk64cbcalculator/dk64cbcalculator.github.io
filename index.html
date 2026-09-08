@@ -235,20 +235,35 @@
                             <h5>Global</h5>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchClimbing">
-                            <label class="form-check-label" for="switchClimbing">Start with Climbing</label>
-                        </div>
-                        <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchAllWarps">
                             <label class="form-check-label" for="switchAllWarps">Preactivate All Warps</label>
+                        </div>
+                        <div class="mt-3">
+                            <h5>Starting Moves</h5>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchClimbing">
+                            <label class="form-check-label" for="switchClimbing">Start with Climbing</label>
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchSlam">
                             <label class="form-check-label" for="switchSlam">Start with Green Slam</label>
                         </div>
                         <div class="form-check form-switch">
+                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchVines">
+                            <label class="form-check-label" for="switchVines">Start with Vines</label>
+                        </div>
+                        <div class="form-check form-switch">
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchDiving">
                             <label class="form-check-label" for="switchDiving">Start with Diving</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchOranges">
+                            <label class="form-check-label" for="switchOranges">Start with Oranges</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchBarrels">
+                            <label class="form-check-label" for="switchBarrels">Start with Barrels</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -399,11 +414,11 @@
                 static Punch = new Moves("Primate Punch");
                 static Gone = new Moves("Gorilla Gone");
                 // Training
-                static Diving = new Moves("Diving");
-                static Vines = new Moves("Vines");
-                static Barrels = new Moves("Barrels");
                 static Climbing = new Moves("Climbing");
+                static Vines = new Moves("Vines");
+                static Diving = new Moves("Diving");
                 static Oranges = new Moves("Oranges");
+                static Barrels = new Moves("Barrels");
                 // Guns
                 static Coconut = new Moves.GunMove("Coconut");
                 static Peanut = new Moves.GunMove("Peanut");
@@ -691,7 +706,7 @@
                 "switchGalleonSeasick",     "switchGalleonTreasure",    "switchGalleonLowered", "switchGalleonRaised",      "switchForestGreen",
                 "selectForestYellowTunnel", "switchForestDay",          "switchForestNight",    "switchCavesIgloo",         "switchCavesWalls",
                 "switchCryptDoors",         "switchClimbing",           "switchAllWarps",       "switchSlam",               "selectForestGreenTunnelFeather",
-                "selectForestGreenTunnelPineapple", "switchDiving",
+                "selectForestGreenTunnelPineapple", "switchDiving",      "switchVines",          "switchOranges",            "switchBarrels",
             ];
 
             const switch_settings = [
@@ -888,9 +903,12 @@
                     "switchCavesWalls": [Moves.CavesIceWalls],
                     "switchCryptDoors": [Moves.CryptDKEntry, Moves.CryptDiddyEntry, Moves.CryptLankyEntry, Moves.CryptTinyEntry, Moves.CryptChunkyEntry],
                     "switchClimbing": [Moves.Climbing],
-                    "switchAllWarps": [Moves.AllWarps],
                     "switchSlam": [Moves.Slam],
+                    "switchVines": [Moves.Vines],
                     "switchDiving": [Moves.Diving],
+                    "switchOranges": [Moves.Oranges],
+                    "switchBarrels": [Moves.Barrels],
+                    "switchAllWarps": [Moves.AllWarps],
                 };
                 opened_barriers = []
                 switchsanity = new Map();

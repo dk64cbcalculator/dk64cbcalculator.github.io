@@ -246,6 +246,10 @@
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchSlam">
                             <label class="form-check-label" for="switchSlam">Start with Green Slam</label>
                         </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchDiving">
+                            <label class="form-check-label" for="switchDiving">Start with Diving</label>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -453,8 +457,6 @@
                 static ForestGreenTunnelPineappleRandom = new Moves.GunMove("Green Tunnel Gun 2");
 
                 // Barriers
-                static ClimbingCheck = new Moves("Climbing", true, [[Moves.Climbing]], true);
-                static SlamCheck = new Moves("Green Slam", true, [[Moves.Slam]], true);
                 static JapesShellhive = new Moves("Japes Shellhive Gate", true, [[Moves.Feather]], true);
                 static GalleonLighthouse = new Moves("Lighthouse Side Open", true, [[Moves.Coconut]], true);
                 static GalleonPeanut = new Moves("Shipyard Side Open", true, [[Moves.Peanut]], true);
@@ -574,7 +576,11 @@
                         for (const [barrier, move] of Object.entries(defs[key].switchsanity ?? {})) {
                             switchsanity.set(Moves[barrier], Moves[move]);
                         }
-                        presets.push({ key, ...defs[key], switchsanity });
+                        
+                        let barriers = defs[key].barriers ?? [];
+                        for (const move of defs[key].starting_moves ?? []) barriers.push("switch" + move);
+
+                        presets.push({ key, ...defs[key], barriers, switchsanity });
                     }
 
                     populatePresets();
@@ -685,7 +691,7 @@
                 "switchGalleonSeasick",     "switchGalleonTreasure",    "switchGalleonLowered", "switchGalleonRaised",      "switchForestGreen",
                 "selectForestYellowTunnel", "switchForestDay",          "switchForestNight",    "switchCavesIgloo",         "switchCavesWalls",
                 "switchCryptDoors",         "switchClimbing",           "switchAllWarps",       "switchSlam",               "selectForestGreenTunnelFeather",
-                "selectForestGreenTunnelPineapple",
+                "selectForestGreenTunnelPineapple", "switchDiving",
             ];
 
             const switch_settings = [
@@ -881,9 +887,10 @@
                     "switchGalleonTreasure": [Moves.GalleonTreasure],
                     "switchCavesWalls": [Moves.CavesIceWalls],
                     "switchCryptDoors": [Moves.CryptDKEntry, Moves.CryptDiddyEntry, Moves.CryptLankyEntry, Moves.CryptTinyEntry, Moves.CryptChunkyEntry],
-                    "switchClimbing": [Moves.ClimbingCheck],
+                    "switchClimbing": [Moves.Climbing],
                     "switchAllWarps": [Moves.AllWarps],
-                    "switchSlam": [Moves.SlamCheck],
+                    "switchSlam": [Moves.Slam],
+                    "switchDiving": [Moves.Diving],
                 };
                 opened_barriers = []
                 switchsanity = new Map();
@@ -924,18 +931,6 @@
 
             // The requirement_data structure (which used to live right here) is instead imported after this inline script.
 
-            // Verify that requirement_data has 100 CBs for each kong
-            window.addEventListener('load', () => {
-                Object.keys(requirement_data).forEach(level => {
-                    Object.keys(requirement_data[level]).forEach(kong => {
-                        sum = requirement_data[level][kong].map(item => item.amount).reduce((partialSum, a) => partialSum + a, 0);
-                        if (sum != 100) {
-                            console.log(`Total Error with ${level} ${kong}. Sum = ${sum}`)
-                        }
-                    })
-                })
-            })
-
             let highlightedItem = "";
             updateHighlightedItem = (itemName) => {
                 const oldItem = highlightedItem;
@@ -943,13 +938,13 @@
 
                 if (oldItem !== "") {
                     document.querySelectorAll(`span[data-item-name="${oldItem}"]`).forEach(el => {
-                        el.classList.replace("text-bg-warning", "text-bg-info");
+                        el.classList.remove("text-bg-warning");
                     });
                 }
 
                 if (newItem !== "") {
                     document.querySelectorAll(`span[data-item-name="${newItem}"]`).forEach(el => {
-                        el.classList.replace("text-bg-info", "text-bg-warning");
+                        el.classList.add("text-bg-warning");
                     });
                 }
 
@@ -974,7 +969,7 @@
 
                     perm.forEach(item => {
                         const span = document.createElement("span");
-                        span.classList.add("badge", "text-bg-info");
+                        span.classList.add("badge", opened_barriers.includes(item) ? "text-bg-secondary" : "text-bg-info");
                         span.innerText = item.name;
                         span.style.cursor = "pointer";
 
@@ -1137,7 +1132,7 @@
                     }
                     beat_permutations.sort((a, b) => (a.length > b.length) ? 1 : ((b.length > a.length) ? -1 : 0));
                     let filtered_permutations = []
-                    let checker = (arr, target) => target.every(v => arr.includes(v));
+                    let checker = (arr, target) => target.every(v => arr.includes(v) || opened_barriers.includes(v));
                     beat_permutations.forEach((perm, index_a) => {
                         let include = true;
                         beat_permutations.forEach((previous_perm, index_b) => {

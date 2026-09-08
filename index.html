@@ -1062,7 +1062,7 @@
                                         purged_moves.push(move_set);
                                     }
                                 } else if (move_set.is_barrier) {
-                                    replacement_moves = getBarrierRequirement(move_set);
+                                    const replacement_moves = getBarrierRequirement(move_set);
                                     if (replacement_moves != null) {
                                         purged_moves.push(move_set);
                                         extension_alternatives = extension_alternatives.flatMap(alternative => replacement_moves.map(replacement => alternative.concat(replacement)))
@@ -1106,21 +1106,22 @@
                 const gun_moves = all_moves.filter(move => move instanceof Moves.GunMove);
                 const instrument_moves = all_moves.filter(move => move instanceof Moves.InstrumentMove);
                 const expandMoves = (move_list) => {
+                    move_list = move_list.slice();
                     if (move_list.includes(Moves.CheckOfLegends)) {
-                        move_list = move_list.concat(gun_moves);
+                        move_list.push(...gun_moves);
                     }
-                    if (move_list.filter(move => gun_moves.includes(move)).length > 0) {
-                        move_list = move_list.concat([Moves.AnyGun]);
+                    if (gun_moves.some(move => move_list.includes(move))) {
+                        move_list.push(Moves.AnyGun);
                     }
-                    if (move_list.filter(move => instrument_moves.includes(move)).length > 0) {
-                        move_list = move_list.concat([Moves.AnyInstrument]);
+                    if (instrument_moves.some(move => move_list.includes(move))) {
+                        move_list.push(Moves.AnyInstrument);
                     }
                     return move_list;
                 }
                 for (let i = 0; i < perms; i++) {
                     const local_moves = all_moves.filter((move, index) => (i & Math.pow(2, index)) != 0);
                     const owned_moves = expandMoves(local_moves);
-                    local_total = threshold;
+                    let local_total = threshold;
                     list.forEach(item => {
                         if (item.can_acquire(owned_moves)) {
                             local_total -= item.amount;
@@ -1135,16 +1136,17 @@
                 let checker = (arr, target) => target.every(v => arr.includes(v) || opened_barriers.includes(v));
                 beat_permutations.forEach((perm, index_a) => {
                     let include = true;
-                    beat_permutations.forEach((previous_perm, index_b) => {
-                        if (index_b < index_a) {
-                            if (checker(perm, previous_perm)) {
-                                include = false;
-                            }
+                    // Shorter permutations sort first, so most rejections happen within the first few comparisons.
+                    for (let index_b = 0; index_b < index_a; index_b++) {
+                        const previous_perm = beat_permutations[index_b];
+                        if (checker(perm, previous_perm)) {
+                            include = false;
+                            break;
                         }
-                    })
-                    added = perm.slice();
-                    added.sort((a, b) => a.name.localeCompare(b.name));
+                    }
                     if (include) {
+                        const added = perm.slice();
+                        added.sort((a, b) => a.name.localeCompare(b.name));
                         filtered_permutations.push(added);
                     }
                 })

@@ -40,3 +40,20 @@ jobs:
         git config --global user.name "DK64 CBCalc Nightly"
         git commit -m "Updated CB requirement data"
         git push
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+
+    - uses: actions/setup-python@main
+
+    - name: Set up tests
+      run: |
+        git clone https://github.com/2dos/DK64-Randomizer
+        pip install pytest requests
+
+    - name: Run tests
+      working-directory: DK64-Randomizer
+      run: python -m pytest ../tests.py
+

@@ -802,13 +802,10 @@ def cbs_to_javascript(cb_requirements, special_requirements):
 
             moves = []
             for converted_requirement in converted_requirements:
-                if converted_requirement == []:
-                    moves.append("Moves.Moveless")
-                else:
-                    move_names = ", ".join(("Moves." + move_map_values[c] for c in converted_requirement))
-                    # Hack: this requirement has a different name depending on which kong is responsible.
-                    move_names = move_names.replace("Moves.CastleCryptDoors", f"Moves.Crypt{kong_map[kong]}Entry")
-                    moves.append(move_names)
+                move_names = ", ".join(("Moves." + move_map_values[c] for c in converted_requirement))
+                # Hack: this requirement has a different name depending on which kong is responsible.
+                move_names = move_names.replace("Moves.CastleCryptDoors", f"Moves.Crypt{kong_map[kong]}Entry")
+                moves.append(move_names)
 
             # Some slight formatting here to put the comment on the first line, regardless of the number of moves.
             if len(moves) == 1:
@@ -876,7 +873,7 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
             move_names = ", ".join(("Moves." + move_map_values[c] for c in converted_requirement))
             moves.append(f"[{move_names}]")
 
-        output += f'Moves.{move_map[barrier]} = new Moves("{barrier_name}", true, '
+        output += f'Moves.{move_map[barrier]} = new Moves("{barrier_name}", '
         if len(moves) == 1:
             output += f"[{moves[0]}], true);\n"
         else:

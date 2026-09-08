@@ -391,7 +391,6 @@
                 static GunMove = class GunMove extends Moves {};
                 static InstrumentMove = class InstrumentMove extends Moves {};
 
-                static Moveless = new Moves("Nothing", false);
                 static LevelSlam = new Moves("Level Slam");
                 static Slam = new Moves("Green Slam");
                 // Kongs
@@ -440,17 +439,17 @@
                 static AllWarps = new Moves("Preactivate All Warps");
 
                 // Switchsanity (non-randomized)
-                static JapesRambi = new Moves("Rambi Cage Gun", true, [[Moves.Coconut]], true);
-                static JapesPainting = new Moves("Painting Room Gun", true, [[Moves.Peanut]], true);
-                static JapesDiddyCave = new Moves("Peanut Gate Gun", true, [[Moves.Peanut]], true);
-                static JapesFreeKong = new Moves("Free Diddy Gun", true, [[Moves.Coconut]], true);
-                static GalleonCannonGame = new Moves("Cannon Game Gun", true, [[Moves.Pineapple]], true);
-                static AztecGuitar = new Moves("Oasis Instrument Pad", true, [[Moves.Guitar]], true);
-                static AztecBlueprintDoor = new Moves("Stone Door Gun", true, [[Moves.Coconut]], true);
-                static AztecLlamaCoconut = new Moves("Llama Temple Gun", true, [[Moves.Coconut]], true);
-                static AztecLlamaGrape = new Moves("Llama Temple Gun", true, [[Moves.Grape]], true);
-                static AztecLlamaFeather = new Moves("Llama Temple Gun", true, [[Moves.Feather]], true);
-                static AztecQuicksandSwitch = new Moves("Quicksand Tunnel Switch", true, [[Moves.LevelSlam]], true);
+                static JapesRambi = new Moves("Rambi Cage Gun", [[Moves.Coconut]], true);
+                static JapesPainting = new Moves("Painting Room Gun", [[Moves.Peanut]], true);
+                static JapesDiddyCave = new Moves("Peanut Gate Gun", [[Moves.Peanut]], true);
+                static JapesFreeKong = new Moves("Free Diddy Gun", [[Moves.Coconut]], true);
+                static GalleonCannonGame = new Moves("Cannon Game Gun", [[Moves.Pineapple]], true);
+                static AztecGuitar = new Moves("Oasis Instrument Pad", [[Moves.Guitar]], true);
+                static AztecBlueprintDoor = new Moves("Stone Door Gun", [[Moves.Coconut]], true);
+                static AztecLlamaCoconut = new Moves("Llama Temple Gun", [[Moves.Coconut]], true);
+                static AztecLlamaGrape = new Moves("Llama Temple Gun", [[Moves.Grape]], true);
+                static AztecLlamaFeather = new Moves("Llama Temple Gun", [[Moves.Feather]], true);
+                static AztecQuicksandSwitch = new Moves("Quicksand Tunnel Switch", [[Moves.LevelSlam]], true);
 
                 // Switchsanity (random per seed)
                 static JapesShellhiveRandom = new Moves.GunMove("Hive Area Gun");
@@ -472,27 +471,26 @@
                 static ForestGreenTunnelPineappleRandom = new Moves.GunMove("Green Tunnel Gun 2");
 
                 // Barriers
-                static JapesShellhive = new Moves("Japes Shellhive Gate", true, [[Moves.Feather]], true);
-                static GalleonLighthouse = new Moves("Lighthouse Side Open", true, [[Moves.Coconut]], true);
-                static GalleonPeanut = new Moves("Shipyard Side Open", true, [[Moves.Peanut]], true);
-                static ForestGreenTunnelPineapple = new Moves("Green Tunnel Opened (Pineapple)", true, [[Moves.Pineapple]], true);
-                static ForestGreenTunnelFeather = new Moves("Green Tunnel Opened (Feather)", true, [[Moves.Feather]], true);
-                static ForestYellowTunnel = new Moves("Yellow Tunnel Opened", true, [[Moves.Grape]], true);
-                static Night = new Moves("Fungi Night", true, [[Moves.AnyGun]], true);
-                static Day = new Moves("Fungi Day", true, [[Moves.AnyGun]], true);
-                static CavesIglooPads = new Moves("Caves Igloo Pads Spawned", true, [[Moves.Rocket]], true);
-                static CavesIceWalls = new Moves("Caves Ice Walls", true, [[Moves.Punch]], true);
-                static CryptDKEntry = new Moves("Castle Crypt Doors", true, [[Moves.Coconut]], true);
-                static CryptDiddyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Peanut]], true);
-                static CryptLankyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Grape]], true);
-                static CryptTinyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Feather]], true);
-                static CryptChunkyEntry = new Moves("Castle Crypt Doors", true, [[Moves.Pineapple]], true);
+                static JapesShellhive = new Moves("Japes Shellhive Gate", [[Moves.Feather]], true);
+                static GalleonLighthouse = new Moves("Lighthouse Side Open", [[Moves.Coconut]], true);
+                static GalleonPeanut = new Moves("Shipyard Side Open", [[Moves.Peanut]], true);
+                static ForestGreenTunnelPineapple = new Moves("Green Tunnel Opened (Pineapple)", [[Moves.Pineapple]], true);
+                static ForestGreenTunnelFeather = new Moves("Green Tunnel Opened (Feather)", [[Moves.Feather]], true);
+                static ForestYellowTunnel = new Moves("Yellow Tunnel Opened", [[Moves.Grape]], true);
+                static Night = new Moves("Fungi Night", [[Moves.AnyGun]], true);
+                static Day = new Moves("Fungi Day", [[Moves.AnyGun]], true);
+                static CavesIglooPads = new Moves("Caves Igloo Pads Spawned", [[Moves.Rocket]], true);
+                static CavesIceWalls = new Moves("Caves Ice Walls", [[Moves.Punch]], true);
+                static CryptDKEntry = new Moves("Castle Crypt Doors", [[Moves.Coconut]], true);
+                static CryptDiddyEntry = new Moves("Castle Crypt Doors", [[Moves.Peanut]], true);
+                static CryptLankyEntry = new Moves("Castle Crypt Doors", [[Moves.Grape]], true);
+                static CryptTinyEntry = new Moves("Castle Crypt Doors", [[Moves.Feather]], true);
+                static CryptChunkyEntry = new Moves("Castle Crypt Doors", [[Moves.Pineapple]], true);
 
                 // The more complex barriers have been moved out to barrier_data.js.
 
-                constructor (name, requires_moves=true, barrier_moves=[[]], is_barrier=false) {
+                constructor (name, barrier_moves=[[]], is_barrier=false) {
                     this.name = name;
-                    this.requires_moves = requires_moves
                     this.barrier_moves = barrier_moves
                     this.is_barrier = is_barrier
                 }
@@ -986,6 +984,8 @@
                     li.className = "list-group-item";
 
                     perm.forEach(item => {
+                        // Previously represented by Moves.Moveless, now just a UX affordance
+                        if (item.length == 0) item = [{ name: "Nothing" }];
                         const span = document.createElement("span");
                         span.classList.add("badge", "text-bg-info");
                         span.innerText = item.name;
@@ -1050,7 +1050,6 @@
                 // Precalcate list to handle barriers
                 for (let i = 0; i < 3; i++) {
                     list.forEach(item => {
-                        let anyRequirementIsMoveless = false;
                         item.requirements = item.requirements.flatMap(group => {
                             // Get list of move extensions and removals
                             let purged_moves = [];
@@ -1072,18 +1071,6 @@
                             // remove/extend group
                             group = group.filter(k => !purged_moves.includes(k)).slice();
                             return extension_alternatives.map(alternative => group.concat(alternative).slice());
-                        }).map(group => {
-                            // Correct moveless situations
-                            moveless_check = group.filter(k => k != Moves.Moveless)
-                            if (moveless_check.length > 0) {
-                                // If there's move requirements, filter out all "moveless" entries
-                                group = moveless_check.slice()
-                            } else if ((moveless_check.length == 0) && (group.length == 0)) {
-                                // No moves in here at all
-                                group = [Moves.Moveless].slice();
-                                anyRequirementIsMoveless = true;
-                            }
-                            return group;
                         })
 
                         // Small bugfix: There may be multiple requirements to get an item. If one of those requirements
@@ -1091,98 +1078,89 @@
                         // For example, some Lanky CBs in Fungi require [[Climbing], [Balloon]], but when Climbing is in the preset,
                         // we should never consider them to logically require Balloon.
                         // Thus, if we detect that any requirement group became moveless, we remove all other requirements.
-                        if (anyRequirementIsMoveless) {
-                            item.requirements = [[Moves.Moveless]];
+                        if (item.requirements.some(group => group.length == 0)) {
+                            item.requirements = [[]];
                         }
                     })
                 }
 
                 // Calculate all moves in this list
-                let updated_threshold = threshold;
                 let all_moves = [];
                 list.forEach(item => {
                     item.requirements.forEach(group => {
                         group.forEach(move_set => {
                             if (move_set == Moves.AllWarps) {
                                 // All Warps is off; this branch is unsatisfiable.
-                            } else if (move_set.requires_moves) {
-                                if (!all_moves.includes(move_set)) {
-                                    all_moves.push(move_set);
-                                }
-                            } else {
-                                updated_threshold -= item.amount;
+                            } else if (!all_moves.includes(move_set)) {
+                                all_moves.push(move_set);
                             }
                         })
                     })
                 })
                 const dump_hook = document.getElementById("permutations")
                 dump_hook.innerHTML = ""
-                if (updated_threshold > 0) {
-                    let beat_permutations = [];
-                    const perms = Math.pow(2, all_moves.length);
-                    // Owning all 5 guns covers any single gun, and owning any gun/instrument covers the "Any" variants.
-                    const gun_moves = all_moves.filter(move => move instanceof Moves.GunMove);
-                    const instrument_moves = all_moves.filter(move => move instanceof Moves.InstrumentMove);
-                    const expandMoves = (move_list) => {
-                        if (move_list.includes(Moves.CheckOfLegends)) {
-                            move_list = move_list.concat(gun_moves);
-                        }
-                        if (move_list.filter(move => gun_moves.includes(move)).length > 0) {
-                            move_list = move_list.concat([Moves.AnyGun]);
-                        }
-                        if (move_list.filter(move => instrument_moves.includes(move)).length > 0) {
-                            move_list = move_list.concat([Moves.AnyInstrument]);
-                        }
-                        return move_list;
+                let beat_permutations = [];
+                const perms = Math.pow(2, all_moves.length);
+                // Owning all 5 guns covers any single gun, and owning any gun/instrument covers the "Any" variants.
+                const gun_moves = all_moves.filter(move => move instanceof Moves.GunMove);
+                const instrument_moves = all_moves.filter(move => move instanceof Moves.InstrumentMove);
+                const expandMoves = (move_list) => {
+                    if (move_list.includes(Moves.CheckOfLegends)) {
+                        move_list = move_list.concat(gun_moves);
                     }
-                    for (let i = 0; i < perms; i++) {
-                        const local_moves = all_moves.filter((move, index) => (i & Math.pow(2, index)) != 0);
-                        const owned_moves = expandMoves(local_moves);
-                        local_total = updated_threshold;
-                        list.forEach(item => {
-                            if (item.can_acquire(owned_moves)) {
-                                local_total -= item.amount;
-                            }
-                        })
-                        if (local_total <= 0) {
-                            beat_permutations.push(local_moves)
-                        }
+                    if (move_list.filter(move => gun_moves.includes(move)).length > 0) {
+                        move_list = move_list.concat([Moves.AnyGun]);
                     }
-                    beat_permutations.sort((a, b) => (a.length > b.length) ? 1 : ((b.length > a.length) ? -1 : 0));
-                    let filtered_permutations = []
-                    let checker = (arr, target) => target.every(v => arr.includes(v) || opened_barriers.includes(v));
-                    beat_permutations.forEach((perm, index_a) => {
-                        let include = true;
-                        beat_permutations.forEach((previous_perm, index_b) => {
-                            if (index_b < index_a) {
-                                if (checker(perm, previous_perm)) {
-                                    include = false;
-                                }
-                            }
-                        })
-                        added = perm.slice();
-                        added.sort((a, b) => a.name.localeCompare(b.name));
-                        if (include) {
-                            filtered_permutations.push(added);
+                    if (move_list.filter(move => instrument_moves.includes(move)).length > 0) {
+                        move_list = move_list.concat([Moves.AnyInstrument]);
+                    }
+                    return move_list;
+                }
+                for (let i = 0; i < perms; i++) {
+                    const local_moves = all_moves.filter((move, index) => (i & Math.pow(2, index)) != 0);
+                    const owned_moves = expandMoves(local_moves);
+                    local_total = threshold;
+                    list.forEach(item => {
+                        if (item.can_acquire(owned_moves)) {
+                            local_total -= item.amount;
                         }
                     })
-
-                    // Sort permutations before rendering for improved readability.
-                    // 1. Number of moves, ascending (fewer requirements listed first)
-                    // 2. Alphabetical by first move (ties broken by second move, etc)
-                    filtered_permutations.sort((a, b) => {
-                        if (a.length != b.length) return Math.sign(a.length - b.length);
-
-                        for (var i = 0; i < a.length; i++) {
-                            if (a[i].name != b[i].name) return a[i].name.localeCompare(b[i].name);
-                        }
-
-                        return 0;
-                    });
-                    dump_hook.appendChild(movesToHTML(filtered_permutations));
-                    return
+                    if (local_total <= 0) {
+                        beat_permutations.push(local_moves)
+                    }
                 }
-                dump_hook.appendChild(movesToHTML([[Moves.Moveless]]));
+                beat_permutations.sort((a, b) => (a.length > b.length) ? 1 : ((b.length > a.length) ? -1 : 0));
+                let filtered_permutations = []
+                let checker = (arr, target) => target.every(v => arr.includes(v) || opened_barriers.includes(v));
+                beat_permutations.forEach((perm, index_a) => {
+                    let include = true;
+                    beat_permutations.forEach((previous_perm, index_b) => {
+                        if (index_b < index_a) {
+                            if (checker(perm, previous_perm)) {
+                                include = false;
+                            }
+                        }
+                    })
+                    added = perm.slice();
+                    added.sort((a, b) => a.name.localeCompare(b.name));
+                    if (include) {
+                        filtered_permutations.push(added);
+                    }
+                })
+
+                // Sort permutations before rendering for improved readability.
+                // 1. Number of moves, ascending (fewer requirements listed first)
+                // 2. Alphabetical by first move (ties broken by second move, etc)
+                filtered_permutations.sort((a, b) => {
+                    if (a.length != b.length) return Math.sign(a.length - b.length);
+
+                    for (var i = 0; i < a.length; i++) {
+                        if (a[i].name != b[i].name) return a[i].name.localeCompare(b[i].name);
+                    }
+
+                    return 0;
+                });
+                dump_hook.appendChild(movesToHTML(filtered_permutations));
             }
 
             const recalculators = document.getElementsByClassName("recalculate");

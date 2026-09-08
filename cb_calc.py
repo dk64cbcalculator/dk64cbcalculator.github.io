@@ -3,6 +3,7 @@
 # Python built-ins
 import collections
 import itertools
+from pathlib import Path
 
 # Data for region traversal and banana requirements
 from randomizer.CollectibleLogicFiles.AngryAztec import LogicRegions as AztecBananas
@@ -802,13 +803,10 @@ def cbs_to_javascript(cb_requirements, special_requirements):
 
             moves = []
             for converted_requirement in converted_requirements:
-                if converted_requirement == []:
-                    moves.append("Moves.Moveless")
-                else:
-                    move_names = ", ".join(("Moves." + move_map_values[c] for c in converted_requirement))
-                    # Hack: this requirement has a different name depending on which kong is responsible.
-                    move_names = move_names.replace("Moves.CastleCryptDoors", f"Moves.Crypt{kong_map[kong]}Entry")
-                    moves.append(move_names)
+                move_names = ", ".join(("Moves." + move_map_values[c] for c in converted_requirement))
+                # Hack: this requirement has a different name depending on which kong is responsible.
+                move_names = move_names.replace("Moves.CastleCryptDoors", f"Moves.Crypt{kong_map[kong]}Entry")
+                moves.append(move_names)
 
             # Some slight formatting here to put the comment on the first line, regardless of the number of moves.
             if len(moves) == 1:
@@ -876,7 +874,7 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
             move_names = ", ".join(("Moves." + move_map_values[c] for c in converted_requirement))
             moves.append(f"[{move_names}]")
 
-        output += f'Moves.{move_map[barrier]} = new Moves("{barrier_name}", true, '
+        output += f'Moves.{move_map[barrier]} = new Moves("{barrier_name}", '
         if len(moves) == 1:
             output += f"[{moves[0]}], true);\n"
         else:
@@ -989,6 +987,7 @@ LEVELS = [
 ]
 
 if __name__ == "__main__":
+    output_directory = Path(__file__).parent
     barrier_output = ""
     cb_output = "const requirement_data = {\n"
     for level in LEVELS:
@@ -1013,7 +1012,7 @@ if __name__ == "__main__":
         cb_output += "    },\n"
 
     cb_output += "}\n"
-    with open("barrier_data.js", "w") as f:
+    with (output_directory / "barrier_data.js").open("w") as f:
         f.write(barrier_output)
-    with open("requirement_data.js", "w") as f:
+    with (output_directory / "requirement_data.js").open("w") as f:
         f.write(cb_output)

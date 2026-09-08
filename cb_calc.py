@@ -3,7 +3,6 @@
 # Python built-ins
 import collections
 import itertools
-from pathlib import Path
 
 # Data for region traversal and banana requirements
 from randomizer.CollectibleLogicFiles.AngryAztec import LogicRegions as AztecBananas
@@ -987,7 +986,6 @@ LEVELS = [
 ]
 
 if __name__ == "__main__":
-    output_directory = Path(__file__).parent
     barrier_output = ""
     cb_output = "const requirement_data = {\n"
     for level in LEVELS:
@@ -1012,7 +1010,7 @@ if __name__ == "__main__":
         cb_output += "    },\n"
 
     cb_output += "}\n"
-    with (output_directory / "barrier_data.js").open("w") as f:
+    with open("barrier_data.js", "w") as f:
         f.write(barrier_output)
-    with (output_directory / "requirement_data.js").open("w") as f:
+    with open("requirement_data.js", "w") as f:
         f.write(cb_output)

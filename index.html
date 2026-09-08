@@ -983,9 +983,10 @@
                     const li = document.createElement("li");
                     li.className = "list-group-item";
 
+                    // Previously represented by Moves.Moveless, now just a UX affordance
+                    if (perm.length == 0) perm  = [{ name: "Nothing" }];
+
                     perm.forEach(item => {
-                        // Previously represented by Moves.Moveless, now just a UX affordance
-                        if (item.length == 0) item = [{ name: "Nothing" }];
                         const span = document.createElement("span");
                         span.classList.add("badge", "text-bg-info");
                         span.innerText = item.name;

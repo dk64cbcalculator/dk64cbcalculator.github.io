@@ -241,23 +241,20 @@ class SetOfSets:
         if len(event_requirements) == 0:
             return
         did_any_replacements = False
-        i = 0
-        while i < len(self.requirements):
-            requirement = self.requirements[i]
+        replacement = SetOfSets() # Build a new set, since replacing may result in simplifications
+        for requirement in self.requirements:
             if event not in requirement:
-                i += 1
+                replacement.add(requirement)
                 continue
 
+            did_any_replacements = True
             requirement = requirement - {event}
             for event_requirement in event_requirements:
                 if event in event_requirement:
                     raise ValueError(f"Attempted to replace {event.name} with a set of requirements which contained itself, specifically {event_requirement}")
-                did_any_replacements = True
-                self.requirements.append(requirement | event_requirement)  # Eeeeh. I was calling .add() here but we've gotta be more careful.
+                replacement.add(requirement | event_requirement)
 
-            if did_any_replacements:
-                self.requirements.pop(i)
-
+        self.requirements = replacement.requirements
         return did_any_replacements
 
 
@@ -709,6 +706,11 @@ def compute_barrier_requirements(regions, region_requirements):
             for barrier_requirement in barrier_requirements:
                 for region_requirement in region_requirements[region]:
                     requirement = barrier_requirement | region_requirement
+                    if barrier in requirement:
+                        raise ValueError(f"Barrier {barrier.name} in region {region.name} contains itself as a requirement: {region_requirement}")
+
+                    # Unlike other transitions, barriers are (generally) permanently open, so you can leave the level, tag, and come back in.
+                    relax_kong_requirement(requirement)
                     simplify_requirement(requirement)
                     all_barrier_requirements[barrier].add(requirement)
 

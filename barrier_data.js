@@ -2,6 +2,7 @@ Moves.JapesCoconut = new Moves("Japes Coconut Gates", true, [
     [Moves.Climbing, Moves.JapesFreeKong],
     [Moves.AllWarps, Moves.JapesFreeKong],
 ], true);
+Moves.TinyTempleIce = new Moves("Tiny Temple Ice Melted", true, [[Moves.LevelSlam, Moves.Peanut, Moves.Guitar]], true);
 Moves.AztecTunnelDoor = new Moves("Aztec Tunnel Door", true, [
     [Moves.Vines, Moves.Climbing, Moves.AztecGuitar],
     [Moves.Climbing, Moves.Rocket, Moves.AztecGuitar],
@@ -14,7 +15,6 @@ Moves.AztecLlama = new Moves("Aztec Llama Switch", true, [
     [Moves.Blast, Moves.AllWarps],
     [Moves.Blast, Moves.AztecTunnelDoor],
 ], true);
-Moves.TinyTempleIce = new Moves("Tiny Temple Ice Melted", true, [[Moves.LevelSlam, Moves.Peanut, Moves.Guitar]], true);
 Moves.FactoryTesting = new Moves("Testing Side Open", true, [[Moves.Slam]], true);
 Moves.FactoryProduction = new Moves("Production Room On", true, [
     [Moves.Climbing, Moves.Coconut, Moves.Grab, Moves.AllWarps],

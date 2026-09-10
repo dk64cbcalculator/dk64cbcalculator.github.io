@@ -839,10 +839,10 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
         # Japes
         Events.JapesFreeKongOpenGates: "Japes Coconut Gates",
         # Aztec
-        Events.AztecGuitarPad: "Aztec Tunnel Door",
-        Events.FedTotem: "Aztec 5DT Switches", # Depends on AztecGuitarPad
-        Events.LlamaFreed: "Aztec Llama Switch",
         Events.AztecIceMelted: "Tiny Temple Ice Melted",
+        Events.AztecGuitarPad: "Aztec Tunnel Door", # Depends on AztecIceMelted
+        Events.FedTotem: "Aztec 5DT Switches", # Depends on AztecGuitarPad
+        Events.LlamaFreed: "Aztec Llama Switch", # Depends on AztecGuitarPad
         # Factory
         Events.TestingGateOpened: "Testing Side Open",
         Events.MainCoreActivated: "Production Room On", # Depends on TestingGateOpened
@@ -859,9 +859,17 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
     move_map_values = list(move_map.values())
 
     output = ""
+    declared = set()
     for barrier, barrier_name in barrier_names.items():
         if barrier not in barrier_requirements:
             continue
+
+        # The generated file is evaluated top to bottom, so naming a barrier before it exists silently yields undefined.
+        for requirement in barrier_requirements[barrier]:
+            for token in requirement:
+                if isinstance(token, Events) and token in barrier_names and token not in declared:
+                    raise ValueError(f'Barrier "{barrier_names[token]}" must be listed before "{barrier_name}" in barrier_names')
+        declared.add(barrier)
 
         # Sort the output (for consistency).
         # 1. Each requirement is ordered by the moves in the move map

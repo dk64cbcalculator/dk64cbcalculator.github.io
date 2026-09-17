@@ -23,15 +23,23 @@ from randomizer.LogicFiles.JungleJapes import LogicRegions as JapesLogic
 # The real logic class, inherited so shared checks stay in sync instead of being copied here.
 from randomizer.Logic import LogicVarHolder
 
+# Data for where the DK Portal (i.e. the level entrance) is allowed to be placed.
+from randomizer.Lists.DoorLocations import LEVEL_ENTRY_HANDLER_REGIONS, door_locations
+
 # Enums galore
 from randomizer.Enums.Collectibles import Collectibles
+from randomizer.Enums.DoorType import DoorType
 from randomizer.Enums.Events import Events
 from randomizer.Enums.Kongs import Kongs
+from randomizer.Enums.Levels import Levels
 from randomizer.Enums.Locations import Locations
 from randomizer.Enums.Regions import Regions
-from randomizer.Enums.Settings import RemovedBarriersSelected
+from randomizer.Enums.Settings import DKPortalRando, RemovedBarriersSelected
 from randomizer.Enums.Switches import Switches
 from randomizer.Enums.Time import Time
+
+# To avoid collisions, we add an offset to the Region tokens so they don't collide with other IntEnum values.
+REGION_TOKEN_OFFSET = 1_000_000
 
 
 class MockSettings:
@@ -42,6 +50,7 @@ class MockSettings:
     galleon_water_internal = None
     fungi_time_internal = None
     shuffle_shops = False
+    dk_portal_location_rando_v2 = DKPortalRando.main_only  # Only main-map DK Portals for now, not submap portals
     lanky_freeing_kong = Kongs.donkey  # Vanilla: Donkey frees Lanky, so CanLlamaSpit needs his bongos
 
 
@@ -375,7 +384,7 @@ def simplify_requirement(requirement, kong=None):
         requirement.discard(kong.name.lower())
 
 
-def flatten_graph(region_logic, region_bananas, requirements):
+def flatten_graph(region_logic, region_bananas, requirements, level=None, entry_regions=()):
     """Stage 1 of computation: Convert the raw data formats.
 
     The code in the repo is not tuned for brute force, i.e. logic requirements are listed as lambdas.
@@ -504,6 +513,13 @@ def flatten_graph(region_logic, region_bananas, requirements):
                 requirement.replace_event("grape", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
                 requirement.replace_event("feather", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
                 requirement.replace_event("pineapple", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
+
+    # Model each custom entrance portal as a transition from the level entrance.
+    if level is not None:
+        entrance = LEVEL_ENTRY_HANDLER_REGIONS[level]
+        regions[entrance].exits = collections.defaultdict(SetOfSets)
+        for entry_region in entry_regions:
+            regions[entrance].exits[entry_region].add({entry_region + REGION_TOKEN_OFFSET})
 
     return regions
 
@@ -652,7 +668,7 @@ def traverse_graph(regions, entry_region):
     return region_requirements
 
 
-def compute_cb_requirements(regions, region_requirements):
+def compute_cb_requirements(regions, region_requirements, entry_regions):
     """Stage 3a: Compute the requirements to reach each CB/Bunch/Balloon.
 
     We already parsed out the relevant collectible objects during our flatten_graph prepass.
@@ -684,6 +700,21 @@ def compute_cb_requirements(regions, region_requirements):
 
             if len(requirements_crossproduct) == 0:
                 raise ValueError(f"Unable to determine requirements for {cb.amount} {cb.kong.name} {cb.type.name} in region {region.name} with original requirements {cb_requirements}")
+
+            if entry_regions: # TODO: Remove when all levels support entrance rando
+                entrances = {region + REGION_TOKEN_OFFSET for region in entry_regions}
+                reduced_crossproduct = SetOfSets()
+                for requirement in requirements_crossproduct:
+                    requirement_moves = requirement - entrances
+                    # Check which entrances these cbs are reachable from with an equivalent or easier requirement
+                    reachable_from = set()
+                    for other_requirement in requirements_crossproduct:
+                        other_entrance = other_requirement & entrances
+                        assert len(other_entrance) == 1
+                        if other_requirement - entrances <= requirement_moves:
+                            reachable_from |= other_entrance
+                    reduced_crossproduct.add(requirement_moves if reachable_from == entrances else requirement)
+                requirements_crossproduct = reduced_crossproduct
 
             all_cb_requirements[cb.kong][requirements_crossproduct].append((cb, region))
 
@@ -718,6 +749,8 @@ def compute_barrier_requirements(regions, region_requirements):
 
 
 MOVE_MAP = {
+    # Add region identifiers (as a stand-in for the various DK portal locations).
+    **{region + REGION_TOKEN_OFFSET: region.name for region in Regions},
     **{"can_use_vines": "Vines", "swim": "Diving", "oranges": "Oranges", "barrels": "Barrels", "climbing": "Climbing"},
     **{"Slam": "Slam", "levelSlam": "LevelSlam"},
     # Kong-specific
@@ -898,6 +931,29 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
     return output
 
 
+def find_entry_regions(region_logic, level):
+    """Find every region the level's DK Portal is allowed to be placed in."""
+    spoiler = Logic(set())
+    entry_handler = LEVEL_ENTRY_HANDLER_REGIONS[level]
+    vanilla_entry = region_logic[entry_handler].exits[1].dest
+
+    entry_regions = []
+    for door in door_locations[level]:
+        door.door_type = door.default_door_list.copy()
+        door.updateDoorTypeLogic(spoiler)
+        if door.logicregion in entry_regions or door.logicregion == vanilla_entry:
+            continue
+        if door.logicregion not in region_logic:
+            continue  # Ignore doors which live outside the level itself, e.g. in the lobby
+        if DoorType.dk_portal in door.door_type:
+            entry_regions.append(door.logicregion)
+
+    entry_regions.sort(key=lambda region: region_logic[region].name)
+    entry_regions.insert(0, vanilla_entry)  # The vanilla entrance goes first, since it's the one to beat.
+
+    return entry_regions
+
+
 LEVELS = [
     {
         "name": "Japes",
@@ -978,6 +1034,7 @@ LEVELS = [
     },
     {
         "name": "Caves",
+        "level": Levels.CrystalCaves,
         "logic": CavesLogic,
         "bananas": CavesBananas,
         "entry_region": Regions.CrystalCavesEntryHandler,
@@ -1006,11 +1063,15 @@ if __name__ == "__main__":
 
         print("\tEvaluating level", level["name"])
 
-        regions = flatten_graph(level["logic"], level["bananas"], requirements)
+        entry_regions = []
+        if "level" in level:
+            entry_regions = find_entry_regions(level["logic"], level["level"])
+
+        regions = flatten_graph(level["logic"], level["bananas"], requirements, level.get("level"), entry_regions)
 
         region_requirements = traverse_graph(regions, level["entry_region"])
 
-        cb_requirements = compute_cb_requirements(regions, region_requirements)
+        cb_requirements = compute_cb_requirements(regions, region_requirements, entry_regions)
 
         barrier_requirements = compute_barrier_requirements(regions, region_requirements)
 

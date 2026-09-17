@@ -458,6 +458,8 @@ def flatten_graph(region_logic, region_bananas, requirements, level=None, entry_
     print("Finding all region transitions")
     transitions = []
     for region_id, region in region_logic.items():
+        if level and region_id == LEVEL_ENTRY_HANDLER_REGIONS[level]:
+            continue  # Skip the vanilla entry so we have valid tokens for all entrances
         for transition in region.exits:
             if transition.dest not in region_logic:
                 continue  # Ignore transitions which leave the region (e.g. to the lobby)
@@ -465,6 +467,13 @@ def flatten_graph(region_logic, region_bananas, requirements, level=None, entry_
                 regions[region_id].exits[transition.dest].add(set())  # Small perf improvement: filter out transitions which are free
             else:
                 transitions.append((region_id, transition))
+
+    # Model each custom entrance portal as a transition from the level entrance.
+    if level: # TODO: Remove once all levels are handling this
+        entrance = LEVEL_ENTRY_HANDLER_REGIONS[level]
+        for entry_region in entry_regions:
+            regions[entrance].exits[entry_region].add({entry_region + REGION_TOKEN_OFFSET})
+
 
     print("Computing region transition requirements")
     for requirement in possible_requirements(requirements):
@@ -513,13 +522,6 @@ def flatten_graph(region_logic, region_bananas, requirements, level=None, entry_
                 requirement.replace_event("grape", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
                 requirement.replace_event("feather", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
                 requirement.replace_event("pineapple", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
-
-    # Model each custom entrance portal as a transition from the level entrance.
-    if level is not None:
-        entrance = LEVEL_ENTRY_HANDLER_REGIONS[level]
-        regions[entrance].exits = collections.defaultdict(SetOfSets)
-        for entry_region in entry_regions:
-            regions[entrance].exits[entry_region].add({entry_region + REGION_TOKEN_OFFSET})
 
     return regions
 

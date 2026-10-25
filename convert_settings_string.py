@@ -4,10 +4,12 @@
 import collections
 import json
 import sys
-from pathlib import Path
 
 # Randomizer stuff
-from randomizer.SettingStrings import decrypt_settings_string_enum
+try:
+    from randomizer.ProtoSerializer import settings_string_to_form_data
+except ImportError:  # We are being imported in the v5 repo
+    from randomizer.SettingStrings import decrypt_settings_string_enum as settings_string_to_form_data
 from randomizer.Settings import Settings
 from randomizer.ItemPool import TrainingBarrelAbilities
 from randomizer.Lists.Switches import SwitchData
@@ -69,27 +71,35 @@ def handle_switchsanity(settings):
 
         Switches.AztecQuicksandSwitch: settings.switchsanity_switch_aztec_sand_tunnel,
 
-        Switches.FactoryDarkRoomGrate: settings.switchsanity_switch_factory_dark_grate,
-        Switches.FactoryToyMonsterGrate: settings.switchsanity_switch_factory_monster_grate,
-        Switches.CavesGoneCave: settings.switchsanity_switch_caves_gone_cave,
-        Switches.CavesSnideCave: settings.switchsanity_switch_caves_snide_cave,
-        Switches.CavesBoulderCave: settings.switchsanity_switch_caves_boulder_cave,
-
         # Isles has no CBs.
         Switches.IslesMonkeyport: None,
         Switches.IslesHelmLobbyGone: None,
         Switches.IslesAztecLobbyFeather: None,
         Switches.IslesFungiLobbyFeather: None,
         Switches.IslesSpawnRocketbarrel: None,
-        Switches.CavesLobbyBP: None,
-        Switches.CavesLobbyLava: None,
-        Switches.AztecLobbyGong: None,
 
         # Unlike Japes, the other kong unlocks don't impact the world, so they don't matter for CBs.
         Switches.AztecOKONGPuzzle: None,
         Switches.AztecLlamaPuzzle: None,
         Switches.FactoryFreeKong: None,
     }
+    if hasattr(Switches, "FactoryDarkRoomGrate"):  # Charge-or-punch switches, new to v6
+        assignments |= {
+            Switches.FactoryDarkRoomGrate: settings.switchsanity_switch_factory_dark_grate,
+            Switches.FactoryToyMonsterGrate: settings.switchsanity_switch_factory_monster_grate,
+            Switches.CavesGoneCave: settings.switchsanity_switch_caves_gone_cave,
+            Switches.CavesSnideCave: settings.switchsanity_switch_caves_snide_cave,
+            Switches.CavesBoulderCave: settings.switchsanity_switch_caves_boulder_cave,
+
+            # These are in Isles, so they gate no CBs
+            Switches.CavesLobbyBP: None,
+            Switches.CavesLobbyLava: None,
+            Switches.AztecLobbyGong: None,
+
+            # These two switches are switchsanitied but don't lock any CBs, so I'm omitting them for brevity.
+            Switches.FactoryArcadeTunnelGrate: None,
+            Switches.AztecGongTower: None,
+        }
     # Some legacy names (to be removed at some point)
     name_overrides = {
         Switches.JapesFeather: "JapesShellhive",
@@ -149,11 +159,10 @@ def handle_switchsanity(settings):
     return overrides
 
 
-def settings_to_config(str, name):
-    settings = Settings(decrypt_settings_string_enum(str))
+def settings_to_config(str):
+    settings = Settings(settings_string_to_form_data(str))
 
     config = collections.defaultdict(list)
-    config["name"] = name
     config["galleon_water"] = {"lowered": "Low", "raised": "High"}[settings.galleon_water.name]
     config["fungi_time"] = {"day": "Day", "night": "Night", "dusk": "Dusk", "progressive": "Progressive"}[settings.fungi_time.name]
 
@@ -189,27 +198,4 @@ def settings_to_config(str, name):
 
 
 if __name__ == '__main__':
-    str = sys.argv[1]
-    key = sys.argv[2]
-    name = sys.argv[3]
-
-    config = settings_to_config(str, name)
-
-    # Add the settings to the JSON data
-    preset_file = Path("../presets.json") # We are running inside the DK64-Randomizer tree
-    with preset_file.open("r", encoding="utf-8") as f:
-        presets = json.load(f)
-    presets[key] = config
-    with preset_file.open("w", encoding="utf-8") as f:
-        json.dump(presets, f, indent=4)
-
-    # Add the key to the HTML listing
-    index_file = Path("../index.html")
-    marker = "// Imported presets are added above this line"
-    html = index_file.read_text(encoding="utf-8")
-    marker_pos = html.index(marker)  # raises if the anchor is missing
-    indent = html[html.rfind("\n", 0, marker_pos) + 1 : marker_pos]
-    anchor = indent + marker
-    entry = f'{indent}"{key}",\n'
-    if entry not in html:
-        index_file.write_text(html.replace(anchor, entry + anchor, 1), encoding="utf-8")
+    print(json.dumps(settings_to_config(sys.argv[1])))

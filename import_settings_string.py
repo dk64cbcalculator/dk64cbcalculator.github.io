@@ -69,12 +69,21 @@ def handle_switchsanity(settings):
 
         Switches.AztecQuicksandSwitch: settings.switchsanity_switch_aztec_sand_tunnel,
 
+        Switches.FactoryDarkRoomGrate: settings.switchsanity_switch_factory_dark_grate,
+        Switches.FactoryToyMonsterGrate: settings.switchsanity_switch_factory_monster_grate,
+        Switches.CavesGoneCave: settings.switchsanity_switch_caves_gone_cave,
+        Switches.CavesSnideCave: settings.switchsanity_switch_caves_snide_cave,
+        Switches.CavesBoulderCave: settings.switchsanity_switch_caves_boulder_cave,
+
         # Isles has no CBs.
         Switches.IslesMonkeyport: None,
         Switches.IslesHelmLobbyGone: None,
         Switches.IslesAztecLobbyFeather: None,
         Switches.IslesFungiLobbyFeather: None,
         Switches.IslesSpawnRocketbarrel: None,
+        Switches.CavesLobbyBP: None,
+        Switches.CavesLobbyLava: None,
+        Switches.AztecLobbyGong: None,
 
         # Unlike Japes, the other kong unlocks don't impact the world, so they don't matter for CBs.
         Switches.AztecOKONGPuzzle: None,
@@ -103,6 +112,10 @@ def handle_switchsanity(settings):
         Kongs.tiny: "Sax",
         Kongs.chunky: "Triangle",
     }
+    smashes = {
+        Kongs.diddy: "Charge",
+        Kongs.chunky: "Punch",
+    }
 
     overrides = {}
     for switch in SwitchData:
@@ -128,6 +141,11 @@ def handle_switchsanity(settings):
                 overrides[switch_name] = instruments[Kongs(assigned.value)]
         elif SwitchData[switch].switch_type == SwitchType.SlamSwitch:
             pass # The calculator doesn't support this yet
+        elif SwitchData[switch].switch_type in (SwitchType.PunchGrate, SwitchType.IceWall):
+            if assigned.name == "random":
+                overrides[switch_name] = f"{switch_name}Random"
+            elif smashes[Kongs(assigned.value)] != smashes[SwitchData[switch].kong]:
+                overrides[switch_name] = smashes[Kongs(assigned.value)]
     return overrides
 
 

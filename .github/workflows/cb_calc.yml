@@ -51,7 +51,7 @@ jobs:
     - name: Set up tests
       run: |
         git clone https://github.com/2dos/DK64-Randomizer
-        pip install pytest requests
+        pip install pytest requests protobuf
 
     - name: Run tests
       working-directory: DK64-Randomizer

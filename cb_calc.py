@@ -43,6 +43,7 @@ class MockSettings:
     fungi_time_internal = None
     shuffle_shops = False
     lanky_freeing_kong = Kongs.donkey  # Vanilla: Donkey frees Lanky, so CanLlamaSpit needs his bongos
+    shuffled_location_types = []  # Disable the v6 time shuffle; day and night are special events anyways.
 
 
 BASE_REQUIREMENTS = [
@@ -71,12 +72,14 @@ class Logic(LogicVarHolder):
     the checks the calculator intentionally does not model.
     """
 
+    cannons = True  # TODO: Handle cannon shuffling
+
     def __init__(self, requirements):
         """Initialize the logic class with custom requirements."""
         self.reqs = set(requirements)
         self.settings = MockSettings()
-        self.Events = [req for req in self.reqs if isinstance(req, Events)]
-        self.SpecialLocationsReached = [req for req in self.reqs if isinstance(req, Locations)]
+        self.Events = [Events[req] for req in self.reqs if req in Events.__members__]
+        self.SpecialLocationsReached = [Locations[req] for req in self.reqs if req in Locations.__members__]
 
     def get(self, key):
         """Check if a given key is in the requirements."""
@@ -97,11 +100,11 @@ class Logic(LogicVarHolder):
 
     def hasMoveSwitchsanity(self, switchsanity_setting, kong_needs_current=True, level=None, default_slam_level=0):
         """Check if a given switch is in the requirements."""
-        return switchsanity_setting in self.reqs
+        return switchsanity_setting.name in self.reqs
 
     def checkBarrier(self, barrier):
         """Check if a given barrier is in the requirements."""
-        return barrier in self.reqs
+        return barrier.name in self.reqs
 
     def CanSlamSwitch(self, level, default_requirement_level):
         """Check if a level slam is in the requirements."""
@@ -251,7 +254,7 @@ class SetOfSets:
             requirement = requirement - {event}
             for event_requirement in event_requirements:
                 if event in event_requirement:
-                    raise ValueError(f"Attempted to replace {event.name} with a set of requirements which contained itself, specifically {event_requirement}")
+                    raise ValueError(f"Attempted to replace {event} with a set of requirements which contained itself, specifically {event_requirement}")
                 did_any_replacements = True
                 self.requirements.append(requirement | event_requirement)  # Eeeeh. I was calling .add() here but we've gotta be more careful.
 
@@ -346,16 +349,16 @@ def simplify_requirement(requirement, kong=None):
     # Special case #1: We require "night" and "day" separately from guns, but they are overlapping.
     # If the requirement contains night or day access *and* one of the 5 guns, remove night/day.
     if requirement.intersection({"coconut", "peanut", "grape", "feather", "pineapple"}):
-        requirement.discard(Events.Night)
-        requirement.discard(Events.Day)
+        requirement.discard(Events.Night.name)
+        requirement.discard(Events.Day.name)
     # Special case #2: We require "levelSlam" (i.e. switch color) separately from just "slam" (i.e. pounding a box).
     # If the requirement contains both, just report levelSlam (the more restrictive requirement)
     if requirement.intersection({"levelSlam"}):
         requirement.discard("Slam")
     # Special case #3: We assume Enguarde is available if lanky is available.
     if kong == Kongs.lanky:
-        requirement.discard(Events.ShipyardEnguarde)
-        requirement.discard(Events.LighthouseEnguarde)
+        requirement.discard(Events.ShipyardEnguarde.name)
+        requirement.discard(Events.LighthouseEnguarde.name)
     # Special case #4: We assume kongs are implied if any kong-specific moves are required.
     if requirement.intersection({"coconut", "bongos", "grab", "strongKong", "blast"}):
         requirement.discard("isdonkey")
@@ -402,15 +405,15 @@ def flatten_graph(region_logic, region_bananas, requirements):
     event_names = set()
     for region_id, region in region_logic.items():
         for event in region.events:
-            if event.name in requirements:
-                regions[region_id].events[event.name] = SetOfSets()  # Events which are explicitly listed as requirements shouldn't be satisfiable,
+            if event.name.name in requirements:
+                regions[region_id].events[event.name.name] = SetOfSets()  # Events which are explicitly listed as requirements shouldn't be satisfiable,
                 events.append((regions[region_id].barriers, event))  # but we still add them to the main event list so we can determine their requirements.
             elif event.logic(no_requirements):
-                regions[region_id].events[event.name].add(set())
-                event_names.add(event.name)
+                regions[region_id].events[event.name.name].add(set())
+                event_names.add(event.name.name)
             else:
                 events.append((regions[region_id].events, event))
-                event_names.add(event.name)
+                event_names.add(event.name.name)
 
     # For the purposes of further graph flattening, allow events as requirements, but don't modify the original list.
     requirements = {*requirements, *event_names}
@@ -420,16 +423,16 @@ def flatten_graph(region_logic, region_bananas, requirements):
         l = Logic(requirement)
         for event_requirements, event in events:
             if event.logic(l):
-                if event_requirements[event.name].add(requirement):
+                if event_requirements[event.name.name].add(requirement):
                     # print(f"Event {event.name.name} in region {region.name} is directly possible using requirement {requirement}")
                     pass
 
     # Sanity check to make sure all events were processed
-    raw_events = {event.name for region in region_logic.values() for event in region.events}
+    raw_events = {event.name.name for region in region_logic.values() for event in region.events}
     handled_events = {event for region in regions.values() for event in region.events}
     unhandled_events = raw_events - handled_events
     for event in unhandled_events:
-        raise ValueError(f"Unable to determine requirements for event {event.name}")
+        raise ValueError(f"Unable to determine requirements for event {event}")
 
     print("Finding all collectibles")
     collectibles = []
@@ -473,8 +476,8 @@ def flatten_graph(region_logic, region_bananas, requirements):
     warp_regions = {}
     for region in regions.values():
         for event in region.events:
-            if Events.JapesW1aTagged <= event <= Events.IslesW5bTagged:
-                warp_regions[event] = region.name
+            if Events.JapesW1aTagged <= Events[event] <= Events.IslesW5bTagged:
+                warp_regions[Events[event]] = region.name
 
     for warp1, source in warp_regions.items():
         # The warp events are all in order, and all of the 'A' warps are odd.
@@ -485,28 +488,12 @@ def flatten_graph(region_logic, region_bananas, requirements):
             warp2 = Events(warp1 - 1)
         dest = warp_regions[warp2]
         if source != dest:  # There's no need to evaluate warps if both pads are in the same region
-            regions[source].warps[dest] = (warp1, warp2)
+            regions[source].warps[dest] = (warp1.name, warp2.name)
 
     print("Finding all tag barrels")
     for region_id, region in region_logic.items():
         if region.tagbarrel:
             regions[region_id].taggable = True
-
-    # Hack: The ice walls in Crystal Caves aren't events, so they aren't nicely compatible with the event_requirements system.
-    # Instead, I'm manually replacing punch with ice_walls and rbb with igloo_pads here.
-    # This was also needed for crypt, because we need to report on the crypt doors for some reason.
-    for source in regions:
-        for requirement in regions[source].exits.values():
-            if any((RemovedBarriersSelected.caves_ice_walls in r for r in requirement)):
-                requirement.replace_event("punch", SetOfSets({RemovedBarriersSelected.caves_ice_walls}))
-            if any((RemovedBarriersSelected.caves_igloo_pads in r for r in requirement)):
-                requirement.replace_event("jetpack", SetOfSets({RemovedBarriersSelected.caves_igloo_pads}))
-            if any((RemovedBarriersSelected.castle_crypt_doors in r for r in requirement)):
-                requirement.replace_event("coconut", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
-                requirement.replace_event("peanut", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
-                requirement.replace_event("grape", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
-                requirement.replace_event("feather", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
-                requirement.replace_event("pineapple", SetOfSets({RemovedBarriersSelected.castle_crypt_doors}))
 
     return regions
 
@@ -559,10 +546,10 @@ def traverse_graph(regions, entry_region):
                             # The same is true for water level (although it doesn't impact anything in particular).
                             if any(
                                 [
-                                    Events.Day in region_requirement and Events.Night in exit_requirement,
-                                    Events.Night in region_requirement and Events.Day in exit_requirement,
-                                    Events.WaterRaised in region_requirement and Events.WaterLowered in exit_requirement,
-                                    Events.WaterLowered in region_requirement and Events.WaterRaised in exit_requirement,
+                                    Events.Day.name in region_requirement and Events.Night.name in exit_requirement,
+                                    Events.Night.name in region_requirement and Events.Day.name in exit_requirement,
+                                    Events.WaterRaised.name in region_requirement and Events.WaterLowered.name in exit_requirement,
+                                    Events.WaterLowered.name in region_requirement and Events.WaterRaised.name in exit_requirement,
                                 ]
                             ):
                                 # print(f"Attempted to use transition from {region.name} to {next_region.name} using requirement {exit_requirement}, but access to the region requires {region_requirement}")
@@ -599,7 +586,7 @@ def traverse_graph(regions, entry_region):
                         if regions[region].taggable or regions[next_region].taggable:
                             relax_kong_requirement(requirement)
                         if region_requirements[next_region].add(requirement):
-                            # print(f"Found new transition from {region.name} to {next_region.name} using 'all warps' from {warp1.name} to {warp2.name}")
+                            # print(f"Found new transition from {region.name} to {next_region.name} using 'all warps' from {warp1} to {warp2}")
                             found_new_requirement = True
 
                 # Update any events based on new region requirements
@@ -620,7 +607,7 @@ def traverse_graph(regions, entry_region):
                             requirement = event_requirement | region_requirement
                             relax_kong_requirement(requirement)
                             if event_requirements[event].add(requirement):
-                                # print(f"Found new path to event {event.name} in region {region.name} using event requirement {event_requirement} and region requirement {region_requirement}")
+                                # print(f"Found new path to event {event} in region {region.name} using event requirement {event_requirement} and region requirement {region_requirement}")
                                 found_new_requirement = True
 
         if not found_new_requirement:
@@ -634,7 +621,7 @@ def traverse_graph(regions, entry_region):
         for event in event_requirements:
             for other_event in event_requirements:
                 if event_requirements[event].replace_event(other_event, event_requirements[other_event]):
-                    # print(f"Replaced event {other_event.name} with {event_requirements[other_event]} inside event {event.name}")
+                    # print(f"Replaced event {other_event} with {event_requirements[other_event]} inside event {event}")
                     expanded_any_events = True
         if not expanded_any_events:
             break
@@ -644,12 +631,12 @@ def traverse_graph(regions, entry_region):
     for region in region_requirements:
         for event in event_requirements:
             if region_requirements[region].replace_event(event, event_requirements[event]):
-                # print(f"Replaced event {event.name} in region {region.name} with its requirements {event_requirements[event]}")
+                # print(f"Replaced event {event} in region {region.name} with its requirements {event_requirements[event]}")
                 pass
 
             for cb_requirements in regions[region].cbs.values():
                 if cb_requirements.replace_event(event, event_requirements[event]):
-                    # print(f"Replaced event {event.name} in region {region.name} with its requirements {event_requirements[event]}")
+                    # print(f"Replaced event {event} in region {region.name} with its requirements {event_requirements[event]}")
                     pass
 
     return region_requirements
@@ -783,7 +770,7 @@ def cbs_to_javascript(cb_requirements, special_requirements):
             entries.append((converted, count, locations))
 
         # One final sanity check: There should be 100 CBs per kong.
-        assert kong_total == 100, f"Missing {100 - kong_total} CBs for {kong}"
+        assert kong_total == 100, f"Missing {100 - kong_total} CBs for {kong.name}"
 
         def sort_key(entry):
             overall_sort_key = []
@@ -832,20 +819,20 @@ def barriers_to_javascript(barrier_requirements, special_requirements):
     # Note: Order matters here -- some barriers depend on each other.
     barrier_names = {
         # Japes
-        Events.JapesFreeKongOpenGates: "Japes Coconut Gates",
+        Events.JapesFreeKongOpenGates.name: "Japes Coconut Gates",
         # Aztec
-        Events.AztecGuitarPad: "Aztec Tunnel Door",
-        Events.FedTotem: "Aztec 5DT Switches", # Depends on AztecGuitarPad
-        Events.LlamaFreed: "Aztec Llama Switch",
-        Events.AztecIceMelted: "Tiny Temple Ice Melted",
+        Events.AztecGuitarPad.name: "Aztec Tunnel Door",
+        Events.FedTotem.name: "Aztec 5DT Switches", # Depends on AztecGuitarPad
+        Events.LlamaFreed.name: "Aztec Llama Switch",
+        Events.AztecIceMelted.name: "Tiny Temple Ice Melted",
         # Factory
-        Events.TestingGateOpened: "Testing Side Open",
-        Events.MainCoreActivated: "Production Room On", # Depends on TestingGateOpened
+        Events.TestingGateOpened.name: "Testing Side Open",
+        Events.MainCoreActivated.name: "Production Room On", # Depends on TestingGateOpened
         # Galleon
-        Events.WaterRaised: "Galleon Raised Water",
-        Events.WaterLowered: "Galleon Lowered Water",
-        Events.ActivatedLighthouse: "Ship Spawned", # Depends on WaterRaised
-        Events.ShipyardTreasureRoomOpened: "Treasure Room Open", # Depends on WaterRaised
+        Events.WaterRaised.name: "Galleon Raised Water",
+        Events.WaterLowered.name: "Galleon Lowered Water",
+        Events.ActivatedLighthouse.name: "Ship Spawned", # Depends on WaterRaised
+        Events.ShipyardTreasureRoomOpened.name: "Treasure Room Open", # Depends on WaterRaised
     }
 
     move_map = dict(MOVE_MAP)
@@ -892,13 +879,13 @@ LEVELS = [
         "bananas": JapesBananas,
         "entry_region": Regions.JungleJapesEntryHandler,
         "special_requirements": {
-            Events.JapesFreeKongOpenGates: "JapesCoconut",
-            Switches.JapesFreeKong: "JapesFreeKong",
-            Switches.JapesFeather: "JapesShellhive",
-            Switches.JapesRambi: "JapesRambi",
-            Switches.JapesPainting: "JapesPainting",
-            Switches.JapesDiddyCave: "JapesDiddyCave",
-            Locations.JapesDiddyMountain: "JapesW5Bonus",  # Not actually required for any CBs, but used by interim logic
+            Events.JapesFreeKongOpenGates.name: "JapesCoconut",
+            Switches.JapesFreeKong.name: "JapesFreeKong",
+            Switches.JapesFeather.name: "JapesShellhive",
+            Switches.JapesRambi.name: "JapesRambi",
+            Switches.JapesPainting.name: "JapesPainting",
+            Switches.JapesDiddyCave.name: "JapesDiddyCave",
+            Locations.JapesDiddyMountain.name: "JapesW5Bonus",  # Not actually required for any CBs, but used by interim logic
         },
     },
     {
@@ -908,17 +895,17 @@ LEVELS = [
         # I have moved the Angry Aztec entry region to avoid having all CBs locked by Twirl/Vines.
         "entry_region": Regions.AngryAztecOasis,
         "special_requirements": {
-            Events.AztecGuitarPad: "AztecTunnelDoor",
-            Switches.AztecGuitar: "AztecGuitar",
-            Events.LlamaFreed: "AztecLlama",
-            Switches.AztecBlueprintDoor: "AztecBlueprintDoor",
-            Switches.AztecLlamaCoconut: "AztecLlamaCoconut",
-            Switches.AztecLlamaGrape: "AztecLlamaGrape",
-            Switches.AztecLlamaFeather: "AztecLlamaFeather",
-            Switches.AztecQuicksandSwitch: "AztecQuicksandSwitch",
-            Events.AztecIceMelted: "TinyTempleIce",
-            Events.FedTotem: "Aztec5DT",
-            Locations.AztecDonkeyQuicksandCave: "AztecW5Bonus",
+            Events.AztecGuitarPad.name: "AztecTunnelDoor",
+            Switches.AztecGuitar.name: "AztecGuitar",
+            Events.LlamaFreed.name: "AztecLlama",
+            Switches.AztecBlueprintDoor.name: "AztecBlueprintDoor",
+            Switches.AztecLlamaCoconut.name: "AztecLlamaCoconut",
+            Switches.AztecLlamaGrape.name: "AztecLlamaGrape",
+            Switches.AztecLlamaFeather.name: "AztecLlamaFeather",
+            Switches.AztecQuicksandSwitch.name: "AztecQuicksandSwitch",
+            Events.AztecIceMelted.name: "TinyTempleIce",
+            Events.FedTotem.name: "Aztec5DT",
+            Locations.AztecDonkeyQuicksandCave.name: "AztecW5Bonus",
         },
     },
     {
@@ -927,8 +914,10 @@ LEVELS = [
         "bananas": FactoryBananas,
         "entry_region": Regions.FranticFactoryEntryHandler,
         "special_requirements": {
-            Events.TestingGateOpened: "FactoryTesting",
-            Events.MainCoreActivated: "FactoryProduction",
+            Events.TestingGateOpened.name: "FactoryTesting",
+            Events.MainCoreActivated.name: "FactoryProduction",
+            Switches.FactoryDarkRoomGrate.name: "FactoryDarkRoomGrate",
+            Switches.FactoryToyMonsterGrate.name: "FactoryToyMonsterGrate",
         },
     },
     {
@@ -937,16 +926,16 @@ LEVELS = [
         "bananas": GalleonBananas,
         "entry_region": Regions.GloomyGalleonEntryHandler,
         "special_requirements": {
-            Events.WaterRaised: "RaisedWater",
-            Events.WaterLowered: "LoweredWater",
-            Events.LighthouseGateOpened: "GalleonLighthouse",
-            Events.ShipyardGateOpened: "GalleonPeanut",
-            Events.ActivatedLighthouse: "GalleonShipSpawned",
-            Events.ShipyardTreasureRoomOpened: "GalleonTreasure",
-            Events.ShipyardEnguarde: "Enguarde",
-            Events.LighthouseEnguarde: "Enguarde",
-            Switches.GalleonCannonGame: "GalleonCannonGame",
-            Locations.GalleonDiddyGoldTower: "DiddyGoldTower",
+            Events.WaterRaised.name: "RaisedWater",
+            Events.WaterLowered.name: "LoweredWater",
+            Events.LighthouseGateOpened.name: "GalleonLighthouse",
+            Events.ShipyardGateOpened.name: "GalleonPeanut",
+            Events.ActivatedLighthouse.name: "GalleonShipSpawned",
+            Events.ShipyardTreasureRoomOpened.name: "GalleonTreasure",
+            Events.ShipyardEnguarde.name: "Enguarde",
+            Events.LighthouseEnguarde.name: "Enguarde",
+            Switches.GalleonCannonGame.name: "GalleonCannonGame",
+            Locations.GalleonDiddyGoldTower.name: "DiddyGoldTower",
         },
     },
     {
@@ -955,12 +944,12 @@ LEVELS = [
         "bananas": ForestBananas,
         "entry_region": Regions.FungiForestEntryHandler,
         "special_requirements": {
-            Events.Night: "Night",
-            Events.Day: "Day",
-            Events.HollowTreeGateOpened: "ForestYellowTunnel",
-            Switches.FungiGreenFeather: "ForestGreenTunnelFeather",
-            Switches.FungiGreenPineapple: "ForestGreenTunnelPineapple",
-            Events.MushroomCannonsSpawned: "CheckOfLegends",
+            Events.Night.name: "Night",
+            Events.Day.name: "Day",
+            Events.HollowTreeGateOpened.name: "ForestYellowTunnel",
+            Switches.FungiGreenFeather.name: "ForestGreenTunnelFeather",
+            Switches.FungiGreenPineapple.name: "ForestGreenTunnelPineapple",
+            Events.MushroomCannonsSpawned.name: "CheckOfLegends",
         },
     },
     {
@@ -969,9 +958,12 @@ LEVELS = [
         "bananas": CavesBananas,
         "entry_region": Regions.CrystalCavesEntryHandler,
         "special_requirements": {
-            RemovedBarriersSelected.caves_ice_walls: "CavesIceWalls",
-            RemovedBarriersSelected.caves_igloo_pads: "CavesIglooPads",
-            Locations.CavesTinyCaveBarrel: "CavesW3Bonus",
+            RemovedBarriersSelected.caves_ice_walls.name: "CavesIceWalls",
+            RemovedBarriersSelected.caves_igloo_pads.name: "CavesIglooPads",
+            Switches.CavesGoneCave.name: "CavesGoneCave",
+            Switches.CavesSnideCave.name: "CavesSnideCave",
+            Switches.CavesBoulderCave.name: "CavesBoulderCave",
+            Locations.CavesTinyCaveBarrel.name: "CavesW3Bonus",
         },
     },
     {
@@ -980,7 +972,7 @@ LEVELS = [
         "bananas": CastleBananas,
         "entry_region": Regions.CreepyCastleEntryHandler,
         "special_requirements": {
-            RemovedBarriersSelected.castle_crypt_doors: "CastleCryptDoors",
+            RemovedBarriersSelected.castle_crypt_doors.name: "CastleCryptDoors",
         },
     },
 ]

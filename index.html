@@ -142,6 +142,24 @@
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchFactoryTesting">
                             <label class="form-check-label" for="switchFactoryTesting">Factory Testing Gate Open</label>
                         </div>
+                        <!-- Factory Dark Room Grate -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectFactoryDarkRoomGrate">Grate to Dark Room</label>
+                            <select class="form-select switchsanity-select" id="selectFactoryDarkRoomGrate">
+                                <option>Chimpy Charge</option>
+                                <option selected>Primate Punch</option>
+                                <option>Random</option>
+                            </select>
+                        </div>
+                        <!-- Factory Toy Monster Grate -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectFactoryToyMonsterGrate">Grate to Toy Monster</label>
+                            <select class="form-select switchsanity-select" id="selectFactoryToyMonsterGrate">
+                                <option>Chimpy Charge</option>
+                                <option selected>Primate Punch</option>
+                                <option>Random</option>
+                            </select>
+                        </div>
                         <div class="mt-3">
                             <h5>Gloomy Galleon</h5>
                         </div>
@@ -403,6 +421,7 @@
                 static Rocket = new Moves("Rocketbarrel Boost");
                 static Spring = new Moves("Simian Spring");
                 static Charge = new Moves("Chimpy Charge");
+                static ["Chimpy Charge"] = Moves.Charge; // The exact name is used by dropdowns
                 static Orangstand = new Moves("Orangstand");
                 static Balloon = new Moves("Baboon Balloon");
                 static Sprint = new Moves("Sprint");
@@ -411,6 +430,7 @@
                 static Monkeyport = new Moves("Monkeyport");
                 static Hunky = new Moves("Hunky Chunky");
                 static Punch = new Moves("Primate Punch");
+                static ["Primate Punch"] = Moves.Punch; // The exact name is used by dropdowns
                 static Gone = new Moves("Gorilla Gone");
                 // Training
                 static Climbing = new Moves("Climbing");
@@ -426,6 +446,7 @@
                 static Pineapple = new Moves.GunMove("Pineapple");
                 static CheckOfLegends = new Moves.GunMove("All 5 Guns");
                 static AnyGun = new Moves("Any Gun");
+                static ["Any Gun"] = Moves.AnyGun; // The exact name is used by dropdowns
                 // Instruments
                 static Bongos = new Moves.InstrumentMove("Bongos");
                 static Guitar = new Moves.InstrumentMove("Guitar");
@@ -433,6 +454,7 @@
                 static Sax = new Moves.InstrumentMove("Sax");
                 static Triangle = new Moves.InstrumentMove("Triangle");
                 static AnyInstrument = new Moves("Any Instrument");
+                static ["Any Instrument"] = Moves.AnyInstrument; // The exact name is used by dropdowns
                 // Warps
                 static AztecW5Bonus = new Moves("Aztec Warp 5 Bonus Barrel");
                 static CavesW3Bonus = new Moves("Caves Warp 3 Bonus Barrel");
@@ -450,6 +472,11 @@
                 static AztecLlamaGrape = new Moves("Llama Temple Gun", [[Moves.Grape]], true);
                 static AztecLlamaFeather = new Moves("Llama Temple Gun", [[Moves.Feather]], true);
                 static AztecQuicksandSwitch = new Moves("Quicksand Tunnel Switch", [[Moves.LevelSlam]], true);
+                static FactoryDarkRoomGrate = new Moves("Dark Room Grate", [[Moves.Punch]], true);
+                static FactoryToyMonsterGrate = new Moves("Toy Monster Grate", [[Moves.Punch]], true);
+                static CavesGoneCave = new Moves("Gorilla Gone Cave Wall", [[Moves.Punch]], true);
+                static CavesSnideCave = new Moves("Snide Cave Wall", [[Moves.Punch]], true);
+                static CavesBoulderCave = new Moves("Giant Boulder Cave Wall", [[Moves.Punch]], true);
 
                 // Switchsanity (random per seed)
                 static JapesShellhiveRandom = new Moves.GunMove("Hive Area Gun");
@@ -469,6 +496,8 @@
                 static ForestYellowTunnelRandom = new Moves.GunMove("Yellow Tunnel Gun");
                 static ForestGreenTunnelFeatherRandom = new Moves.GunMove("Green Tunnel Gun 1");
                 static ForestGreenTunnelPineappleRandom = new Moves.GunMove("Green Tunnel Gun 2");
+                static FactoryDarkRoomGrateRandom = new Moves("Dark Room Grate Move");
+                static FactoryToyMonsterGrateRandom = new Moves("Toy Monster Grate Move");
 
                 // Barriers
                 static JapesShellhive = new Moves("Japes Shellhive Gate", [[Moves.Feather]], true);
@@ -704,14 +733,14 @@
                 "switchGalleonSeasick",     "switchGalleonTreasure",    "switchGalleonLowered", "switchGalleonRaised",      "switchForestGreen",
                 "selectForestYellowTunnel", "switchForestDay",          "switchForestNight",    "switchCavesIgloo",         "switchCavesWalls",
                 "switchCryptDoors",         "switchClimbing",           "switchAllWarps",       "switchSlam",               "selectForestGreenTunnelFeather",
-                "selectForestGreenTunnelPineapple", "switchDiving",      "switchVines",          "switchOranges",            "switchBarrels",
+                "selectForestGreenTunnelPineapple", "switchDiving",     "switchVines",          "switchOranges",            "switchBarrels",
             ];
 
             const switch_settings = [
-                "selectGalleonWater",               "selectForestTime",         "selectJapesFreeKong",      "selectJapesShellhive",     "selectJapesDiddyCave",
-                "selectJapesPainting",              "selectJapesRambi",         "selectAztecBlueprintDoor", "selectAztecLlamaCoconut",  "selectAztecLlamaGrape",
-                "selectAztecLlamaFeather",          "selectGalleonLighthouse",  "selectGalleonPeanut",      "selectGalleonCannonGame",  "selectForestGreenTunnelFeather",
-                "selectForestGreenTunnelPineapple", "selectForestYellowTunnel",  "selectAztecGuitar",
+                "selectGalleonWater",               "selectForestTime",         "selectJapesFreeKong",      "selectJapesShellhive",       "selectJapesDiddyCave",
+                "selectJapesPainting",              "selectJapesRambi",         "selectAztecBlueprintDoor", "selectAztecLlamaCoconut",    "selectAztecLlamaGrape",
+                "selectAztecLlamaFeather",          "selectGalleonLighthouse",  "selectGalleonPeanut",      "selectGalleonCannonGame",    "selectForestGreenTunnelFeather",
+                "selectForestGreenTunnelPineapple", "selectForestYellowTunnel", "selectAztecGuitar",        "selectFactoryDarkRoomGrate", "selectFactoryToyMonsterGrate",
             ];
 
             function convertSettingsToString() {
@@ -761,10 +790,6 @@
                         preset.fungi_time = value;
                     } else if (value == "Opened") {
                         preset.barriers.push(id);
-                    } else if (value == "Any Gun") {
-                        preset.switchsanity.set(Moves[name], Moves.AnyGun);
-                    } else if (value == "Any Instrument") {
-                        preset.switchsanity.set(Moves[name], Moves.AnyInstrument);
                     } else if (value == "Random") {
                         preset.switchsanity.set(Moves[name], Moves[name + "Random"]);
                     } else {
@@ -888,6 +913,8 @@
                     "selectAztecGuitar": [Moves.AztecGuitar],
                     "switchFactoryProd": [Moves.FactoryProduction],
                     "switchFactoryTesting": [Moves.FactoryTesting],
+                    "selectFactoryDarkRoomGrate": [Moves.FactoryDarkRoomGrate],
+                    "selectFactoryToyMonsterGrate": [Moves.FactoryToyMonsterGrate],
                     "selectGalleonLighthouse": [Moves.GalleonLighthouse],
                     "selectGalleonPeanut": [Moves.GalleonPeanut],
                     "selectGalleonCannonGame": [Moves.GalleonCannonGame],
@@ -918,10 +945,6 @@
                         const name = id.slice("select".length);
                         if (elem.value == "Random") {
                             switchsanity.set(Moves[name], Moves[name + "Random"]);
-                        } else if (elem.value == "Any Gun") {
-                            switchsanity.set(Moves[name], Moves.AnyGun);
-                        } else if (elem.value == "Any Instrument") {
-                            switchsanity.set(Moves[name], Moves.AnyInstrument);
                         } else {
                             switchsanity.set(Moves[name], Moves[elem.value]);
                         }

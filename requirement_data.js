@@ -732,18 +732,9 @@ const requirement_data = {
             new Requirement(25, [[]]), // 1 bunch in CabinArea; 1 bunch, 5 bananas in CrystalCavesMain; 1 bunch, 5 bananas in IglooArea
             new Requirement(10, [[Moves.Bongos]]), // 1 bunch in DonkeyCabin; 1 bunch in RotatingCabin
             new Requirement(20, [[Moves.Blast]]), // 4 bunches in CavesBaboonBlast
-            new Requirement(3, [ // 3 bananas in BoulderCave
-                [Moves.CavesIceWalls],
-                [Moves.CavesBoulderCave],
-            ]),
-            new Requirement(10, [ // 1 balloon in CavesGGRoom
-                [Moves.Coconut, Moves.CavesIceWalls],
-                [Moves.Coconut, Moves.CavesGoneCave],
-            ]),
-            new Requirement(10, [ // 1 balloon in BoulderCave
-                [Moves.Coconut, Moves.CavesIceWalls],
-                [Moves.Coconut, Moves.CavesBoulderCave],
-            ]),
+            new Requirement(3, [[Moves.CavesBoulderCave]]), // 3 bananas in BoulderCave
+            new Requirement(10, [[Moves.Coconut, Moves.CavesGoneCave]]), // 1 balloon in CavesGGRoom
+            new Requirement(10, [[Moves.Coconut, Moves.CavesBoulderCave]]), // 1 balloon in BoulderCave
             new Requirement(5, [ // 1 bunch in DonkeyIgloo
                 [Moves.Bongos, Moves.Rocket],
                 [Moves.Bongos, Moves.CavesIglooPads],
@@ -807,6 +798,7 @@ const requirement_data = {
                 [Moves.AllWarps],
             ]),
             new Requirement(10, [[Moves.Feather, Moves.Twirl, Moves.Mini]]), // 1 balloon in CavesBlueprintCave
+            new Requirement(20, [[Moves.Barrels, Moves.Monkeyport, Moves.Hunky, Moves.CavesBoulderCave]]), // 4 bunches in GiantKosha
             new Requirement(5, [ // 1 bunch in TinyIgloo
                 [Moves.Rocket, Moves.Sax],
                 [Moves.Sax, Moves.CavesIglooPads],
@@ -819,38 +811,19 @@ const requirement_data = {
                 [Moves.Rocket, Moves.Monkeyport, Moves.AllWarps],
                 [Moves.Twirl, Moves.Mini, Moves.Monkeyport],
             ]),
-            new Requirement(20, [ // 4 bunches in GiantKosha
-                [Moves.Barrels, Moves.Monkeyport, Moves.Hunky, Moves.CavesIceWalls],
-                [Moves.Barrels, Moves.Monkeyport, Moves.Hunky, Moves.CavesBoulderCave],
-            ]),
         ],
         "Chunky": [
             new Requirement(18, [[]]), // 1 bunch in CabinArea; 1 bunch, 1 bunch, 3 bananas in CrystalCavesMain
             new Requirement(5, [[Moves.Barrels]]), // 1 bunch in CrystalCavesMain
-            new Requirement(8, [ // 1 bunch, 3 bananas in CavesGGRoom
-                [Moves.CavesIceWalls],
-                [Moves.CavesGoneCave],
-            ]),
-            new Requirement(3, [ // 3 bananas in CavesSnideArea
-                [Moves.CavesIceWalls],
-                [Moves.CavesSnideCave],
-            ]),
+            new Requirement(8, [[Moves.CavesGoneCave]]), // 1 bunch, 3 bananas in CavesGGRoom
+            new Requirement(3, [[Moves.CavesSnideCave]]), // 3 bananas in CavesSnideArea
+            new Requirement(6, [[Moves.Barrels, Moves.CavesBoulderCave]]), // 6 bananas in BoulderCave
+            new Requirement(10, [[Moves.Pineapple, Moves.CavesSnideCave]]), // 1 balloon in CavesSnideArea
+            new Requirement(10, [[Moves.Barrels, Moves.Hunky, Moves.CavesBoulderCave]]), // 1 bunch in BoulderCave; 5 bananas in IglooArea
             new Requirement(20, [[Moves.Slam, Moves.Triangle, Moves.Gone]]), // 4 bunches in ChunkyCabin
-            new Requirement(6, [ // 6 bananas in BoulderCave
-                [Moves.Barrels, Moves.CavesIceWalls],
-                [Moves.Barrels, Moves.CavesBoulderCave],
-            ]),
-            new Requirement(10, [ // 1 balloon in CavesSnideArea
-                [Moves.Pineapple, Moves.CavesIceWalls],
-                [Moves.Pineapple, Moves.CavesSnideCave],
-            ]),
             new Requirement(10, [ // 1 balloon in CavesBonusCave
                 [Moves.Pineapple, Moves.AllWarps],
                 [Moves.Mini, Moves.Pineapple, Moves.CavesW3Bonus],
-            ]),
-            new Requirement(10, [ // 1 bunch in BoulderCave; 5 bananas in IglooArea
-                [Moves.Barrels, Moves.Hunky, Moves.CavesIceWalls],
-                [Moves.Barrels, Moves.Hunky, Moves.CavesBoulderCave],
             ]),
             new Requirement(10, [ // 1 balloon in ChunkyIgloo
                 [Moves.Rocket, Moves.Pineapple, Moves.Triangle],

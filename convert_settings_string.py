@@ -38,7 +38,7 @@ BARRIERS = {
     "forest_green_tunnel": ["selectForestGreenTunnelFeather", "selectForestGreenTunnelPineapple"],
     "forest_yellow_tunnel": ["selectForestYellowTunnel"],
     "caves_igloo_pads": ["switchCavesIgloo"],
-    "caves_ice_walls": ["switchCavesWalls"],
+    "caves_ice_walls": ["selectCavesGoneCave", "selectCavesSnideCave", "selectCavesBoulderCave"],
 
     # Unused, but included so we can import accurately
     "helm_punch_gates": None,

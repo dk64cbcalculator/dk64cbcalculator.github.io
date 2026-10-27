@@ -46,7 +46,9 @@
             "selectGalleonPeanut",
             "switchGalleonSeasick",
             "switchCavesIgloo",
-            "switchCavesWalls"
+            "selectCavesGoneCave",
+            "selectCavesSnideCave",
+            "selectCavesBoulderCave"
         ],
         "starting_moves": [
             "Climbing",
@@ -213,7 +215,9 @@
             "selectForestGreenTunnelFeather",
             "selectForestGreenTunnelPineapple",
             "switchCavesIgloo",
-            "switchCavesWalls"
+            "selectCavesGoneCave",
+            "selectCavesSnideCave",
+            "selectCavesBoulderCave"
         ],
         "starting_moves": [
             "Slam"
@@ -307,7 +311,9 @@
             "switchAztecLlama",
             "switchFactoryTesting",
             "selectGalleonLighthouse",
-            "switchCavesWalls"
+            "selectCavesGoneCave",
+            "selectCavesSnideCave",
+            "selectCavesBoulderCave"
         ],
         "starting_moves": [
             "Slam"

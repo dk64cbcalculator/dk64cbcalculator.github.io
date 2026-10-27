@@ -958,7 +958,6 @@ LEVELS = [
         "bananas": CavesBananas,
         "entry_region": Regions.CrystalCavesEntryHandler,
         "special_requirements": {
-            RemovedBarriersSelected.caves_ice_walls.name: "CavesIceWalls",
             RemovedBarriersSelected.caves_igloo_pads.name: "CavesIglooPads",
             Switches.CavesGoneCave.name: "CavesGoneCave",
             Switches.CavesSnideCave.name: "CavesSnideCave",

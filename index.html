@@ -234,10 +234,35 @@
                             <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchCavesIgloo" checked>
                             <label class="form-check-label" for="switchCavesIgloo">Caves Igloo Pads Spawned</label>
                         </div>
-                        <!-- Caves Ice Walls -->
-                        <div class="form-check form-switch">
-                            <input class="form-check-input barrier-switch" type="checkbox" role="switch" id="switchCavesWalls">
-                            <label class="form-check-label" for="switchCavesWalls">Caves Ice Walls Punched</label>
+                        <!-- Caves Gorilla Gone Cave Wall -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectCavesGoneCave">Gorilla Gone Cave</label>
+                            <select class="form-select switchsanity-select" id="selectCavesGoneCave">
+                                <option>Opened</option>
+                                <option>Chimpy Charge</option>
+                                <option selected>Primate Punch</option>
+                                <option>Random</option>
+                            </select>
+                        </div>
+                        <!-- Caves Snide Cave Wall -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectCavesSnideCave">Snide Cave</label>
+                            <select class="form-select switchsanity-select" id="selectCavesSnideCave">
+                                <option>Opened</option>
+                                <option>Chimpy Charge</option>
+                                <option selected>Primate Punch</option>
+                                <option>Random</option>
+                            </select>
+                        </div>
+                        <!-- Caves Boulder Cave Wall -->
+                        <div class="input-group mb-2">
+                            <label class="input-group-text" for="selectCavesBoulderCave">Boulder Cave</label>
+                            <select class="form-select switchsanity-select" id="selectCavesBoulderCave">
+                                <option>Opened</option>
+                                <option>Chimpy Charge</option>
+                                <option selected>Primate Punch</option>
+                                <option>Random</option>
+                            </select>
                         </div>
                         <div class="mt-3">
                             <h5>Creepy Castle</h5>
@@ -498,6 +523,9 @@
                 static ForestGreenTunnelPineappleRandom = new Moves.GunMove("Green Tunnel Gun 2");
                 static FactoryDarkRoomGrateRandom = new Moves("Dark Room Grate Move");
                 static FactoryToyMonsterGrateRandom = new Moves("Toy Monster Grate Move");
+                static CavesGoneCaveRandom = new Moves("Gorilla Gone Cave Wall Move");
+                static CavesSnideCaveRandom = new Moves("Snide Cave Wall Move");
+                static CavesBoulderCaveRandom = new Moves("Giant Boulder Cave Wall Move");
 
                 // Barriers
                 static JapesShellhive = new Moves("Japes Shellhive Gate", [[Moves.Feather]], true);
@@ -509,7 +537,6 @@
                 static Night = new Moves("Fungi Night", [[Moves.AnyGun]], true);
                 static Day = new Moves("Fungi Day", [[Moves.AnyGun]], true);
                 static CavesIglooPads = new Moves("Caves Igloo Pads Spawned", [[Moves.Rocket]], true);
-                static CavesIceWalls = new Moves("Caves Ice Walls", [[Moves.Punch]], true);
                 static CryptDKEntry = new Moves("Castle Crypt Doors", [[Moves.Coconut]], true);
                 static CryptDiddyEntry = new Moves("Castle Crypt Doors", [[Moves.Peanut]], true);
                 static CryptLankyEntry = new Moves("Castle Crypt Doors", [[Moves.Grape]], true);
@@ -741,6 +768,7 @@
                 "selectJapesPainting",              "selectJapesRambi",         "selectAztecBlueprintDoor", "selectAztecLlamaCoconut",    "selectAztecLlamaGrape",
                 "selectAztecLlamaFeather",          "selectGalleonLighthouse",  "selectGalleonPeanut",      "selectGalleonCannonGame",    "selectForestGreenTunnelFeather",
                 "selectForestGreenTunnelPineapple", "selectForestYellowTunnel", "selectAztecGuitar",        "selectFactoryDarkRoomGrate", "selectFactoryToyMonsterGrate",
+                "selectCavesGoneCave",              "selectCavesSnideCave",     "selectCavesBoulderCave",
             ];
 
             function convertSettingsToString() {
@@ -775,6 +803,10 @@
                 // Legacy handling for green tunnel (now two flags)
                 if (preset.barriers.includes("switchForestGreen")) {
                     preset.barriers.push("selectForestGreenTunnelFeather", "selectForestGreenTunnelPineapple");
+                }
+                // Legacy handling for caves ice walls (now three flags)
+                if (preset.barriers.includes("switchCavesWalls")) {
+                    preset.barriers.push("selectCavesGoneCave", "selectCavesSnideCave", "selectCavesBoulderCave");
                 }
 
                 switch_settings.forEach((id, index) => {
@@ -920,12 +952,14 @@
                     "selectGalleonCannonGame": [Moves.GalleonCannonGame],
                     "switchGalleonSeasick": [Moves.GalleonShipSpawned],
                     "switchCavesIgloo": [Moves.CavesIglooPads],
+                    "selectCavesGoneCave": [Moves.CavesGoneCave],
+                    "selectCavesSnideCave": [Moves.CavesSnideCave],
+                    "selectCavesBoulderCave": [Moves.CavesBoulderCave],
                     "selectForestGreenTunnelFeather": [Moves.ForestGreenTunnelFeather],
                     "selectForestGreenTunnelPineapple": [Moves.ForestGreenTunnelPineapple],
                     "selectForestYellowTunnel": [Moves.ForestYellowTunnel],
                     "switchAztecIce": [Moves.TinyTempleIce],
                     "switchGalleonTreasure": [Moves.GalleonTreasure],
-                    "switchCavesWalls": [Moves.CavesIceWalls],
                     "switchCryptDoors": [Moves.CryptDKEntry, Moves.CryptDiddyEntry, Moves.CryptLankyEntry, Moves.CryptTinyEntry, Moves.CryptChunkyEntry],
                     "switchClimbing": [Moves.Climbing],
                     "switchSlam": [Moves.Slam],

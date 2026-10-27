@@ -15,7 +15,7 @@ from randomizer.Enums.Switches import Switches
 from randomizer.Enums.SwitchTypes import SwitchType
 from randomizer.Enums.Kongs import Kongs
 from randomizer.Enums.Items import Items
-from randomizer.Enums.Settings import ActivateAllBananaports, ClimbingStatus
+from randomizer.Enums.Settings import ActivateAllBananaports, ClimbingStatus, TrainingBarrels
 from randomizer.Enums.Types import Types
 
 BARRIERS = {
@@ -150,8 +150,13 @@ def settings_to_config(str, name):
     if settings.start_with_slam:
         config["starting_moves"].append("Slam")
 
+    moves_lists = zip(settings.starting_moves_lists, settings.starting_moves_list_counts)
+    # Unshuffled training barrels give all four moves, even if the starting move lists don't include them.
+    if settings.training_barrels == TrainingBarrels.normal:
+        moves_lists = [(TrainingBarrelAbilities(), 4)]
+
     # The calculator diverges from the enum name only for Swim.
-    for moves, count in zip(settings.starting_moves_lists, settings.starting_moves_list_counts):
+    for moves, count in moves_lists:
         if len(moves) > count:
             continue
         for move in moves:

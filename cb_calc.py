@@ -126,6 +126,10 @@ class Logic(LogicVarHolder):
         """Small wrapper for an even which is used in a few places."""
         return Events.ChunkyFreed in self.Events
 
+    def GetCoins(self, kong):
+        """Assume the player can afford every item."""
+        return 1000
+
     def isKrushaAdjacent(self, kong):
         """Check if a given kong is krusha adjacent."""
         return False

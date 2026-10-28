@@ -9,7 +9,6 @@ import requests
 def fetch_presets(branch):
   cache = Path(f'cached_presets_{branch}.json')
   if not cache.exists():
-    raise
     if 'DK64_API_KEY' in os.environ:
       headers = { 'X-API-Key': os.environ['DK64_API_KEY'] }
     else:

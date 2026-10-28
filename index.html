@@ -1141,13 +1141,20 @@
                         fixed_starting_moves.push(...group);
                     }
                 }
-                let checker = (arr, target) => target.every(v => arr.includes(v) || fixed_starting_moves.includes(v));
+                let checker = (arr, target) => {
+                    // Compare what the moves actually give you, e.g. All 5 Guns also covers Feather.
+                    const owned_moves = expandMoves(arr).concat(fixed_starting_moves);
+                    return target.every(v => owned_moves.includes(v));
+                }
                 beat_permutations.forEach((perm, index_a) => {
                     let include = true;
                     // Shorter permutations sort first, so most rejections happen within the first few comparisons.
-                    for (let index_b = 0; index_b < index_a; index_b++) {
-                        const previous_perm = beat_permutations[index_b];
-                        if (checker(perm, previous_perm)) {
+                    for (let index_b = 0; index_b < beat_permutations.length; index_b++) {
+                        if (index_b == index_a) continue;
+                        const other_perm = beat_permutations[index_b];
+                        if (checker(perm, other_perm)) {
+                            // If two permutations cover each other, keep the one that sorted first.
+                            if (index_b > index_a && checker(other_perm, perm)) continue;
                             include = false;
                             break;
                         }

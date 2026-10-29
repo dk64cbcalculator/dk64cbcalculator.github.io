@@ -62,6 +62,17 @@ BASE_REQUIREMENTS = [
     *["donkey", "diddy", "lanky", "tiny", "chunky"],
 ]
 
+# Events that only exist for WinConditionComplex goals
+WIN_CONDITION_EVENTS = set([
+    Events.ArcadeR2Check.name,  # arcade
+    Events.BHDMCheck.name,  # bad_hit_detection_man
+    Events.JetpacCheck.name,  # jetpac
+    Events.KilledRabbit.name,  # kill_the_rabbit
+    Events.KRoolDefeated.name,  # beat_krool, krools_challenge
+    Events.MechFishCheck.name,  # mech_fish
+    Events.RarewareGBCheck.name,  # rareware_gb_check
+])
+
 
 class Logic(LogicVarHolder):
     """Mock of the randomizer/Logic.py file.
@@ -125,10 +136,6 @@ class Logic(LogicVarHolder):
     def CanFreeChunky(self):
         """Small wrapper for an even which is used in a few places."""
         return Events.ChunkyFreed in self.Events
-
-    def GetCoins(self, kong):
-        """Assume the player can afford every item."""
-        return 1000
 
     def isKrushaAdjacent(self, kong):
         """Check if a given kong is krusha adjacent."""
@@ -409,7 +416,9 @@ def flatten_graph(region_logic, region_bananas, requirements):
     event_names = set()
     for region_id, region in region_logic.items():
         for event in region.events:
-            if event.name.name in requirements:
+            if event.name.name in WIN_CONDITION_EVENTS:
+                pass # These events won't grant region access nor lock CBs.
+            elif event.name.name in requirements:
                 regions[region_id].events[event.name.name] = SetOfSets()  # Events which are explicitly listed as requirements shouldn't be satisfiable,
                 events.append((regions[region_id].barriers, event))  # but we still add them to the main event list so we can determine their requirements.
             elif event.logic(no_requirements):
@@ -434,7 +443,7 @@ def flatten_graph(region_logic, region_bananas, requirements):
     # Sanity check to make sure all events were processed
     raw_events = {event.name.name for region in region_logic.values() for event in region.events}
     handled_events = {event for region in regions.values() for event in region.events}
-    unhandled_events = raw_events - handled_events
+    unhandled_events = raw_events - handled_events - WIN_CONDITION_EVENTS
     for event in unhandled_events:
         raise ValueError(f"Unable to determine requirements for event {event}")
 

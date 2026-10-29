@@ -89,10 +89,10 @@
         "starting_moves": [
             "Climbing",
             "Slam",
-            "Vines",
-            "Diving",
             "Oranges",
-            "Barrels"
+            "Barrels",
+            "Vines",
+            "Diving"
         ],
         "full_medal": 75
     },

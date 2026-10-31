@@ -26,13 +26,13 @@ jobs:
       # Inputs go through env (instead of inline) to avoid shell injection
       env:
         SETTINGS: ${{ inputs.settings_string }}
-        KEY: ${{ inputs.key }}
         NAME: ${{ inputs.name }}
+        KEY: ${{ inputs.key }}
       run: |
-        git clone https://github.com/2dos/DK64-Randomizer
-        cp -f import_settings_string.py DK64-Randomizer
-        cd DK64-Randomizer # The randomizer loads its schema files relative to cwd
-        python -u import_settings_string.py "$SETTINGS" "$KEY" "$NAME"
+        git clone --depth 1 https://github.com/2dos/DK64-Randomizer
+        git clone --depth 1 https://github.com/2dos/DK64-Randomizer -b master DK64-Randomizer-v5
+        pip install protobuf
+        python import_settings_string.py "$SETTINGS" "$NAME" "$KEY"
 
     - name: Open a pull request
       env:

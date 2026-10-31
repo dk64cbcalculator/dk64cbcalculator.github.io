@@ -2,14 +2,21 @@ import json
 import os
 from pathlib import Path
 
+from import_settings_string import settings_string_to_preset
+
 import requests
 
-from import_settings_string import settings_to_config
-
-if 'DK64_API_KEY' in os.environ:
-  headers = { 'X-API-Key': os.environ['DK64_API_KEY'] }
-else:
-  headers = { 'Referer': 'https://dk64randomizer.com/' }
+def fetch_presets(branch):
+  cache = Path(f'cached_presets_{branch}.json')
+  if not cache.exists():
+    if 'DK64_API_KEY' in os.environ:
+      headers = { 'X-API-Key': os.environ['DK64_API_KEY'] }
+    else:
+      headers = { 'Referer': 'https://dk64randomizer.com/' }
+    r = requests.get(f'https://api.dk64rando.com/api/get_presets?branch={branch}', headers=headers)
+    r.raise_for_status()
+    cache.write_text(r.text, encoding='utf-8')
+  return json.loads(cache.read_text(encoding='utf-8'))
 
 def test_import_all_settings():
   with Path(__file__).with_name('presets.json').open(encoding='utf-8') as f:
@@ -18,21 +25,14 @@ def test_import_all_settings():
     for preset in json.load(f).values():
       expected_presets[preset['name']] = preset
 
-  cache = Path('cached_presets.json')
-  if not cache.exists():
-    r = requests.get('https://api.dk64rando.com/api/get_presets', headers=headers)
-    r.raise_for_status()
-    with cache.open('w', encoding='utf-8') as f:
-      f.write(r.text)
-  with cache.open('r', encoding='utf-8') as f:
-    actual_presets = json.load(f)
+  actual_presets = fetch_presets('dev')
 
   assert len(expected_presets) == len(actual_presets)
   for actual_preset in actual_presets:
     expected = expected_presets.pop(actual_preset['name'])
-    actual = settings_to_config(actual_preset['settings_string'], actual_preset['name'])
-    assert expected == actual
-  assert len(expected_presets) == 0
+    actual = settings_string_to_preset(actual_preset['settings_string'], actual_preset['name'])
+    assert actual == expected
+  assert list(expected_presets.keys()) == []
 
 if __name__ == '__main__':
   import pytest

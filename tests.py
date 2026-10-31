@@ -31,8 +31,8 @@ def test_import_all_settings():
   for actual_preset in actual_presets:
     expected = expected_presets.pop(actual_preset['name'])
     actual = settings_string_to_preset(actual_preset['settings_string'], actual_preset['name'])
-    assert expected == actual
-  assert len(expected_presets) == 0
+    assert actual == expected
+  assert list(expected_presets.keys()) == []
 
 if __name__ == '__main__':
   import pytest

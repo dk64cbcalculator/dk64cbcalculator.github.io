@@ -23,7 +23,7 @@ jobs:
 
     - name: Run the CB calculator
       run: |
-        git clone https://github.com/2dos/DK64-Randomizer
+        git clone --depth 1 https://github.com/2dos/DK64-Randomizer
         cp -f cb_calc.py DK64-Randomizer
         cd DK64-Randomizer # Some of the python scripts care about the cwd
         python -u cb_calc.py
@@ -50,11 +50,10 @@ jobs:
 
     - name: Set up tests
       run: |
-        git clone https://github.com/2dos/DK64-Randomizer
-        git clone -b master https://github.com/2dos/DK64-Randomizer DK64-Randomizer-v5
+        git clone --depth 1 https://github.com/2dos/DK64-Randomizer
+        git clone --depth 1 https://github.com/2dos/DK64-Randomizer -b master DK64-Randomizer-v5
         pip install pytest requests protobuf
 
     - name: Run tests
-      working-directory: DK64-Randomizer
-      run: python -m pytest ../tests.py
+      run: python tests.py
 

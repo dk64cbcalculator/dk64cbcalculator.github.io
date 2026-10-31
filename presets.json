@@ -115,6 +115,7 @@
             "Vines"
         ],
         "full_medal": 40,
+        "half_medal": 20,
         "switchsanity": {
             "JapesShellhive": "JapesShellhiveRandom",
             "JapesRambi": "JapesRambiRandom",
@@ -131,7 +132,12 @@
             "GalleonCannonGame": "GalleonCannonGameRandom",
             "ForestYellowTunnel": "ForestYellowTunnelRandom",
             "ForestGreenTunnelFeather": "ForestGreenTunnelFeatherRandom",
-            "ForestGreenTunnelPineapple": "ForestGreenTunnelPineappleRandom"
+            "ForestGreenTunnelPineapple": "ForestGreenTunnelPineappleRandom",
+            "FactoryDarkRoomGrate": "FactoryDarkRoomGrateRandom",
+            "FactoryToyMonsterGrate": "FactoryToyMonsterGrateRandom",
+            "CavesGoneCave": "CavesGoneCaveRandom",
+            "CavesSnideCave": "CavesSnideCaveRandom",
+            "CavesBoulderCave": "CavesBoulderCaveRandom"
         }
     },
     "hell": {
@@ -156,7 +162,12 @@
             "GalleonCannonGame": "GalleonCannonGameRandom",
             "ForestYellowTunnel": "ForestYellowTunnelRandom",
             "ForestGreenTunnelFeather": "ForestGreenTunnelFeatherRandom",
-            "ForestGreenTunnelPineapple": "ForestGreenTunnelPineappleRandom"
+            "ForestGreenTunnelPineapple": "ForestGreenTunnelPineappleRandom",
+            "FactoryDarkRoomGrate": "FactoryDarkRoomGrateRandom",
+            "FactoryToyMonsterGrate": "FactoryToyMonsterGrateRandom",
+            "CavesGoneCave": "CavesGoneCaveRandom",
+            "CavesSnideCave": "CavesSnideCaveRandom",
+            "CavesBoulderCave": "CavesBoulderCaveRandom"
         }
     },
     "thurry": {
@@ -198,7 +209,7 @@
         }
     },
     "kevin": {
-        "name": "KEVIN 5.0",
+        "name": "KEVIN",
         "galleon_water": "High",
         "fungi_time": "Dusk",
         "barriers": [
